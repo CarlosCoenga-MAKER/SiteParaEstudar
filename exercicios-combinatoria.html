@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Exercícios de Combinatória · SiteParaEstudar</title>
     <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="Style/sidbar.css">
     <link rel="stylesheet" href="Style/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -70,147 +71,6 @@
         @keyframes floatGlow {
             0% { transform: translate(0,0) scale(1); }
             100% { transform: translate(20px, -20px) scale(1.08); }
-        }
-
-        .hamburger-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 200;
-            width: 44px;
-            height: 44px;
-            background: rgba(21, 21, 26, 0.85);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            cursor: pointer;
-            transition: all var(--transition);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        .hamburger-btn:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(250,220,109,0.2);
-        }
-        .hamburger-line {
-            width: 20px;
-            height: 2px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: all 0.3s ease;
-            transform-origin: center;
-        }
-        .hamburger-btn.open .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-        .hamburger-btn.open .hamburger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
-        .hamburger-btn.open .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-        .sidebar-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            z-index: 250;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .sidebar-overlay.show { opacity: 1; pointer-events: all; }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 280px;
-            height: 100vh;
-            background: rgba(21, 21, 26, 0.95);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid var(--border);
-            z-index: 260;
-            transform: translateX(-100%);
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-            box-shadow: 5px 0 30px rgba(0,0,0,0.5);
-        }
-        .sidebar.open { transform: translateX(0); }
-
-        .sidebar-header {
-            padding: 24px 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .sidebar-logo {
-            width: 36px; height: 36px;
-            background: linear-gradient(135deg, var(--accent), var(--accent4));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 18px;
-            color: #0d0d0f;
-        }
-        .sidebar-title {
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--text);
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 16px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border-radius: 10px;
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all var(--transition);
-            cursor: pointer;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-        }
-        .sidebar-link:hover { background: rgba(250,220,109,0.1); color: var(--text); }
-        .sidebar-link.active {
-            background: rgba(250,220,109,0.15);
-            border: 1px solid rgba(250,220,109,0.3);
-            color: #fff;
-        }
-        .sidebar-link .icon {
-            width: 28px; height: 28px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-
-        .sidebar-footer {
-            padding: 16px 20px;
-            border-top: 1px solid var(--border);
-            font-size: 11px;
-            color: var(--muted);
-            text-align: center;
-            font-family: 'Space Mono', monospace;
         }
 
         header {
@@ -314,10 +174,6 @@
             margin-bottom: 12px;
             letter-spacing: 1px;
             text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
         }
 
         .q-text {
@@ -352,7 +208,6 @@
             transition: all 0.2s ease;
             font-size: 14px;
             line-height: 1.5;
-            position: relative;
         }
 
         .option:hover:not(.disabled) {
@@ -364,7 +219,6 @@
         .option.selected {
             border-color: var(--accent);
             background: rgba(250,220,109,0.12);
-            box-shadow: 0 0 15px rgba(250,220,109,0.08);
         }
 
         .option.correct-answer {
@@ -406,15 +260,12 @@
             font-size: 13px;
             line-height: 1.6;
             margin-bottom: 16px;
-            animation: fadeSlide 0.3s ease;
         }
 
         .feedback.show { display: block; }
         .feedback.correct { background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.3); color: var(--correct); }
         .feedback.wrong { background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.3); color: #ff8080; }
         .feedback.info { background: rgba(250,220,109,0.1); border: 1px solid rgba(250,220,109,0.3); color: #fff3b8; }
-
-        .feedback strong { display: block; margin-bottom: 4px; font-size: 14px; }
 
         .q-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
@@ -433,8 +284,7 @@
         }
 
         .btn-primary { background: var(--accent); color: #0d0d0f; box-shadow: 0 4px 10px rgba(250,220,109,0.25); }
-        .btn-primary:hover:not(:disabled) { background: #ffe899; transform: translateY(-2px); }
-        .btn-primary:disabled { opacity: 0.5; cursor: default; }
+        .btn-primary:hover { background: #ffe899; transform: translateY(-2px); }
         .btn-secondary { background: var(--border); color: var(--muted); }
         .btn-secondary:hover { background: #3a3a48; color: var(--text); }
         .btn-reveal { background: transparent; border: 1px solid var(--border); color: var(--muted); }
@@ -461,7 +311,6 @@
             font-size: 12px;
             color: var(--muted);
             display: flex;
-            align-items: center;
             gap: 16px;
             flex-wrap: wrap;
         }
@@ -484,7 +333,6 @@
             background: var(--border);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
         }
 
         .progress-fill {
@@ -493,7 +341,6 @@
             border-radius: 20px;
             transition: width 0.5s ease;
             width: 0%;
-            box-shadow: 0 0 12px rgba(250,220,109,0.5);
         }
 
         .btn-check-all {
@@ -507,14 +354,11 @@
             font-weight: 700;
             cursor: pointer;
             transition: all var(--transition);
-            box-shadow: 0 4px 12px rgba(250,220,109,0.3);
-            letter-spacing: 0.5px;
         }
         .btn-check-all:hover { background: #ffe899; transform: translateY(-1px); }
 
         @media (max-width: 600px) {
-            .hamburger-btn { top: 12px; left: 12px; width: 38px; height: 38px; z-index: 200; }
-            .score-bar { padding: 10px 14px; gap: 10px; z-index: 110; }
+            .score-bar { padding: 10px 14px; }
             .q-card { padding: 18px 14px; }
             .option { padding: 12px 14px; }
             .btn { padding: 7px 15px; font-size: 11px; }
@@ -526,7 +370,6 @@
 <div class="glow glow-1"></div>
 <div class="glow glow-2"></div>
 <div class="glow glow-3"></div>
-
 
 <header>
     <a href="HomeMatematica.html" class="back-home">← Voltar para Matemática</a>
@@ -544,313 +387,217 @@
     <div class="progress-wrap">
         <div class="progress-fill" id="progress-fill"></div>
     </div>
-    <button class="btn-check-all" onclick="checkAll()">📊 Progresso</button>
+    <button class="btn-check-all" id="checkAllBtn">📊 Ver Todas</button>
 </div>
 
-<div class="content">
+<div class="content" id="questions-container"></div>
 
-<!-- Q1 -->
-<div class="q-card" id="q1">
-    <div class="q-number">Questão 1</div>
-    <div class="q-text">
-        Uma loja de iogurte tem 5 sabores, 3 acompanhamentos e 2 coberturas. Quantas sobremesas diferentes?
-    </div>
-    <div class="options" id="opts-q1">
-        <div class="option" onclick="selectOpt('q1','A')"><span class="opt-letter">A</span> 10</div>
-        <div class="option" onclick="selectOpt('q1','B')"><span class="opt-letter">B</span> 25</div>
-        <div class="option" onclick="selectOpt('q1','C')"><span class="opt-letter">C</span> 30</div>
-        <div class="option" onclick="selectOpt('q1','D')"><span class="opt-letter">D</span> 60</div>
-    </div>
-    <div class="feedback" id="fb-q1"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q1','C')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q1','C) 5 × 3 × 2 = 30 combinações possíveis.')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q1')">↺ Limpar</button>
-    </div>
-</div>
+<script>
+    // ========================================
+    // Dados das questões (sem conflito com questoes.js)
+    // ========================================
+    const QUESTOES = [
+        { id: "q1", text: "Uma loja de iogurte tem 5 sabores, 3 acompanhamentos e 2 coberturas. Quantas sobremesas diferentes?", correct: "C", options: { A: "10", B: "25", C: "30", D: "60" }, explanation: "5 × 3 × 2 = 30 combinações possíveis." },
+        { id: "q2", text: "Um jogo tem 3 menus: 4 opções, 8 opções e 6 opções. Quantas configurações possíveis?", correct: "B", options: { A: "18", B: "192", C: "48", D: "144" }, explanation: "4 × 8 × 6 = 192 configurações." },
+        { id: "q3", text: "Senha: 3 letras seguidas de 2 dígitos. Quantas senhas diferentes? (26 letras, 10 dígitos)", correct: "A", options: { A: "26³ × 10² = 1.757.600", B: "26 × 25 × 24 × 10 × 9 = 1.404.000", C: "36⁵ = 60.466.176", D: "26³ + 10² = 17.676" }, explanation: "26³ × 10² = 17.576 × 100 = 1.757.600." },
+        { id: "q4", text: "175 apartamentos, código de 2 algarismos. Compra inteligente? (0-9, 2 dígitos)", correct: "B", options: { A: "Sim, 100 códigos são suficientes", B: "Não, 100 códigos são insuficientes", C: "Sim, 10² = 100 códigos", D: "Não, 90 códigos são insuficientes" }, explanation: "10 × 10 = 100 códigos, mas são 175 apartamentos. Compra NÃO inteligente." },
+        { id: "q5", text: "Números de 3 dígitos < 600 usando {8,6,4,2} sem repetição. Quantos?", correct: "B", options: { A: "12", B: "6", C: "18", D: "9" }, explanation: "Primeiro dígito deve ser 2 ou 4. Total: 6." },
+        { id: "q6", text: "Quantas permutações da palavra ERRO?", correct: "B", options: { A: "24", B: "12", C: "6", D: "4" }, explanation: "4! / 2! = 12." },
+        { id: "q7", text: "1º, 2º e 3º prêmios em competição com 15 participantes. Quantas maneiras?", correct: "B", options: { A: "C(15,3) = 455", B: "P(15,3) = 2.730", C: "15³ = 3.375", D: "15!" }, explanation: "15 × 14 × 13 = 2.730." },
+        { id: "q8", text: "Time titular: 11 jogadores escolhidos entre 18. Quantas maneiras?", correct: "B", options: { A: "P(18,11)", B: "C(18,11) = 31.824", C: "18¹¹", D: "11!" }, explanation: "C(18,11) = 31.824." },
+        { id: "q9", text: "Júri: 5 homens (de 17) e 7 mulheres (de 23). Quantas maneiras?", correct: "A", options: { A: "C(17,5) × C(23,7)", B: "C(40,12)", C: "C(17,5) + C(23,7)", D: "P(17,5) × P(23,7)" }, explanation: "Multiplica as combinações." },
+        { id: "q10", text: "42 turistas, 35 falam inglês, 18 falam francês. Quantos falam os dois?", correct: "B", options: { A: "7", B: "11", C: "17", D: "53" }, explanation: "35 + 18 - 42 = 11." },
+        { id: "q11", text: "Convidados: 13 café, 10 chá, 4 ambos. Quantas pessoas?", correct: "C", options: { A: "27", B: "23", C: "19", D: "15" }, explanation: "13 + 10 - 4 = 19." },
+        { id: "q12", text: "Produtos: 12 hálito, 10 gengivite, 11 placas. 6 (hálito+placas), 5 (gengivite+hálito), 5 (gengivite+placas). Total 19. Quantos têm as 3?", correct: "A", options: { A: "2", B: "3", C: "4", D: "5" }, explanation: "19 = 12+10+11-6-5-5+x → x = 2." },
+        { id: "q13", text: "50 homens, 50 mulheres. Quantos nomes para garantir um de cada sexo?", correct: "A", options: { A: "51", B: "50", C: "2", D: "100" }, explanation: "Pior caso: 50 do mesmo sexo. O 51º é do outro." },
+        { id: "q14", text: "Quantas pessoas para garantir 2 no mesmo mês?", correct: "B", options: { A: "12", B: "13", C: "24", D: "2" }, explanation: "12 meses → 13 pessoas garantem 2 no mesmo mês." },
+        { id: "q15", text: "Quantas cartas para garantir 2 do mesmo naipe? (52 cartas, 4 naipes)", correct: "B", options: { A: "4", B: "5", C: "13", D: "14" }, explanation: "4 naipes. Pior caso: 1 de cada = 4. A 5ª repete." }
+    ];
 
-<!-- Q2 -->
-<div class="q-card" id="q2">
-    <div class="q-number">Questão 2</div>
-    <div class="q-text">
-        Um jogo tem 3 menus: 4 opções, 8 opções e 6 opções. Quantas configurações possíveis?
-    </div>
-    <div class="options" id="opts-q2">
-        <div class="option" onclick="selectOpt('q2','A')"><span class="opt-letter">A</span> 18</div>
-        <div class="option" onclick="selectOpt('q2','B')"><span class="opt-letter">B</span> 192</div>
-        <div class="option" onclick="selectOpt('q2','C')"><span class="opt-letter">C</span> 48</div>
-        <div class="option" onclick="selectOpt('q2','D')"><span class="opt-letter">D</span> 144</div>
-    </div>
-    <div class="feedback" id="fb-q2"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q2','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q2','B) 4 × 8 × 6 = 192 configurações.')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q2')">↺ Limpar</button>
-    </div>
-</div>
+    // Estado
+    let userAnswers = {};
+    let questionStatus = {};
 
-<!-- Q3 -->
-<div class="q-card" id="q3">
-    <div class="q-number">Questão 3</div>
-    <div class="q-text">
-        Senha: 3 letras seguidas de 2 dígitos. Quantas senhas diferentes? (26 letras, 10 dígitos)
-    </div>
-    <div class="options" id="opts-q3">
-        <div class="option" onclick="selectOpt('q3','A')"><span class="opt-letter">A</span> 26³ × 10² = 1.757.600</div>
-        <div class="option" onclick="selectOpt('q3','B')"><span class="opt-letter">B</span> 26 × 25 × 24 × 10 × 9 = 1.404.000</div>
-        <div class="option" onclick="selectOpt('q3','C')"><span class="opt-letter">C</span> 36⁵ = 60.466.176</div>
-        <div class="option" onclick="selectOpt('q3','D')"><span class="opt-letter">D</span> 26³ + 10² = 17.676</div>
-    </div>
-    <div class="feedback" id="fb-q3"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q3','A')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q3','A) 26³ × 10² = 17.576 × 100 = 1.757.600 (pode repetir caracteres).')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q3')">↺ Limpar</button>
-    </div>
-</div>
+    function renderQuestions() {
+        const container = document.getElementById('questions-container');
+        if (!container) return;
+        
+        let html = '';
+        QUESTOES.forEach((q, idx) => {
+            const savedAnswer = userAnswers[q.id] || '';
+            const status = questionStatus[q.id];
+            const cardClass = status === 'correct' ? 'answered-correct' : (status === 'wrong' ? 'answered-wrong' : '');
+            
+            html += `
+                <div class="q-card ${cardClass}" id="card-${q.id}">
+                    <div class="q-number">Questão ${idx + 1}</div>
+                    <div class="q-text">${q.text}</div>
+                    <div class="options" id="opts-${q.id}">
+                        ${Object.entries(q.options).map(([letter, text]) => `
+                            <div class="option ${savedAnswer === letter ? 'selected' : ''}" data-qid="${q.id}" data-opt="${letter}">
+                                <span class="opt-letter">${letter}</span> ${text}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="fb-${q.id}"></div>
+                    <div class="q-actions">
+                        <button class="btn btn-primary" onclick="checkQuestion('${q.id}')">✓ Verificar</button>
+                        <button class="btn btn-reveal" onclick="revealAnswer('${q.id}')">📖 Gabarito</button>
+                        <button class="btn btn-secondary" onclick="resetQuestion('${q.id}')">↺ Limpar</button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        
+        // Adicionar eventos às opções
+        document.querySelectorAll('.option').forEach(opt => {
+            opt.removeEventListener('click', handleOptionClick);
+            opt.addEventListener('click', handleOptionClick);
+        });
+    }
 
-<!-- Q4 -->
-<div class="q-card" id="q4">
-    <div class="q-number">Questão 4</div>
-    <div class="q-text">
-        175 apartamentos, código de 2 algarismos. Compra inteligente? (0-9, 2 dígitos)
-    </div>
-    <div class="options" id="opts-q4">
-        <div class="option" onclick="selectOpt('q4','A')"><span class="opt-letter">A</span> Sim, 100 códigos são suficientes para 175 apartamentos</div>
-        <div class="option" onclick="selectOpt('q4','B')"><span class="opt-letter">B</span> Não, 100 códigos são insuficientes para 175 apartamentos</div>
-        <div class="option" onclick="selectOpt('q4','C')"><span class="opt-letter">C</span> Sim, 10² = 100 códigos, mas cabem 175</div>
-        <div class="option" onclick="selectOpt('q4','D')"><span class="opt-letter">D</span> Não, 90 códigos são insuficientes</div>
-    </div>
-    <div class="feedback" id="fb-q4"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q4','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q4','B) 10 × 10 = 100 códigos possíveis, mas são 175 apartamentos. Faltam 75 códigos! Compra NÃO inteligente.')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q4')">↺ Limpar</button>
-    </div>
-</div>
+    function handleOptionClick(e) {
+        const opt = e.currentTarget;
+        const qid = opt.dataset.qid;
+        const val = opt.dataset.opt;
+        if (!qid || !val) return;
+        if (questionStatus[qid]) return;
+        
+        userAnswers[qid] = val;
+        delete questionStatus[qid];
+        
+        const container = document.getElementById(`opts-${qid}`);
+        if (container) {
+            container.querySelectorAll('.option').forEach(optDiv => {
+                optDiv.classList.remove('selected');
+                if (optDiv.dataset.opt === val) optDiv.classList.add('selected');
+            });
+        }
+        
+        const fb = document.getElementById(`fb-${qid}`);
+        if (fb) fb.classList.remove('show');
+        
+        const card = document.getElementById(`card-${qid}`);
+        if (card) card.classList.remove('answered-correct', 'answered-wrong');
+        
+        updateStats();
+    }
 
-<!-- Q5 -->
-<div class="q-card" id="q5">
-    <div class="q-number">Questão 5</div>
-    <div class="q-text">
-        Números de 3 dígitos &lt; 600 usando {8,6,4,2} sem repetição. Quantos?
-    </div>
-    <div class="options" id="opts-q5">
-        <div class="option" onclick="selectOpt('q5','A')"><span class="opt-letter">A</span> 12</div>
-        <div class="option" onclick="selectOpt('q5','B')"><span class="opt-letter">B</span> 6</div>
-        <div class="option" onclick="selectOpt('q5','C')"><span class="opt-letter">C</span> 18</div>
-        <div class="option" onclick="selectOpt('q5','D')"><span class="opt-letter">D</span> 9</div>
-    </div>
-    <div class="feedback" id="fb-q5"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q5','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q5','B) Primeiro dígito deve ser 2 ou 4 (&lt;6). Com 2: 2 opções para 2º, 1 para 3º. Com 4: 2 opções para 2º, 1 para 3º. Total: 3+3=6.')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q5')">↺ Limpar</button>
-    </div>
-</div>
+    window.checkQuestion = function(qid) {
+        const q = QUESTOES.find(qq => qq.id === qid);
+        const userAnswer = userAnswers[qid];
+        
+        if (!userAnswer) {
+            const fb = document.getElementById(`fb-${qid}`);
+            if (fb) {
+                fb.className = 'feedback info show';
+                fb.innerHTML = '⚠️ Selecione uma alternativa antes de verificar.';
+            }
+            return;
+        }
+        
+        const isCorrect = (userAnswer === q.correct);
+        questionStatus[qid] = isCorrect ? 'correct' : 'wrong';
+        
+        const container = document.getElementById(`opts-${qid}`);
+        if (container) {
+            container.querySelectorAll('.option').forEach(optDiv => {
+                optDiv.classList.remove('correct-answer', 'wrong-answer');
+                if (optDiv.dataset.opt === q.correct) {
+                    optDiv.classList.add('correct-answer');
+                }
+                if (optDiv.dataset.opt === userAnswer && !isCorrect) {
+                    optDiv.classList.add('wrong-answer');
+                }
+            });
+        }
+        
+        const fb = document.getElementById(`fb-${qid}`);
+        if (fb) {
+            if (isCorrect) {
+                fb.className = 'feedback correct show';
+                fb.innerHTML = `<strong>✓ Correto!</strong> ${q.explanation}`;
+            } else {
+                fb.className = 'feedback wrong show';
+                fb.innerHTML = `<strong>✗ Incorreto.</strong> A resposta correta é ${q.correct}.<br>${q.explanation}`;
+            }
+        }
+        
+        const card = document.getElementById(`card-${qid}`);
+        if (card) {
+            card.classList.remove('answered-correct', 'answered-wrong');
+            card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+        }
+        
+        updateStats();
+    };
 
-<!-- Q6 -->
-<div class="q-card" id="q6">
-    <div class="q-number">Questão 6</div>
-    <div class="q-text">
-        Quantas permutações da palavra <span class="math">ERRO</span>?
-    </div>
-    <div class="options" id="opts-q6">
-        <div class="option" onclick="selectOpt('q6','A')"><span class="opt-letter">A</span> 24</div>
-        <div class="option" onclick="selectOpt('q6','B')"><span class="opt-letter">B</span> 12</div>
-        <div class="option" onclick="selectOpt('q6','C')"><span class="opt-letter">C</span> 6</div>
-        <div class="option" onclick="selectOpt('q6','D')"><span class="opt-letter">D</span> 4</div>
-    </div>
-    <div class="feedback" id="fb-q6"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q6','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q6','B) 4! / 2! = 24/2 = 12 (R aparece 2 vezes).')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q6')">↺ Limpar</button>
-    </div>
-</div>
+    window.revealAnswer = function(qid) {
+        const q = QUESTOES.find(qq => qq.id === qid);
+        const fb = document.getElementById(`fb-${qid}`);
+        if (fb) {
+            fb.className = 'feedback info show';
+            fb.innerHTML = `<strong>📖 Gabarito:</strong> Alternativa ${q.correct}<br>${q.explanation}`;
+        }
+    };
 
-<!-- Q7 -->
-<div class="q-card" id="q7">
-    <div class="q-number">Questão 7</div>
-    <div class="q-text">
-        1º, 2º e 3º prêmios em competição com 15 participantes. Quantas maneiras?
-    </div>
-    <div class="options" id="opts-q7">
-        <div class="option" onclick="selectOpt('q7','A')"><span class="opt-letter">A</span> C(15,3) = 455</div>
-        <div class="option" onclick="selectOpt('q7','B')"><span class="opt-letter">B</span> P(15,3) = 2.730</div>
-        <div class="option" onclick="selectOpt('q7','C')"><span class="opt-letter">C</span> 15³ = 3.375</div>
-        <div class="option" onclick="selectOpt('q7','D')"><span class="opt-letter">D</span> 15! = 1,3×10¹²</div>
-    </div>
-    <div class="feedback" id="fb-q7"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q7','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q7','B) Ordem importa: 15 × 14 × 13 = 2.730 (arranjo/permutação).')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q7')">↺ Limpar</button>
-    </div>
-</div>
+    window.resetQuestion = function(qid) {
+        delete userAnswers[qid];
+        delete questionStatus[qid];
+        
+        const container = document.getElementById(`opts-${qid}`);
+        if (container) {
+            container.querySelectorAll('.option').forEach(optDiv => {
+                optDiv.classList.remove('selected', 'correct-answer', 'wrong-answer');
+            });
+        }
+        const fb = document.getElementById(`fb-${qid}`);
+        if (fb) fb.classList.remove('show');
+        const card = document.getElementById(`card-${qid}`);
+        if (card) card.classList.remove('answered-correct', 'answered-wrong');
+        
+        updateStats();
+    };
 
-<!-- Q8 -->
-<div class="q-card" id="q8">
-    <div class="q-number">Questão 8</div>
-    <div class="q-text">
-        Time titular de futebol: 11 jogadores escolhidos entre 18. Quantas maneiras?
-    </div>
-    <div class="options" id="opts-q8">
-        <div class="option" onclick="selectOpt('q8','A')"><span class="opt-letter">A</span> P(18,11)</div>
-        <div class="option" onclick="selectOpt('q8','B')"><span class="opt-letter">B</span> C(18,11) = 31.824</div>
-        <div class="option" onclick="selectOpt('q8','C')"><span class="opt-letter">C</span> 18¹¹</div>
-        <div class="option" onclick="selectOpt('q8','D')"><span class="opt-letter">D</span> 11!</div>
-    </div>
-    <div class="feedback" id="fb-q8"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q8','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q8','B) Combinação: ordem não importa. C(18,11) = C(18,7) = 31.824.')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q8')">↺ Limpar</button>
-    </div>
-</div>
+    function updateStats() {
+        const total = QUESTOES.length;
+        const answered = Object.keys(userAnswers).length;
+        const correct = Object.values(questionStatus).filter(s => s === 'correct').length;
+        const wrong = Object.values(questionStatus).filter(s => s === 'wrong').length;
+        
+        document.getElementById('answered-count').textContent = answered;
+        document.getElementById('correct-count').textContent = correct;
+        document.getElementById('wrong-count').textContent = wrong;
+        document.getElementById('total-count').textContent = total;
+        
+        const progress = (correct / total) * 100;
+        document.getElementById('progress-fill').style.width = progress + '%';
+    }
 
-<!-- Q9 -->
-<div class="q-card" id="q9">
-    <div class="q-number">Questão 9</div>
-    <div class="q-text">
-        Júri: 5 homens (de 17) e 7 mulheres (de 23). Quantas maneiras?
-    </div>
-    <div class="options" id="opts-q9">
-        <div class="option" onclick="selectOpt('q9','A')"><span class="opt-letter">A</span> C(17,5) × C(23,7)</div>
-        <div class="option" onclick="selectOpt('q9','B')"><span class="opt-letter">B</span> C(40,12)</div>
-        <div class="option" onclick="selectOpt('q9','C')"><span class="opt-letter">C</span> C(17,5) + C(23,7)</div>
-        <div class="option" onclick="selectOpt('q9','D')"><span class="opt-letter">D</span> P(17,5) × P(23,7)</div>
-    </div>
-    <div class="feedback" id="fb-q9"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q9','A')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q9','A) Combinações independentes: multiplique. C(17,5) × C(23,7).')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q9')">↺ Limpar</button>
-    </div>
-</div>
+    window.checkAll = function() {
+        const answered = Object.keys(userAnswers).length;
+        const correct = Object.values(questionStatus).filter(s => s === 'correct').length;
+        const total = QUESTOES.length;
+        
+        if (answered === total && correct === total) {
+            alert('🎉 Parabéns! Todas as questões estão corretas!');
+        } else {
+            alert(`📊 Progresso: ${answered}/${total} respondidas\n✓ ${correct} corretas\n✗ ${answered - correct} incorretas`);
+        }
+    };
 
-<!-- Q10 -->
-<div class="q-card" id="q10">
-    <div class="q-number">Questão 10</div>
-    <div class="q-text">
-        42 turistas, 35 falam inglês, 18 falam francês. Quantos falam os dois?
-    </div>
-    <div class="options" id="opts-q10">
-        <div class="option" onclick="selectOpt('q10','A')"><span class="opt-letter">A</span> 7</div>
-        <div class="option" onclick="selectOpt('q10','B')"><span class="opt-letter">B</span> 11</div>
-        <div class="option" onclick="selectOpt('q10','C')"><span class="opt-letter">C</span> 17</div>
-        <div class="option" onclick="selectOpt('q10','D')"><span class="opt-letter">D</span> 53</div>
-    </div>
-    <div class="feedback" id="fb-q10"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q10','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q10','B) |I∩F| = 35 + 18 − 42 = 11 (Princípio da Inclusão-Exclusão).')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q10')">↺ Limpar</button>
-    </div>
-</div>
-
-<!-- Q11 -->
-<div class="q-card" id="q11">
-    <div class="q-number">Questão 11</div>
-    <div class="q-text">
-        Convidados bebem café ou chá: 13 café, 10 chá, 4 ambos. Quantas pessoas?
-    </div>
-    <div class="options" id="opts-q11">
-        <div class="option" onclick="selectOpt('q11','A')"><span class="opt-letter">A</span> 27</div>
-        <div class="option" onclick="selectOpt('q11','B')"><span class="opt-letter">B</span> 23</div>
-        <div class="option" onclick="selectOpt('q11','C')"><span class="opt-letter">C</span> 19</div>
-        <div class="option" onclick="selectOpt('q11','D')"><span class="opt-letter">D</span> 15</div>
-    </div>
-    <div class="feedback" id="fb-q11"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q11','C')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q11','C) 13 + 10 − 4 = 19 pessoas.')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q11')">↺ Limpar</button>
-    </div>
-</div>
-
-<!-- Q12 -->
-<div class="q-card" id="q12">
-    <div class="q-number">Questão 12</div>
-    <div class="q-text">
-        Produtos: 12 refrescam hálito, 10 previnem gengivite, 11 reduzem placas, 6 (hálito e placas), 5 (gengivite e hálito), 5 (gengivite e placas). Quantos têm as 3 propriedades?
-    </div>
-    <div class="options" id="opts-q12">
-        <div class="option" onclick="selectOpt('q12','A')"><span class="opt-letter">A</span> 2</div>
-        <div class="option" onclick="selectOpt('q12','B')"><span class="opt-letter">B</span> 3</div>
-        <div class="option" onclick="selectOpt('q12','C')"><span class="opt-letter">C</span> 4</div>
-        <div class="option" onclick="selectOpt('q12','D')"><span class="opt-letter">D</span> 5</div>
-    </div>
-    <div class="feedback" id="fb-q12"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q12','A')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q12','A) Pela fórmula: 19 = 12+10+11−6−5−5+x → x = 2.')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q12')">↺ Limpar</button>
-    </div>
-</div>
-
-<!-- Q13 -->
-<div class="q-card" id="q13">
-    <div class="q-number">Questão 13</div>
-    <div class="q-text">
-        50 homens, 50 mulheres. Quantos nomes para <strong>garantir</strong> uma pessoa de cada sexo?
-    </div>
-    <div class="options" id="opts-q13">
-        <div class="option" onclick="selectOpt('q13','A')"><span class="opt-letter">A</span> 51</div>
-        <div class="option" onclick="selectOpt('q13','B')"><span class="opt-letter">B</span> 50</div>
-        <div class="option" onclick="selectOpt('q13','C')"><span class="opt-letter">C</span> 2</div>
-        <div class="option" onclick="selectOpt('q13','D')"><span class="opt-letter">D</span> 100</div>
-    </div>
-    <div class="feedback" id="fb-q13"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q13','A')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q13','A) Pior caso: selecionar todos os 50 do mesmo sexo. O 51º será do outro sexo.')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q13')">↺ Limpar</button>
-    </div>
-</div>
-
-<!-- Q14 -->
-<div class="q-card" id="q14">
-    <div class="q-number">Questão 14</div>
-    <div class="q-text">
-        Quantas pessoas para <strong>garantir</strong> 2 no mesmo mês?
-    </div>
-    <div class="options" id="opts-q14">
-        <div class="option" onclick="selectOpt('q14','A')"><span class="opt-letter">A</span> 12</div>
-        <div class="option" onclick="selectOpt('q14','B')"><span class="opt-letter">B</span> 13</div>
-        <div class="option" onclick="selectOpt('q14','C')"><span class="opt-letter">C</span> 24</div>
-        <div class="option" onclick="selectOpt('q14','D')"><span class="opt-letter">D</span> 2</div>
-    </div>
-    <div class="feedback" id="fb-q14"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q14','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q14','B) Princípio das Gavetas: 12 meses (gavetas) → 13 pessoas garantem 2 no mesmo mês.')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q14')">↺ Limpar</button>
-    </div>
-</div>
-
-<!-- Q15 -->
-<div class="q-card" id="q15">
-    <div class="q-number">Questão 15</div>
-    <div class="q-text">
-        Quantas cartas de um baralho (52 cartas, 4 naipes) para garantir 2 do mesmo naipe?
-    </div>
-    <div class="options" id="opts-q15">
-        <div class="option" onclick="selectOpt('q15','A')"><span class="opt-letter">A</span> 4</div>
-        <div class="option" onclick="selectOpt('q15','B')"><span class="opt-letter">B</span> 5</div>
-        <div class="option" onclick="selectOpt('q15','C')"><span class="opt-letter">C</span> 13</div>
-        <div class="option" onclick="selectOpt('q15','D')"><span class="opt-letter">D</span> 14</div>
-    </div>
-    <div class="feedback" id="fb-q15"></div>
-    <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q15','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q15','B) 4 naipes (gavetas). Pior caso: 1 de cada naipe = 4 cartas. A 5ª carta repetirá um naipe.')">📖 Gabarito</button>
-        <button class="btn btn-secondary" onclick="resetQ('q15')">↺ Limpar</button>
-    </div>
-</div>
-
-</div><!-- end content -->
-
+    // Inicialização
+    renderQuestions();
+    updateStats();
+    document.getElementById('checkAllBtn')?.addEventListener('click', checkAll);
+    
+    // Expor funções globalmente
+    window.checkQuestion = checkQuestion;
+    window.revealAnswer = revealAnswer;
+    window.resetQuestion = resetQuestion;
+    window.checkAll = checkAll;
+</script>
 <script src="JS/footer.js"></script>
 <script src="JS/sidebar.js"></script>
 <script src="JS/questoes.js"></script>
