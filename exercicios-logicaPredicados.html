@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lógica de Predicados · Lista de Exercícios com Verificação</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0b0c10;
+            --surface: #13161f;
+            --card: #1a1e2a;
+            --border: #2c3142;
+            --accent: #6c5ce7;
+            --accent2: #a855f7;
+            --accent3: #38bdf8;
+            --text: #eef2ff;
+            --muted: #8b92b0;
+            --correct: #10b981;
+            --wrong: #ef4444;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .sub {
+            color: var(--muted);
+            margin-bottom: 24px;
+            border-left: 3px solid var(--accent);
+            padding-left: 16px;
+        }
+
+        .toolbar {
+            background: var(--surface);
+            padding: 12px 24px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            font-weight: 600;
+        }
+        .stats span {
+            background: var(--card);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(95deg, var(--accent), var(--accent2));
+            border: none;
+            color: white;
+        }
+        .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.05); }
+        .btn-outline { border-color: var(--accent); color: var(--accent); }
+        .btn-outline:hover { background: rgba(108,92,231,0.1); }
+        .btn-success { background: var(--correct); border: none; color: white; }
+        .btn-success:hover { filter: brightness(1.1); }
+
+        .quest-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: var(--surface);
+            padding: 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Fira Code', monospace;
+        }
+        .nav-btn:hover { border-color: var(--accent); }
+        .nav-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .nav-btn.correct { background: var(--correct); border-color: var(--correct); color: #fff; }
+        .nav-btn.wrong { background: var(--wrong); border-color: var(--wrong); color: #fff; }
+        .nav-btn.has-answer { border-color: var(--accent2); background: rgba(168,85,247,0.2); }
+
+        .quest-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+        .quest-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .quest-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+        .status-badge {
+            padding: 5px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-correct { background: rgba(16,185,129,0.2); color: var(--correct); }
+        .status-wrong { background: rgba(239,68,68,0.2); color: var(--wrong); }
+
+        .enunciado-box {
+            background: #0a0c14;
+            padding: 18px 22px;
+            border-radius: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            margin-bottom: 24px;
+            border-left: 6px solid var(--accent);
+            word-break: break-word;
+            line-height: 1.6;
+        }
+
+        .answer-section {
+            margin-top: 8px;
+        }
+        .answer-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--accent3);
+            letter-spacing: 0.5px;
+        }
+        .answer-label strong {
+            font-weight: 800;
+        }
+        
+        .editor-wrapper {
+            background: #1E1E1E;
+            border: 1px solid #3C3C3C;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .editor-header {
+            background: #2D2D2D;
+            padding: 10px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3C3C3C;
+            font-size: 0.8rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .symbol-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .sym-btn {
+            background: #3a3a4a;
+            border: none;
+            color: white;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .sym-btn:hover {
+            background: var(--accent);
+            transform: scale(1.02);
+        }
+        .btn-expand {
+            background: transparent;
+            border: 1px solid #555;
+            color: #ccc;
+            padding: 4px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .btn-expand:hover { background: #3C3C3C; }
+        
+        .answer-textarea {
+            width: 100%;
+            background: #1E1E1E;
+            border: none;
+            color: #D4D4D4;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.7;
+            padding: 20px;
+            resize: vertical;
+            outline: none;
+        }
+        .answer-textarea:focus { outline: none; }
+        
+        .editor-wrapper.expanded {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            z-index: 10000;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .editor-wrapper.expanded .answer-textarea {
+            height: calc(100% - 80px);
+            font-size: 18px;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 9999;
+            backdrop-filter: blur(4px);
+        }
+        .overlay.show { display: block; }
+        
+        .action-buttons {
+            display: flex;
+            gap: 14px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .result-box {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: 14px;
+            display: none;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .result-box.show { display: block; }
+        .result-box.success { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.4); color: var(--correct); }
+        .result-box.fail { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.4); color: #ff9e9e; }
+        
+        .predicate-legend {
+            background: rgba(56,189,248,0.08);
+            border-radius: 20px;
+            padding: 18px 22px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(56,189,248,0.2);
+        }
+        .predicate-legend h3 {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: var(--accent3);
+            font-weight: 600;
+        }
+        .predicate-legend p {
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+            line-height: 1.7;
+        }
+        
+        @media (max-width: 700px) {
+            .quest-card { padding: 20px; }
+            .enunciado-box { font-size: 0.85rem; }
+        }
+        
+        /* Estilo para impressão/PDF - sem nenhum status ou verificação */
+        @media print {
+            body { background: white; color: black; padding: 0; margin: 0; }
+            .toolbar, .quest-nav, .action-buttons, .editor-header .sym-btn, .btn-expand, .btn, .overlay, .symbol-buttons, .btn-group, .status-badge, .result-box { display: none !important; }
+            .quest-card { background: white; border: 1px solid #000; page-break-inside: avoid; margin: 0; padding: 15px; box-shadow: none; }
+            .answer-textarea { background: white; color: black; border: 1px solid #aaa; font-weight: bold; resize: none; overflow: visible; }
+            .editor-wrapper { border: 1px solid #000; background: white; }
+            .editor-header { background: #f0f0f0; color: black; border-bottom: 1px solid #aaa; }
+            .enunciado-box { background: #f5f5f5; color: black; border-left: 4px solid #333; }
+            .predicate-legend { background: #f0f0f0; border: 1px solid #aaa; print-color-adjust: exact; }
+            .answer-label { color: black; }
+            .quest-number { color: #333; }
+            .container { max-width: 100%; padding: 0; }
+            .answer-textarea { border: 1px solid #ccc; min-height: 100px; }
+        }
+    </style>
+</head>
+<body>
+<div class="overlay" id="fullscreen-overlay"></div>
+<div class="container">
+    <h1>📖 Lógica de Predicados · Formalização</h1>
+    <div class="sub">Exercícios de tradução para linguagem de primeira ordem • Quantificadores ∀, ∃ e predicados</div>
+
+    <div class="toolbar">
+        <div class="stats">
+            <span>📋 Total: <span id="totalQuest">0</span> questões</span>
+            <span id="correctCounter">✓ 0 corretas</span>
+            <span id="answeredCounter">📝 0 respondidas</span>
+        </div>
+        <div class="btn-group">
+            <button class="btn" id="clearAllBtn">🗑️ Limpar respostas</button>
+            <button class="btn btn-primary" id="exportPdfBtn">📄 Exportar PDF (sem verificação)</button>
+        </div>
+    </div>
+
+    <div class="predicate-legend">
+        <h3>🔤 Domínio e predicados (Exercício 1)</h3>
+        <p><strong>C</strong> = "está chovendo" (sentença) &nbsp;|&nbsp; 
+           <strong>R(x)</strong> = "x é uma rã" &nbsp;|&nbsp; 
+           <strong>V(x)</strong> = "x é verde" &nbsp;|&nbsp; 
+           <strong>S(x)</strong> = "x está saltitando"<br>
+           <strong>Constantes (Ex.2):</strong> c = Caio, j = João, m = Maria &nbsp;|&nbsp;
+           <strong>M(x):</strong> é mecânico, <strong>E(x):</strong> é enfermeiro, <strong>A(x,y):</strong> x ama y.<br>
+           <strong>Símbolos:</strong> ∀ (para todo) | ∃ (existe) | → (implica) | ∧ (e) | ∨ (ou) | ¬ (não) | ↔ (se e só se)
+        </p>
+    </div>
+
+    <div class="quest-nav" id="questNav"></div>
+    <div class="quest-card" id="questCard"></div>
+</div>
+
+<script>
+// ==============================================================
+// BANCO DE QUESTÕES (Formalização em Lógica de Predicados)
+// ==============================================================
+const QUESTOES = [
+    // Parte 1 - Rãs, verde, saltitar (a até u)
+    { id: 1, text: "Todas as rãs são verdes.", expected: "∀x (R(x) → V(x))", hint: "∀x (R(x) → V(x))" },
+    { id: 2, text: "Nenhuma rã é verde.", expected: "∀x (R(x) → ¬V(x))", hint: "∀x (R(x) → ¬V(x)) ou ¬∃x (R(x) ∧ V(x))" },
+    { id: 3, text: "Algumas rãs são verdes.", expected: "∃x (R(x) ∧ V(x))", hint: "∃x (R(x) ∧ V(x))" },
+    { id: 4, text: "Algumas rãs não são verdes.", expected: "∃x (R(x) ∧ ¬V(x))", hint: "∃x (R(x) ∧ ¬V(x))" },
+    { id: 5, text: "Toda coisa é uma rã.", expected: "∀x R(x)", hint: "∀x R(x)" },
+    { id: 6, text: "Alguma coisa é uma rã.", expected: "∃x R(x)", hint: "∃x R(x)" },
+    { id: 7, text: "Nem toda coisa é uma rã.", expected: "¬∀x R(x)", hint: "¬∀x R(x) ou ∃x ¬R(x)" },
+    { id: 8, text: "Nada é uma rã.", expected: "∀x ¬R(x)", hint: "∀x ¬R(x) ou ¬∃x R(x)" },
+    { id: 9, text: "Existem rãs verdes.", expected: "∃x (R(x) ∧ V(x))", hint: "∃x (R(x) ∧ V(x))" },
+    { id: 10, text: "Qualquer coisa é uma rã verde.", expected: "∀x (R(x) ∧ V(x))", hint: "∀x (R(x) ∧ V(x))" },
+    { id: 11, text: "Está chovendo e algumas rãs estão saltitando.", expected: "C ∧ ∃x (R(x) ∧ S(x))", hint: "C ∧ ∃x (R(x) ∧ S(x))" },
+    { id: 12, text: "Se está chovendo, então todas as rãs estão saltitando.", expected: "C → ∀x (R(x) → S(x))", hint: "C → ∀x (R(x) → S(x))" },
+    { id: 13, text: "Algumas coisas são verdes e algumas não são.", expected: "∃x V(x) ∧ ∃x ¬V(x)", hint: "∃x V(x) ∧ ∃x ¬V(x)" },
+    { id: 14, text: "Qualquer coisa é uma rã ou nada é uma rã.", expected: "∀x R(x) ∨ ∀x ¬R(x)", hint: "∀x R(x) ∨ ∀x ¬R(x)" },
+    { id: 15, text: "Qualquer coisa é uma rã ou não é uma rã.", expected: "∀x (R(x) ∨ ¬R(x))", hint: "∀x (R(x) ∨ ¬R(x))" },
+    { id: 16, text: "Todas as rãs são rãs.", expected: "∀x (R(x) → R(x))", hint: "∀x (R(x) → R(x))" },
+    { id: 17, text: "Somente rãs são verdes.", expected: "∀x (V(x) → R(x))", hint: "∀x (V(x) → R(x))" },
+    { id: 18, text: "Todas as rãs verdes estão saltitando.", expected: "∀x ((R(x) ∧ V(x)) → S(x))", hint: "∀x ((R(x) ∧ V(x)) → S(x))" },
+    { id: 19, text: "Algumas rãs verdes não estão saltitando.", expected: "∃x (R(x) ∧ V(x) ∧ ¬S(x))", hint: "∃x (R(x) ∧ V(x) ∧ ¬S(x))" },
+    { id: 20, text: "Não é verdade que algumas rãs verdes estão saltitando.", expected: "¬∃x (R(x) ∧ V(x) ∧ S(x))", hint: "¬∃x (R(x) ∧ V(x) ∧ S(x))" },
+    { id: 21, text: "Se nada é verde, então não existem rãs verdes.", expected: "∀x ¬V(x) → ¬∃x (R(x) ∧ V(x))", hint: "∀x ¬V(x) → ¬∃x (R(x) ∧ V(x))" },
+    // Parte 2 - Constantes e predicados
+    { id: 22, text: "Caio é mecânico.", expected: "M(c)", hint: "M(c)" },
+    { id: 23, text: "Caio e João são mecânicos.", expected: "M(c) ∧ M(j)", hint: "M(c) ∧ M(j)" },
+    { id: 24, text: "Caio é mecânico ou enfermeiro.", expected: "M(c) ∨ E(c)", hint: "M(c) ∨ E(c)" },
+    { id: 25, text: "Se Caio é mecânico então Caio não é enfermeiro.", expected: "M(c) → ¬E(c)", hint: "M(c) → ¬E(c)" },
+    { id: 26, text: "João ama Maria.", expected: "A(j, m)", hint: "A(j, m)" },
+    { id: 27, text: "João ama a si próprio.", expected: "A(j, j)", hint: "A(j, j)" },
+    { id: 28, text: "Todo mundo ama João.", expected: "∀x A(x, j)", hint: "∀x A(x, j)" },
+    { id: 29, text: "Existe alguém que Maria não ama.", expected: "∃x ¬A(m, x)", hint: "∃x ¬A(m, x)" },
+    { id: 30, text: "Todo mundo é amado por alguém.", expected: "∀x ∃y A(y, x)", hint: "∀x ∃y A(y, x)" },
+    { id: 31, text: "Existe alguém que ama todo mundo.", expected: "∃x ∀y A(x, y)", hint: "∃x ∀y A(x, y)" }
+];
+
+// ==============================================================
+// STORAGE - Salvar respostas e status de verificação
+// ==============================================================
+const STORAGE_KEY = "predicados_respostas_com_verificacao";
+let savedAnswers = {};
+let verifiedStatus = {};
+
+function loadStorage() {
+    try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        if (data) { const p = JSON.parse(data); savedAnswers = p.answers || {}; verifiedStatus = p.status || {}; }
+    } catch(e) { savedAnswers = {}; verifiedStatus = {}; }
+}
+
+function persistAll() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ answers: savedAnswers, status: verifiedStatus }));
+}
+
+function saveAnswer(id, text) {
+    if (text && text.trim()) savedAnswers[id] = text.trim();
+    else { delete savedAnswers[id]; delete verifiedStatus[id]; }
+    persistAll();
+    updateStats();
+    renderNavButtons();
+}
+
+function updateStats() {
+    const total = QUESTOES.length;
+    const correct = Object.values(verifiedStatus).filter(v => v === 'correct').length;
+    const answered = Object.keys(savedAnswers).filter(id => savedAnswers[id]?.trim()).length;
+    document.getElementById("totalQuest").textContent = total;
+    document.getElementById("correctCounter").innerHTML = "✓ " + correct + " corretas";
+    document.getElementById("answeredCounter").innerHTML = "📝 " + answered + " respondidas";
+}
+
+let currentQuestIndex = 0;
+
+function renderNavButtons() {
+    const nav = document.getElementById("questNav");
+    if (!nav) return;
+    nav.innerHTML = QUESTOES.map((q, idx) => {
+        let cls = "";
+        if (idx === currentQuestIndex) cls = "active";
+        else if (verifiedStatus[q.id] === 'correct') cls = "correct";
+        else if (verifiedStatus[q.id] === 'wrong') cls = "wrong";
+        else if (savedAnswers[q.id]?.trim()) cls = "has-answer";
+        return `<button class="nav-btn ${cls}" data-idx="${idx}">${q.id}</button>`;
+    }).join("");
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => goToQuest(parseInt(btn.dataset.idx)));
+    });
+}
+
+function goToQuest(index) {
+    currentQuestIndex = index;
+    renderNavButtons();
+    renderCurrentQuest();
+}
+
+let expandedWrapper = null;
+function toggleExpand(wrapperId) {
+    const wrapper = document.getElementById(wrapperId);
+    const overlay = document.getElementById("fullscreen-overlay");
+    if (!wrapper) return;
+    if (wrapper.classList.contains("expanded")) {
+        wrapper.classList.remove("expanded");
+        overlay.classList.remove("show");
+        document.body.style.overflow = "";
+    } else {
+        if (expandedWrapper) expandedWrapper.classList.remove("expanded");
+        wrapper.classList.add("expanded");
+        overlay.classList.add("show");
+        document.body.style.overflow = "hidden";
+        expandedWrapper = wrapper;
+    }
+}
+
+function insertSymbol(symbol, textareaId) {
+    const textarea = document.getElementById(textareaId);
+    if (!textarea) return;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const newText = text.substring(0, start) + symbol + text.substring(end);
+    textarea.value = newText;
+    textarea.focus();
+    textarea.setSelectionRange(start + symbol.length, start + symbol.length);
+    const event = new Event('input', { bubbles: true });
+    textarea.dispatchEvent(event);
+}
+
+// ==============================================================
+// FUNÇÃO DE VERIFICAÇÃO (ativa apenas no HTML, não vai pro PDF)
+// ==============================================================
+function normalizeFormula(f) {
+    if (!f) return "";
+    let norm = f.trim();
+    norm = norm.replace(/\s+/g, ' ');
+    norm = norm.replace(/→/g, '->').replace(/∧/g, '&').replace(/∨/g, '|').replace(/¬/g, '~');
+    norm = norm.replace(/∀/g, '∀').replace(/∃/g, '∃');
+    if (norm.startsWith('(') && norm.endsWith(')')) {
+        let depth = 0, remove = true;
+        for (let i = 1; i < norm.length - 1; i++) {
+            if (norm[i] === '(') depth++;
+            if (norm[i] === ')') depth--;
+            if (depth < 0) { remove = false; break; }
+        }
+        if (remove && depth === 0) norm = norm.slice(1, -1);
+    }
+    return norm;
+}
+
+function formulasEquivalent(user, expected) {
+    const normUser = normalizeFormula(user);
+    const normExpected = normalizeFormula(expected);
+    if (normUser === normExpected) return true;
+    // variações comuns
+    if (normExpected.includes('¬∃') && normUser.includes('∀¬')) return true;
+    if (normExpected === "∀x (R(x) → ¬V(x))" && normUser.includes('¬∃')) return true;
+    if (normExpected === "¬∀x R(x)" && normUser.includes('∃x ¬R')) return true;
+    if (normExpected === "∀x ¬R(x)" && normUser.includes('¬∃x R')) return true;
+    return false;
+}
+
+function verificarQuestao(id) {
+    const q = QUESTOES.find(qq => qq.id === id);
+    const userAnswer = savedAnswers[id] || "";
+    if (!userAnswer.trim()) {
+        verifiedStatus[id] = 'wrong';
+        persistAll();
+        updateStats();
+        renderNavButtons();
+        const resultBox = document.getElementById(`result-${id}`);
+        if (resultBox) {
+            resultBox.className = "result-box fail show";
+            resultBox.innerHTML = `<strong>✗ Nenhuma resposta fornecida.</strong><br>💡 Dica: ${escapeHtml(q.hint)}`;
+        }
+        renderCurrentQuest();
+        return false;
+    }
+    
+    let accepted = [q.expected];
+    if (q.expected === "∀x (R(x) → V(x))") accepted.push("∀x(R(x)→V(x))");
+    if (q.expected === "∀x (R(x) → ¬V(x))") accepted.push("∀x(R(x)→¬V(x))", "¬∃x (R(x) ∧ V(x))");
+    if (q.expected === "∃x (R(x) ∧ V(x))") accepted.push("∃x(R(x)∧V(x))", "∃x (V(x) ∧ R(x))");
+    if (q.expected === "¬∀x R(x)") accepted.push("∃x ¬R(x)");
+    if (q.expected === "∀x ¬R(x)") accepted.push("¬∃x R(x)");
+    if (q.expected === "M(c) ∧ M(j)") accepted.push("M(c) & M(j)");
+    
+    let isValid = false;
+    for (let exp of accepted) {
+        if (formulasEquivalent(userAnswer, exp)) {
+            isValid = true;
+            break;
+        }
+    }
+    
+    verifiedStatus[id] = isValid ? 'correct' : 'wrong';
+    persistAll();
+    updateStats();
+    renderNavButtons();
+    
+    const resultBox = document.getElementById(`result-${id}`);
+    if (resultBox) {
+        if (isValid) {
+            resultBox.className = "result-box success show";
+            resultBox.innerHTML = `<strong>✓ Correto!</strong> A formalização "${escapeHtml(userAnswer)}" está correta.`;
+        } else {
+            resultBox.className = "result-box fail show";
+            resultBox.innerHTML = `<strong>✗ Incorreto.</strong> Sua resposta: "${escapeHtml(userAnswer)}"<br>Esperava algo como: ${escapeHtml(q.expected)}<br><span style="font-size:0.8rem;">💡 Dica: ${escapeHtml(q.hint)}</span>`;
+        }
+    }
+    renderCurrentQuest();
+    return isValid;
+}
+
+function renderCurrentQuest() {
+    const q = QUESTOES[currentQuestIndex];
+    const savedVal = savedAnswers[q.id] || "";
+    const isCorrect = verifiedStatus[q.id] === 'correct';
+    const wrapperId = "editor-" + q.id;
+    const textareaId = "answer-" + q.id;
+    
+    const statusHtml = isCorrect ? '<div class="status-badge status-correct">✓ Correta</div>' : (verifiedStatus[q.id] === 'wrong' ? '<div class="status-badge status-wrong">✗ Incorreta</div>' : '');
+    
+    const cardHtml = `
+        <div class="quest-header">
+            <span class="quest-number">Questão ${q.id}</span>
+            ${statusHtml}
+        </div>
+        <div class="enunciado-box">
+            📌 ${escapeHtml(q.text)}
+        </div>
+        <div class="answer-section">
+            <div class="answer-label"><strong>RESPOSTA:</strong></div>
+            <div class="editor-wrapper" id="${wrapperId}">
+                <div class="editor-header">
+                    <div class="symbol-buttons">
+                        <button type="button" class="sym-btn" data-sym="∀" data-target="${textareaId}">∀</button>
+                        <button type="button" class="sym-btn" data-sym="∃" data-target="${textareaId}">∃</button>
+                        <button type="button" class="sym-btn" data-sym="→" data-target="${textareaId}">→</button>
+                        <button type="button" class="sym-btn" data-sym="∧" data-target="${textareaId}">∧</button>
+                        <button type="button" class="sym-btn" data-sym="∨" data-target="${textareaId}">∨</button>
+                        <button type="button" class="sym-btn" data-sym="¬" data-target="${textareaId}">¬</button>
+                        <button type="button" class="sym-btn" data-sym="↔" data-target="${textareaId}">↔</button>
+                        <button type="button" class="sym-btn" data-sym="∀x" data-target="${textareaId}">∀x</button>
+                        <button type="button" class="sym-btn" data-sym="∃x" data-target="${textareaId}">∃x</button>
+                        <button type="button" class="sym-btn" data-sym="R(x)" data-target="${textareaId}">R(x)</button>
+                        <button type="button" class="sym-btn" data-sym="V(x)" data-target="${textareaId}">V(x)</button>
+                        <button type="button" class="sym-btn" data-sym="S(x)" data-target="${textareaId}">S(x)</button>
+                        <button type="button" class="sym-btn" data-sym="M(c)" data-target="${textareaId}">M(c)</button>
+                        <button type="button" class="sym-btn" data-sym="A(j,m)" data-target="${textareaId}">A(j,m)</button>
+                    </div>
+                    <button class="btn-expand" onclick="toggleExpand('${wrapperId}')">⛶ Expandir</button>
+                </div>
+                <textarea class="answer-textarea" id="${textareaId}" rows="6" placeholder="Digite a fórmula em lógica de predicados.&#10;&#10;Exemplos:&#10;∀x (R(x) → V(x))&#10;∃x (R(x) ∧ ¬V(x))&#10;M(c) ∧ ¬E(c)">${escapeHtml(savedVal)}</textarea>
+            </div>
+        </div>
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="checkBtn-${q.id}">🔍 Verificar se está correto</button>
+            <button class="btn btn-outline" id="hintBtn-${q.id}">💡 Dica</button>
+            ${(isCorrect || verifiedStatus[q.id] === 'wrong') ? `<button class="btn" id="resetBtn-${q.id}">🔄 Refazer</button>` : ''}
+        </div>
+        <div class="result-box" id="result-${q.id}"></div>
+        <div class="hint-box" id="hint-${q.id}" style="display: none; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); border-radius: 14px; padding: 12px; margin-top: 12px; font-size: 0.85rem;">
+            💡 Dica: ${escapeHtml(q.hint)}
+        </div>
+    `;
+    
+    document.getElementById("questCard").innerHTML = cardHtml;
+    
+    const ta = document.getElementById(textareaId);
+    if (ta) {
+        ta.addEventListener('input', (e) => {
+            saveAnswer(q.id, e.target.value);
+            if (verifiedStatus[q.id]) {
+                delete verifiedStatus[q.id];
+                persistAll();
+                renderCurrentQuest();
+            }
+            renderNavButtons();
+            updateStats();
+            const resBox = document.getElementById(`result-${q.id}`);
+            if (resBox) resBox.classList.remove('show');
+        });
+    }
+    
+    document.querySelectorAll('.sym-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const sym = btn.getAttribute('data-sym');
+            const targetId = btn.getAttribute('data-target');
+            if (targetId && sym) insertSymbol(sym, targetId);
+        });
+    });
+    
+    const checkBtn = document.getElementById(`checkBtn-${q.id}`);
+    if (checkBtn) checkBtn.addEventListener('click', () => verificarQuestao(q.id));
+    
+    const hintBtn = document.getElementById(`hintBtn-${q.id}`);
+    const hintBox = document.getElementById(`hint-${q.id}`);
+    if (hintBtn && hintBox) {
+        hintBtn.addEventListener('click', () => {
+            hintBox.style.display = hintBox.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+    
+    const resetBtn = document.getElementById(`resetBtn-${q.id}`);
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            delete verifiedStatus[q.id];
+            persistAll();
+            updateStats();
+            renderNavButtons();
+            renderCurrentQuest();
+        });
+    }
+}
+
+function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>]/g, (m) => m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'));
+}
+
+function clearAll() {
+    if (confirm("Apagar TODAS as respostas e verificações?")) {
+        savedAnswers = {}; verifiedStatus = {};
+        persistAll();
+        updateStats();
+        renderNavButtons();
+        renderCurrentQuest();
+    }
+}
+
+// ==============================================================
+// PDF EXPORT - SEM NENHUMA VERIFICAÇÃO/CORREÇÃO, APENAS RESPOSTAS
+// ==============================================================
+async function exportToPDF() {
+    const toast = document.createElement("div");
+    toast.innerText = "Gerando PDF...";
+    toast.style.cssText = "position:fixed;bottom:20px;right:20px;background:#1a1e2a;padding:12px 24px;border-radius:40px;z-index:10001;border:1px solid #6c5ce7;";
+    document.body.appendChild(toast);
+    try {
+        const pdfDoc = document.createElement("div");
+        pdfDoc.style.cssText = "font-family: 'Arial', 'Helvetica', sans-serif; background: white; color: black; padding: 30px; max-width: 1100px; margin: 0 auto;";
+        pdfDoc.innerHTML = `
+            <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid black; padding-bottom: 15px;">
+                <div style="font-size: 18px; font-weight: bold;">Universidade Federal de Mato Grosso do Sul</div>
+                <div style="font-size: 14px;">Campus de Ponta Porã</div>
+                <div style="font-size: 13px; margin-top: 5px;">Disciplina: Fundamentos Matemáticos para Computação</div>
+                <div style="font-size: 16px; font-weight: bold; margin-top: 15px;">Lista de Exercícios – Lógica de Predicados</div>
+                <div style="font-size: 12px; margin-top: 8px;">Formalização com predicados R, V, S, M, E, A e quantificadores</div>
+            </div>
+        `;
+        
+        for (let q of QUESTOES) {
+            const resp = savedAnswers[q.id]?.trim() || "Nenhuma resposta fornecida";
+            const div = document.createElement("div");
+            div.style.cssText = "margin-bottom: 25px; border: 1px solid #aaa; padding: 15px; page-break-inside: avoid; background: white;";
+            div.innerHTML = `
+                <div style="font-weight: bold; font-size: 15px; border-bottom: 1px solid #999; padding-bottom: 5px; margin-bottom: 10px;">${q.id}. ${escapeHtml(q.text)}</div>
+                <div style="font-weight: bold; font-size: 13px; margin-top: 12px; margin-bottom: 6px;">RESPOSTA:</div>
+                <div style="font-family: 'Courier New', monospace; background: white; border: 1px solid #bbb; padding: 12px; font-size: 13px; font-weight: bold; line-height: 1.6; white-space: pre-wrap; color: #000;">${escapeHtml(resp)}</div>
+            `;
+            pdfDoc.appendChild(div);
+        }
+        pdfDoc.innerHTML += `<div style="margin-top: 30px; padding-top: 10px; border-top: 1px solid #aaa; text-align: center; font-size: 9px;">Lista de Exercícios - Lógica de Predicados - Formalização</div>`;
+        
+        await html2pdf().set({ 
+            margin: 0.5, 
+            filename: "lista_predicados_formalizacao.pdf", 
+            image: { type: 'jpeg', quality: 0.98 }, 
+            html2canvas: { scale: 2, backgroundColor: "white" }, 
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } 
+        }).from(pdfDoc).save();
+        
+        toast.innerText = "PDF gerado!";
+        setTimeout(() => toast.remove(), 2000);
+    } catch(e) { 
+        toast.innerText = "Erro ao gerar PDF"; 
+        console.error(e);
+        setTimeout(() => toast.remove(), 2000); 
+    }
+}
+
+function init() {
+    loadStorage();
+    updateStats();
+    renderNavButtons();
+    renderCurrentQuest();
+    document.getElementById("clearAllBtn")?.addEventListener("click", clearAll);
+    document.getElementById("exportPdfBtn")?.addEventListener("click", exportToPDF);
+    document.getElementById("fullscreen-overlay")?.addEventListener("click", () => {
+        const exp = document.querySelector(".editor-wrapper.expanded");
+        if (exp) { exp.classList.remove("expanded"); document.getElementById("fullscreen-overlay")?.classList.remove("show"); document.body.style.overflow = ""; }
+    });
+}
+
+window.toggleExpand = toggleExpand;
+window.goToQuest = goToQuest;
+window.insertSymbol = insertSymbol;
+init();
+</script>
+</body>
+</html>

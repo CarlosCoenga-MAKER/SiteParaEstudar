@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lógica Proposicional · Verificador de Regras de Inferência</title>
-    <link rel="stylesheet" href="Style/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="Style/favicon.svg">
     <link rel="stylesheet" href="Style/style.css">
     <link rel="stylesheet" href="Style/sidbar.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -259,6 +259,8 @@
             display: none;
             font-size: 14px;
             line-height: 1.6;
+            max-height: 300px;
+            overflow-y: auto;
         }
         .result-box.show { display: block; }
         .result-box.success { background: rgba(16,185,129,0.1); border: 2px solid rgba(16,185,129,0.4); color: var(--correct); }
@@ -296,7 +298,7 @@
 <div class="overlay" id="fullscreen-overlay"></div>
 <div class="container">
     <h1>📐 Lógica Proposicional · Regras de Inferência</h1>
-    <div class="sub">Responda as questões • Verifique suas respostas • Exporte PDF com suas demonstrações</div>
+    <div class="sub">Responda as questões • Mate.js compila e verifica cada passo da demonstração</div>
 
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
@@ -318,68 +320,353 @@
 
 <script>
 // ==============================================================
+// Mate.js - COMPILADOR DE DEMONSTRAÇÕES LÓGICAS
+// ==============================================================
+class LogicCompiler {
+    constructor() {
+        this.operators = {
+            '/\\': '∧', '∧': '∧', 'and': '∧', 'e': '∧',
+            '\\/': '∨', '∨': '∨', 'or': '∨', 'ou': '∨',
+            '~': '¬', '¬': '¬', 'not': '¬', 'não': '¬', 'nao': '¬',
+            '->': '→', '→': '→', '→': '→',
+            '<->': '↔', '↔': '↔', '↔': '↔',
+            '<-': '←', '←': '←'
+        };
+        this.premises = new Set();
+        this.provenLines = new Map();
+    }
+
+    normalizeFormula(formula) {
+        let normalized = formula.replace(/\s+/g, ' ').trim();
+        for (let [key, value] of Object.entries(this.operators)) {
+            const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            normalized = normalized.replace(new RegExp(escaped, 'gi'), value);
+        }
+        return normalized;
+    }
+
+    tokenize(formula) {
+        const regex = /[A-Za-z]+|∧|∨|¬|→|↔|←|\(|\)|⊤|⊥/g;
+        return formula.match(regex) || [];
+    }
+
+    parseFormula(formula) {
+        const normalized = this.normalizeFormula(formula);
+        const tokens = this.tokenize(normalized);
+        let pos = 0;
+
+        const parseExpression = () => {
+            let left = parseTerm();
+            while (pos < tokens.length && ['→', '↔', '←', '∧', '∨'].includes(tokens[pos])) {
+                const op = tokens[pos++];
+                const right = parseTerm();
+                left = { type: 'binary', operator: op, left, right };
+            }
+            return left;
+        };
+
+        const parseTerm = () => {
+            if (tokens[pos] === '¬') {
+                pos++;
+                return { type: 'unary', operator: '¬', operand: parseTerm() };
+            }
+            if (tokens[pos] === '(') {
+                pos++;
+                const expr = parseExpression();
+                if (tokens[pos] === ')') pos++;
+                return expr;
+            }
+            if (tokens[pos] === '⊤') { pos++; return { type: 'constant', value: true }; }
+            if (tokens[pos] === '⊥') { pos++; return { type: 'constant', value: false }; }
+            const atom = tokens[pos++];
+            return { type: 'atom', name: atom };
+        };
+
+        return parseExpression();
+    }
+
+    formulasEqual(f1, f2) {
+        if (!f1 || !f2) return false;
+        if (f1.type !== f2.type) return false;
+        if (f1.type === 'atom') return f1.name === f2.name;
+        if (f1.type === 'constant') return f1.value === f2.value;
+        if (f1.type === 'unary') {
+            return f1.operator === f2.operator && this.formulasEqual(f1.operand, f2.operand);
+        }
+        if (f1.type === 'binary') {
+            return f1.operator === f2.operator &&
+                   this.formulasEqual(f1.left, f2.left) &&
+                   this.formulasEqual(f1.right, f2.right);
+        }
+        return false;
+    }
+
+    verifyModusPonens(premises, conclusion) {
+        if (premises.length < 2) return { valid: false, error: 'MP requer 2 premissas: P → Q e P' };
+        let implication = null, antecedent = null;
+        for (const prem of premises) {
+            if (prem.type === 'binary' && prem.operator === '→') implication = prem;
+            else antecedent = prem;
+        }
+        if (!implication) return { valid: false, error: 'Nenhuma implicação encontrada nas premissas' };
+        if (!this.formulasEqual(implication.left, antecedent))
+            return { valid: false, error: 'O antecedente não corresponde à premissa menor' };
+        if (!this.formulasEqual(implication.right, conclusion))
+            return { valid: false, error: 'A conclusão não corresponde ao consequente' };
+        return { valid: true, message: 'Modus Ponens aplicado corretamente' };
+    }
+
+    verifyModusTollens(premises, conclusion) {
+        if (premises.length < 2) return { valid: false, error: 'MT requer 2 premissas: P → Q e ¬Q' };
+        let implication = null, negConsequent = null;
+        for (const prem of premises) {
+            if (prem.type === 'binary' && prem.operator === '→') implication = prem;
+            else if (prem.type === 'unary' && prem.operator === '¬') negConsequent = prem;
+        }
+        if (!implication || !negConsequent) return { valid: false, error: 'Estrutura incorreta para MT' };
+        if (!this.formulasEqual(implication.right, negConsequent.operand))
+            return { valid: false, error: '¬Q não corresponde ao consequente da implicação' };
+        if (conclusion.type !== 'unary' || conclusion.operator !== '¬' ||
+            !this.formulasEqual(conclusion.operand, implication.left))
+            return { valid: false, error: 'Conclusão deve ser ¬P' };
+        return { valid: true, message: 'Modus Tollens aplicado corretamente' };
+    }
+
+    verifyConjunctionElim(premises, conclusion) {
+        if (premises.length !== 1) return { valid: false, error: '∧E requer 1 premissa: P ∧ Q' };
+        const prem = premises[0];
+        if (prem.type !== 'binary' || prem.operator !== '∧')
+            return { valid: false, error: 'Premissa não é uma conjunção' };
+        if (!this.formulasEqual(prem.left, conclusion) && !this.formulasEqual(prem.right, conclusion))
+            return { valid: false, error: 'Conclusão não é parte da conjunção' };
+        return { valid: true, message: 'Eliminação da conjunção aplicada corretamente' };
+    }
+
+    verifyConjunctionIntro(premises, conclusion) {
+        if (premises.length < 2) return { valid: false, error: '∧I requer 2 premissas: P e Q' };
+        if (conclusion.type !== 'binary' || conclusion.operator !== '∧')
+            return { valid: false, error: 'Conclusão não é uma conjunção' };
+        const leftMatch = premises.some(p => this.formulasEqual(p, conclusion.left));
+        const rightMatch = premises.some(p => this.formulasEqual(p, conclusion.right));
+        if (!leftMatch || !rightMatch)
+            return { valid: false, error: 'Premissas não correspondem aos componentes da conjunção' };
+        return { valid: true, message: 'Introdução da conjunção aplicada corretamente' };
+    }
+
+    verifyDisjunctionIntro(premises, conclusion) {
+        if (premises.length !== 1) return { valid: false, error: '∨I requer 1 premissa' };
+        if (conclusion.type !== 'binary' || conclusion.operator !== '∨')
+            return { valid: false, error: 'Conclusão não é uma disjunção' };
+        if (!this.formulasEqual(premises[0], conclusion.left) && !this.formulasEqual(premises[0], conclusion.right))
+            return { valid: false, error: 'Premissa não corresponde a nenhum disjunto' };
+        return { valid: true, message: 'Introdução da disjunção aplicada corretamente' };
+    }
+
+    verifyDisjunctionElim(premises, conclusion) {
+        return { valid: false, error: '∨E (Prova por Casos) requer estrutura especial com subprovas' };
+    }
+
+    verifyImplicationIntro(premises, conclusion) {
+        return { valid: false, error: '→I requer dedução natural com hipóteses. Use formato de subprova.' };
+    }
+
+    verifyNegationIntro(premises, conclusion) {
+        if (conclusion.type === 'unary' && conclusion.operator === '¬')
+            return { valid: true, message: '¬I: Redução ao absurdo aceita (verificação simplificada)' };
+        return { valid: false, error: '¬I requer conclusão do tipo ¬P' };
+    }
+
+    verifyNegationElim(premises, conclusion) {
+        for (const prem of premises) {
+            if (prem.type === 'unary' && prem.operator === '¬' &&
+                this.formulasEqual(prem.operand, conclusion))
+                return { valid: true, message: '¬E: Dupla negação eliminada' };
+        }
+        return { valid: false, error: '¬E requer premissa ¬¬P para concluir P' };
+    }
+
+    verifyBiconditionalIntro(premises, conclusion) {
+        return { valid: false, error: '↔I requer duas implicações. Use ↔E para separar.' };
+    }
+
+    verifyBiconditionalElim(premises, conclusion) {
+        if (premises.length !== 1) return { valid: false, error: '↔E requer 1 premissa: P ↔ Q' };
+        const prem = premises[0];
+        if (prem.type !== 'binary' || prem.operator !== '↔')
+            return { valid: false, error: 'Premissa não é uma bicondicional' };
+        if (conclusion.type === 'binary' && conclusion.operator === '→') {
+            if ((this.formulasEqual(conclusion.left, prem.left) && this.formulasEqual(conclusion.right, prem.right)) ||
+                (this.formulasEqual(conclusion.left, prem.right) && this.formulasEqual(conclusion.right, prem.left)))
+                return { valid: true, message: '↔E: Implicação extraída da bicondicional' };
+        }
+        return { valid: false, error: '↔E deve extrair P → Q ou Q → P' };
+    }
+
+    verifyAbsurdity(premises, conclusion) {
+        const hasContradiction = premises.some((p, i) => 
+            premises.some((q, j) => i !== j && 
+                ((p.type === 'unary' && p.operator === '¬' && this.formulasEqual(p.operand, q)) ||
+                 (q.type === 'unary' && q.operator === '¬' && this.formulasEqual(q.operand, p)))
+            )
+        );
+        if (hasContradiction) return { valid: true, message: 'Absurdo (⊥): Contradição encontrada' };
+        return { valid: false, error: 'Absurdo requer P e ¬P simultaneamente' };
+    }
+
+    verifyRule(ruleName, premises, conclusion, lineNumbers) {
+        const rule = ruleName.toUpperCase().replace(/\s+/g, '');
+        const rules = {
+            'MP': () => this.verifyModusPonens(premises, conclusion),
+            'MODUSPONENS': () => this.verifyModusPonens(premises, conclusion),
+            'MT': () => this.verifyModusTollens(premises, conclusion),
+            'MODUSTOLLENS': () => this.verifyModusTollens(premises, conclusion),
+            '∧E': () => this.verifyConjunctionElim(premises, conclusion),
+            '∧I': () => this.verifyConjunctionIntro(premises, conclusion),
+            '∨I': () => this.verifyDisjunctionIntro(premises, conclusion),
+            '∨E': () => this.verifyDisjunctionElim(premises, conclusion),
+            '→I': () => this.verifyImplicationIntro(premises, conclusion),
+            '¬I': () => this.verifyNegationIntro(premises, conclusion),
+            '¬E': () => this.verifyNegationElim(premises, conclusion),
+            '↔I': () => this.verifyBiconditionalIntro(premises, conclusion),
+            '↔E': () => this.verifyBiconditionalElim(premises, conclusion),
+            'ABS': () => this.verifyAbsurdity(premises, conclusion),
+        };
+        if (rules[rule]) return rules[rule]();
+        return { valid: false, error: `Regra "${ruleName}" não reconhecida` };
+    }
+
+    parseDemonstrationLine(line) {
+        const regex = /^(\d+)\.\s+(.+?)\s*(?:\((.+)\))?\s*$/;
+        const match = line.match(regex);
+        if (!match) return { error: 'Formato inválido. Use: N. FÓRMULA (REGRA LINHAS)' };
+        return {
+            number: parseInt(match[1]),
+            formula: match[2].trim(),
+            justification: match[3] ? match[3].trim() : ''
+        };
+    }
+
+    compileDemonstration(demonstration, premisesList) {
+        this.premises = new Set(premisesList.map(p => this.normalizeFormula(p)));
+        this.provenLines = new Map();
+        const lines = demonstration.split('\n').filter(l => l.trim());
+        const results = [];
+        let allValid = true;
+
+        for (let i = 0; i < lines.length; i++) {
+            const parsed = this.parseDemonstrationLine(lines[i]);
+            if (parsed.error) {
+                results.push({ line: i + 1, valid: false, error: parsed.error });
+                allValid = false;
+                continue;
+            }
+
+            let justification = parsed.justification.toLowerCase();
+            let formula;
+            try {
+                formula = this.parseFormula(parsed.formula);
+            } catch(e) {
+                results.push({ line: parsed.number, valid: false, error: 'Fórmula mal formada', formula: parsed.formula });
+                allValid = false;
+                continue;
+            }
+
+            if (justification.includes('prem') || justification.includes('premissa')) {
+                if (this.premises.has(this.normalizeFormula(parsed.formula))) {
+                    this.provenLines.set(parsed.number, formula);
+                    results.push({ line: parsed.number, valid: true, message: 'Premissa aceita', formula: parsed.formula });
+                } else {
+                    results.push({ line: parsed.number, valid: false, error: `"${parsed.formula}" não está nas premissas`, formula: parsed.formula });
+                    allValid = false;
+                }
+                continue;
+            }
+
+            const justParts = justification.split(/[\s,]+/);
+            const ruleName = justParts[0];
+            const refLines = justParts.slice(1).map(l => parseInt(l)).filter(n => !isNaN(n));
+
+            if (!ruleName) {
+                results.push({ line: parsed.number, valid: false, error: 'Justificativa ausente', formula: parsed.formula });
+                allValid = false;
+                continue;
+            }
+
+            const referencedFormulas = refLines.map(n => this.provenLines.get(n)).filter(f => f !== undefined);
+            if (referencedFormulas.length !== refLines.length) {
+                results.push({ line: parsed.number, valid: false, error: 'Linhas de referência não encontradas', formula: parsed.formula });
+                allValid = false;
+                continue;
+            }
+
+            const verification = this.verifyRule(ruleName, referencedFormulas, formula, refLines);
+            if (verification.valid) {
+                this.provenLines.set(parsed.number, formula);
+            } else {
+                allValid = false;
+            }
+
+            results.push({
+                line: parsed.number,
+                valid: verification.valid,
+                message: verification.message || verification.error,
+                formula: parsed.formula,
+                rule: ruleName.toUpperCase(),
+                references: refLines
+            });
+        }
+
+        return {
+            valid: allValid,
+            steps: results,
+            totalSteps: results.length,
+            validSteps: results.filter(r => r.valid).length
+        };
+    }
+}
+
+// ==============================================================
 // BANCO DE QUESTÕES
 // ==============================================================
 const QUESTOES = [
-    { id: 1, expr: "C, S -> A, C -> S  |-  A", hint: "Use Modus Ponens duas vezes", keywords: ["MP", "Modus Ponens"], minLength: 30 },
-    { id: 2, expr: "P ∧ Q  |-  Q ∧ P", hint: "Comutatividade da conjunção", keywords: ["∧E", "∧I", "comutatividade"], minLength: 25 },
-    { id: 3, expr: "P  |-  P ∧ P", hint: "Idempotência", keywords: ["∧I", "idempotência"], minLength: 20 },
-    { id: 4, expr: "P, ¬(P -> Q)  |-  (R ∧ S) ∨ Q", hint: "¬(P->Q) equivale a P ∧ ¬Q", keywords: ["¬(P->Q)", "DeMorgan", "∨I"], minLength: 40 },
-    { id: 5, expr: "P  |-  P ∨ P", hint: "Idempotência da disjunção", keywords: ["∨I", "idempotência"], minLength: 15 },
-    { id: 6, expr: "S ∨ D, S -> F, D -> F  |-  F", hint: "Prova por casos", keywords: ["∨E", "casos"], minLength: 50 },
-    { id: 7, expr: "P <-> Q  |-  Q <-> P", hint: "Simetria da bicondicional", keywords: ["<->", "simetria"], minLength: 25 },
-    { id: 8, expr: "P -> Q, P ∧ R  |-  Q", hint: "Simplificação + MP", keywords: ["∧E", "MP"], minLength: 30 },
-    { id: 9, expr: "P ∧ Q, (P ∨ R) -> S  |-  P ∧ S", hint: "Simplificação, ∨I, MP", keywords: ["∧E", "∨I", "MP"], minLength: 45 },
-    { id: 10, expr: "P -> (Q -> R), P -> Q, P  |-  R", hint: "MP duplo", keywords: ["MP"], minLength: 40 },
-    { id: 11, expr: "(P ∨ Q) -> R, (R ∨ Q) -> (P -> (S <-> T)), P ∧ S  |-  S <-> T", hint: "MP e equivalências", keywords: ["MP", "∧E", "<->I"], minLength: 60 },
-    { id: 12, expr: "P  |-  (P -> Q) -> Q", hint: "Teorema da exportação", keywords: ["->I", "MP"], minLength: 35 },
-    { id: 13, expr: "(P ∧ Q) -> R  |-  P -> (Q -> R)", hint: "Exportação", keywords: ["->I", "∧I"], minLength: 45 },
-    { id: 14, expr: "P ∨ Q  |-  Q ∨ P", hint: "Comutatividade da disjunção", keywords: ["∨E"], minLength: 30 },
-    { id: 15, expr: "(P ∧ Q) ∨ (P ∧ R)  |-  P ∧ (Q ∨ R)", hint: "Distributividade", keywords: ["distributividade", "∨E", "∧I"], minLength: 55 },
-    { id: 16, expr: "P <-> ¬Q  |-  ¬(P ∧ Q)", hint: "Bicondicional com negação", keywords: ["<->", "contradição"], minLength: 40 },
-    { id: 17, expr: "¬P -> P  |-  P", hint: "Lei de Clavius", keywords: ["Clavius", "absurdo"], minLength: 35 },
-    { id: 18, expr: "¬(¬P ∧ ¬Q), ¬P  |-  Q", hint: "DeMorgan + silogismo disjuntivo", keywords: ["DeMorgan", "∨E"], minLength: 40 },
-    { id: 19, expr: "¬P ∨ ¬Q  |-  ¬(P ∧ Q)", hint: "DeMorgan", keywords: ["DeMorgan"], minLength: 35 },
-    { id: 20, expr: "P -> Q  |-  ¬P ∨ Q", hint: "Equivalência material", keywords: ["equivalência material"], minLength: 30 },
-    { id: 21, expr: "¬(P ∧ Q)  |-  ¬P ∨ ¬Q", hint: "DeMorgan", keywords: ["DeMorgan"], minLength: 35 },
-    { id: 22, expr: "¬(P ∨ Q)  |-  ¬P ∧ ¬Q", hint: "DeMorgan para ∨", keywords: ["DeMorgan", "∧I"], minLength: 40 },
-    { id: 23, expr: "(G ∨ N) -> ¬C  |-  ¬C -> ¬(G ∨ N)", hint: "Contrapositiva", keywords: ["contrapositiva"], minLength: 30 },
-    { id: 24, expr: "P  |-  Q -> P", hint: "Weakening", keywords: ["->I"], minLength: 20 },
-    { id: 25, expr: "(P ∨ Q) ∧ (P ∨ R)  |-  P -> (Q ∧ R)", hint: "Distribuição", keywords: ["∧E", "∨E", "∧I"], minLength: 50 },
-    { id: 26, expr: "(P ∨ Q) ∨ R, (Q ∨ R) -> S  |-  P -> S", hint: "Associatividade + MP", keywords: ["∨I", "MP"], minLength: 45 },
-    { id: 27, expr: "P -> (Q -> ¬R), R  |-  P ∨ ¬Q", hint: "Modus Tollens", keywords: ["MT", "absurdo"], minLength: 50 },
-    { id: 28, expr: "¬P ∨ ¬Q, R -> P, ¬Q ∨ ¬S  |-  S ∨ ¬R", hint: "Resolução", keywords: ["resolução", "silogismo disjuntivo"], minLength: 55 },
-    { id: 29, expr: "P <- Q, Q <- R  |-  P <- R", hint: "Transitividade", keywords: ["<-", "transitividade"], minLength: 30 },
-    { id: 30, expr: "P <- Q  |-  P <- ¬Q", hint: "Contraposição", keywords: ["<-", "contraposição"], minLength: 30 },
-    { id: 31, expr: "¬P ∨ Q  |-  ¬(P ∧ ¬Q)", hint: "DeMorgan", keywords: ["DeMorgan"], minLength: 25 },
-    { id: 32, expr: "P -> Q, P -> ¬Q  |-  ¬P", hint: "Redução ao absurdo", keywords: ["absurdo", "¬I"], minLength: 40 },
-    { id: 33, expr: "(P -> Q) ∧ (P -> R)  |-  P -> (Q ∧ R)", hint: "Combinação", keywords: ["∧E", "MP", "∧I"], minLength: 35 },
-    { id: 34, expr: "P -> Q  |-  (P ∧ R) -> (Q ∧ R)", hint: "Monotonicidade", keywords: ["∧E", "MP", "∧I"], minLength: 40 },
-    { id: 35, expr: "P -> Q  |-  (P ∨ R) -> (Q ∨ R)", hint: "Monotonicidade", keywords: ["∨E", "MP", "∨I"], minLength: 45 },
-    { id: 36, expr: "¬P  |-  P -> Q", hint: "Princípio da explosão", keywords: ["explosão", "ex falso"], minLength: 30 },
-    { id: 37, expr: "P ∧ Q  |-  P -> Q", hint: "Simplificação", keywords: ["∧E", "->I"], minLength: 25 }
+    { id: 1, expr: "C, S → A, C → S  |-  A", hint: "Use Modus Ponens duas vezes", minLength: 30 },
+    { id: 2, expr: "P ∧ Q  |-  Q ∧ P", hint: "Comutatividade da conjunção", minLength: 25 },
+    { id: 3, expr: "P  |-  P ∧ P", hint: "Idempotência", minLength: 20 },
+    { id: 4, expr: "P, ¬(P → Q)  |-  (R ∧ S) ∨ Q", hint: "¬(P→Q) equivale a P ∧ ¬Q", minLength: 40 },
+    { id: 5, expr: "P  |-  P ∨ P", hint: "Idempotência da disjunção", minLength: 15 },
+    { id: 6, expr: "S ∨ D, S → F, D → F  |-  F", hint: "Prova por casos", minLength: 50 },
+    { id: 7, expr: "P ↔ Q  |-  Q ↔ P", hint: "Simetria da bicondicional", minLength: 25 },
+    { id: 8, expr: "P → Q, P ∧ R  |-  Q", hint: "Simplificação + MP", minLength: 30 },
+    { id: 9, expr: "P ∧ Q, (P ∨ R) → S  |-  P ∧ S", hint: "Simplificação, ∨I, MP", minLength: 45 },
+    { id: 10, expr: "P → (Q → R), P → Q, P  |-  R", hint: "MP duplo", minLength: 40 },
+    { id: 11, expr: "(P ∨ Q) → R, (R ∨ Q) → (P → (S ↔ T)), P ∧ S  |-  S ↔ T", hint: "MP e equivalências", minLength: 60 },
+    { id: 12, expr: "P  |-  (P → Q) → Q", hint: "Teorema da exportação", minLength: 35 },
+    { id: 13, expr: "(P ∧ Q) → R  |-  P → (Q → R)", hint: "Exportação", minLength: 45 },
+    { id: 14, expr: "P ∨ Q  |-  Q ∨ P", hint: "Comutatividade da disjunção", minLength: 30 },
+    { id: 15, expr: "(P ∧ Q) ∨ (P ∧ R)  |-  P ∧ (Q ∨ R)", hint: "Distributividade", minLength: 55 },
+    { id: 16, expr: "P ↔ ¬Q  |-  ¬(P ∧ Q)", hint: "Bicondicional com negação", minLength: 40 },
+    { id: 17, expr: "¬P → P  |-  P", hint: "Lei de Clavius", minLength: 35 },
+    { id: 18, expr: "¬(¬P ∧ ¬Q), ¬P  |-  Q", hint: "DeMorgan + silogismo disjuntivo", minLength: 40 },
+    { id: 19, expr: "¬P ∨ ¬Q  |-  ¬(P ∧ Q)", hint: "DeMorgan", minLength: 35 },
+    { id: 20, expr: "P → Q  |-  ¬P ∨ Q", hint: "Equivalência material", minLength: 30 },
+    { id: 21, expr: "¬(P ∧ Q)  |-  ¬P ∨ ¬Q", hint: "DeMorgan", minLength: 35 },
+    { id: 22, expr: "¬(P ∨ Q)  |-  ¬P ∧ ¬Q", hint: "DeMorgan para ∨", minLength: 40 },
+    { id: 23, expr: "(G ∨ N) → ¬C  |-  ¬C → ¬(G ∨ N)", hint: "Contrapositiva", minLength: 30 },
+    { id: 24, expr: "P  |-  Q → P", hint: "Weakening", minLength: 20 },
+    { id: 25, expr: "(P ∨ Q) ∧ (P ∨ R)  |-  P → (Q ∧ R)", hint: "Distribuição", minLength: 50 },
+    { id: 26, expr: "(P ∨ Q) ∨ R, (Q ∨ R) → S  |-  P → S", hint: "Associatividade + MP", minLength: 45 },
+    { id: 27, expr: "P → (Q → ¬R), R  |-  P ∨ ¬Q", hint: "Modus Tollens", minLength: 50 },
+    { id: 28, expr: "¬P ∨ ¬Q, R → P, ¬Q ∨ ¬S  |-  S ∨ ¬R", hint: "Resolução", minLength: 55 },
+    { id: 29, expr: "P ← Q, Q ← R  |-  P ← R", hint: "Transitividade", minLength: 30 },
+    { id: 30, expr: "P ← Q  |-  P ← ¬Q", hint: "Contraposição", minLength: 30 },
+    { id: 31, expr: "¬P ∨ Q  |-  ¬(P ∧ ¬Q)", hint: "DeMorgan", minLength: 25 },
+    { id: 32, expr: "P → Q, P → ¬Q  |-  ¬P", hint: "Redução ao absurdo", minLength: 40 },
+    { id: 33, expr: "(P → Q) ∧ (P → R)  |-  P → (Q ∧ R)", hint: "Combinação", minLength: 35 },
+    { id: 34, expr: "P → Q  |-  (P ∧ R) → (Q ∧ R)", hint: "Monotonicidade", minLength: 40 },
+    { id: 35, expr: "P → Q  |-  (P ∨ R) → (Q ∨ R)", hint: "Monotonicidade", minLength: 45 },
+    { id: 36, expr: "¬P  |-  P → Q", hint: "Princípio da explosão", minLength: 30 },
+    { id: 37, expr: "P ∧ Q  |-  P → Q", hint: "Simplificação", minLength: 25 }
 ];
-
-// ==============================================================
-// FUNÇÃO VERIFICADORA
-// ==============================================================
-function verificarResposta(resposta, questao) {
-    if (!resposta || resposta.trim().length < questao.minLength) {
-        return { pass: false, reason: "Resposta muito curta (mínimo " + questao.minLength + " caracteres)." };
-    }
-    const lowerResposta = resposta.toLowerCase();
-    let keywordsFound = 0;
-    for (let kw of questao.keywords) {
-        if (lowerResposta.includes(kw.toLowerCase())) keywordsFound++;
-    }
-    if (keywordsFound === 0) {
-        return { pass: false, reason: "Nenhuma regra reconhecida. Use: " + questao.keywords.slice(0, 3).join(", ") };
-    }
-    if (!/\d+\./.test(resposta)) {
-        return { pass: false, reason: "Use numeração (1., 2., ...) para cada passo." };
-    }
-    return { pass: true, reason: "Correto! Usou " + keywordsFound + " regra(s)." };
-}
 
 // ==============================================================
 // STORAGE
@@ -459,19 +746,82 @@ function toggleExpand(wrapperId) {
     }
 }
 
+// ==============================================================
+// FUNÇÃO DE VERIFICAÇÃO COM MATE.JS
+// ==============================================================
+function compilarDemonstracao(questaoId) {
+    const compiler = new LogicCompiler();
+    const resposta = savedAnswers[questaoId] || '';
+    const questao = QUESTOES.find(q => q.id === questaoId);
+    
+    if (!resposta.trim()) {
+        return { error: 'Nenhuma demonstração fornecida' };
+    }
+    
+    const exprParts = questao.expr.split('|-');
+    const premisesStr = exprParts[0].trim();
+    const premises = premisesStr.split(',').map(p => p.trim());
+    
+    const result = compiler.compileDemonstration(resposta, premises);
+    
+    return {
+        ...result,
+        questao: questao.expr,
+        premises,
+        conclusion: exprParts[1] ? exprParts[1].trim() : ''
+    };
+}
+
+function exibirResultadoCompilacao(resultado, questaoId) {
+    const resultBox = document.getElementById('result-' + questaoId);
+    const q = QUESTOES.find(qq => qq.id === questaoId);
+    
+    if (resultado.error) {
+        resultBox.className = 'result-box fail show';
+        resultBox.innerHTML = `<strong>✗ Erro: ${resultado.error}</strong><br><br>💡 Dica: ${q.hint}`;
+        return;
+    }
+    
+    let html = '';
+    
+    if (resultado.valid) {
+        html += '<div style="color: #10b981; font-size: 16px;"><strong>✓ Demonstração VÁLIDA!</strong></div>';
+    } else {
+        html += '<div style="color: #ef4444; font-size: 16px;"><strong>✗ Demonstração INVÁLIDA</strong></div>';
+    }
+    
+    html += `<div style="margin-top: 10px;">📊 Passos: ${resultado.validSteps}/${resultado.totalSteps} válidos</div>`;
+    html += '<div style="margin-top: 10px; max-height: 200px; overflow-y: auto;">';
+    
+    resultado.steps.forEach(step => {
+        const color = step.valid ? '#10b981' : '#ef4444';
+        const icon = step.valid ? '✓' : '✗';
+        html += `<div style="color: ${color}; margin: 8px 0; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">${icon} <strong>Linha ${step.line}:</strong> ${step.formula || ''} <span style="font-size: 12px; opacity: 0.8;">— ${step.message}</span></div>`;
+    });
+    
+    html += '</div>';
+    
+    if (!resultado.valid) {
+        html += `<br><div style="margin-top: 12px;">💡 <strong>Dica:</strong> ${q.hint}</div>`;
+    }
+    
+    resultBox.className = 'result-box ' + (resultado.valid ? 'success' : 'fail') + ' show';
+    resultBox.innerHTML = html;
+}
+
 function verificarQuestao(id) {
-    const q = QUESTOES.find(qq => qq.id === id);
-    const resposta = savedAnswers[id] || "";
-    const result = verificarResposta(resposta, q);
-    verifiedStatus[id] = result.pass ? 'correct' : 'wrong';
+    const resultado = compilarDemonstracao(id);
+    exibirResultadoCompilacao(resultado, id);
+    
+    if (!resultado.error) {
+        verifiedStatus[id] = resultado.valid ? 'correct' : 'wrong';
+    } else {
+        verifiedStatus[id] = 'wrong';
+    }
+    
     persistAll();
     updateStats();
     renderNavButtons();
-    const rb = document.getElementById("result-" + id);
-    if (rb) {
-        rb.className = "result-box " + (result.pass ? "success" : "fail") + " show";
-        rb.innerHTML = result.pass ? "<strong>✓ " + result.reason + "</strong>" : "<strong>✗ " + result.reason + "</strong><br><br>💡 Dica: " + q.hint;
-    }
     renderCurrentQuest();
 }
 
@@ -483,13 +833,13 @@ function renderCurrentQuest() {
     const statusHtml = isCorrect ? '<div class="status-badge status-correct">✓ Correta</div>' : (verifiedStatus[q.id] === 'wrong' ? '<div class="status-badge status-wrong">✗ Incorreta</div>' : '');
     const cardHtml = `
         <div class="quest-header"><span class="quest-number">Questão ${q.id}</span><div>${statusHtml}</div></div>
-        <div class="expression-box">|- ${q.expr}</div>
+        <div class="expression-box">|- ${escapeHtml(q.expr)}</div>
         <div class="answer-expandable"><div class="editor-wrapper" id="${wrapperId}">
-            <div class="editor-header"><span>📝 Sua demonstração</span><button class="btn-expand" onclick="toggleExpand('${wrapperId}')">⛶ Expandir</button></div>
-            <textarea class="answer-textarea" id="answer-${q.id}" rows="10" placeholder="Exemplo:&#10;1. C (Premissa)&#10;2. C -> S (Premissa)&#10;3. S (MP 1,2)&#10;4. S -> A (Premissa)&#10;5. A (MP 3,4)">${escapeHtml(savedVal)}</textarea>
+            <div class="editor-header"><span>📝 Sua demonstração (Mate.js compilará cada passo)</span><button class="btn-expand" onclick="toggleExpand('${wrapperId}')">⛶ Expandir</button></div>
+            <textarea class="answer-textarea" id="answer-${q.id}" rows="10" placeholder="Exemplo:&#10;1. C (Premissa)&#10;2. C → S (Premissa)&#10;3. S (MP 1,2)&#10;4. S → A (Premissa)&#10;5. A (MP 3,4)">${escapeHtml(savedVal)}</textarea>
         </div></div>
         <div class="action-buttons">
-            ${!isCorrect ? `<button class="btn btn-primary" id="checkBtn-${q.id}">🔍 Verificar</button><button class="btn btn-outline" id="hintBtn-${q.id}">💡 Dica</button>` : `<span style="background:rgba(16,185,129,0.2);padding:8px 20px;border-radius:40px;">✓ Verificada como correta!</span><button class="btn btn-danger" id="resetQuestBtn-${q.id}">🔄 Revisar</button>`}
+            ${!isCorrect ? `<button class="btn btn-primary" id="checkBtn-${q.id}">🔍 Compilar com Mate.js</button><button class="btn btn-outline" id="hintBtn-${q.id}">💡 Dica</button>` : `<span style="background:rgba(16,185,129,0.2);padding:8px 20px;border-radius:40px;">✓ Verificada como correta!</span><button class="btn btn-danger" id="resetQuestBtn-${q.id}">🔄 Revisar</button>`}
         </div>
         <div class="result-box" id="result-${q.id}"></div>
         <div class="hint-box" id="hint-${q.id}">💡 ${q.hint}</div>
@@ -518,8 +868,7 @@ function clearAll() {
 }
 
 // ==============================================================
-// PDF EXPORT - RESPOSTA: (sem barra), fonte maior, negrito
-// Expressão da questão também em negrito
+// PDF EXPORT
 // ==============================================================
 async function exportToPDF() {
     const toast = document.createElement("div");
@@ -575,5 +924,6 @@ init();
 </script>
 <script src="JS/footer.js"></script>
 <script src="JS/sidebar.js"></script>
+<script src="JS/Mate.js"></script>
 </body>
 </html>
