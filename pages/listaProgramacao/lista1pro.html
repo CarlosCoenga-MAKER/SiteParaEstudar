@@ -2,8 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <base href="../../">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Exercícios 4 · Programação C (While)</title>
+    <title>Lista de Exercícios 1 · Programação C</title>
     <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="Style/style.css">
     <style>
@@ -20,7 +21,6 @@
             --correct: #2ecc71;
             --wrong: #e74c3c;
             --warning: #fadc6d;
-            --info: #6dcffa;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,36 +56,9 @@
         .subtitle {
             text-align: center;
             color: var(--muted);
-            margin-bottom: 5px;
+            margin-bottom: 15px;
             font-size: 16px;
         }
-
-        .tag-while {
-            display: inline-block;
-            background: rgba(124,109,250,0.15);
-            color: var(--accent);
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .obs-box {
-            background: rgba(109,207,250,0.08);
-            border: 2px solid rgba(109,207,250,0.25);
-            border-radius: 12px;
-            padding: 14px 18px;
-            margin-bottom: 15px;
-            color: var(--info);
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .obs-box .icon { font-size: 22px; }
 
         .quest-nav {
             display: flex; gap: 8px; flex-wrap: wrap;
@@ -115,9 +88,6 @@
         .quest-points { background: rgba(250,220,109,0.15); color: var(--warning); padding: 5px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; }
         .quest-title { font-size: 22px; font-weight: 700; margin-bottom: 15px; color: #fff; }
         .quest-desc { color: var(--muted); margin-bottom: 18px; line-height: 1.8; font-size: 16px; }
-        .quest-desc p { margin-bottom: 8px; }
-        .quest-desc ul { list-style-position: inside; margin: 10px 0; }
-        .quest-desc ul li { margin-bottom: 6px; }
         .quest-example { background: #0a0a0d; border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 18px; }
         .quest-example h4 { color: var(--accent2); margin-bottom: 8px; font-size: 15px; }
         .quest-example pre { font-family: 'Fira Code', monospace; font-size: 14px; color: var(--muted); white-space: pre-wrap; line-height: 1.6; }
@@ -386,24 +356,16 @@
     <div class="hamburger-line"></div>
 </div>
 
-
 <div class="container">
-    <h1>📝 Lista de Exercícios 4</h1>
-    <p class="subtitle">Programação em Linguagem C · 10 Exercícios</p>
-    <div style="text-align:center;">
-        <span class="tag-while">🔁 Comando While</span>
-    </div>
-    <div class="obs-box">
-        <span class="icon">📌</span>
-        <span><strong>Observação:</strong> Todos os programas devem ser desenvolvidos em linguagem C. <strong>Utilize o comando while</strong>.</span>
-    </div>
+    <h1>📝 Lista de Exercícios 1</h1>
+    <p class="subtitle">Programação em Linguagem C · 6 Exercícios</p>
     
     <div class="progress-container">
         <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
     </div>
 
     <div class="score-bar">
-        <span style="font-weight:700;">✅ <span id="correct-count">0</span> / <span id="total-quest">10</span></span>
+        <span style="font-weight:700;">✅ <span id="correct-count">0</span> / <span id="total-quest">6</span></span>
         <span style="font-weight:700;">⭐ <span id="total-score">0</span> pontos</span>
         <span style="color: var(--accent2); font-weight: 700;">🟢 GCC Online</span>
         <button class="btn-hint" onclick="resetProgress()" style="font-size: 13px; padding: 6px 14px;">🔄 Resetar Progresso</button>
@@ -417,278 +379,169 @@
 const QUESTOES = [
     {
         id: 1,
-        titulo: "Múltiplos de 7 menores que 1000",
+        titulo: "Média Ponderada de Três Notas",
         pontos: 20,
-        enunciado: `<p>Escreva um programa que <strong>imprima todos os múltiplos de 7</strong>, menores que 1000.</p>
-                    <p style="color:var(--accent2);">Use o comando <code>while</code> para iterar e verificar os múltiplos.</p>`,
-        exemplo: `📤 Saída (primeiros):
-7 14 21 28 35 ... 987 994`,
+        enunciado: `<p>Escreva um programa em linguagem C que <strong>leia três notas e seus respectivos pesos</strong>, calcule e apresente a <strong>média ponderada</strong> dessas notas.</p>
+                    <p style="color:var(--accent2);">Fórmula: Média Ponderada = (n1×p1 + n2×p2 + n3×p3) / (p1 + p2 + p3)</p>`,
+        exemplo: `📥 Entrada:  7.0 8.0 9.0 2 3 5\n📤 Saída:    Media ponderada: 8.30`,
         codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
         testCases: [
             {
-                input: "",
-                expected: "7 14 21 28 35 42 49 56 63 70 77 84 91 98 105 112 119 126 133 140 147 154 161 168 175 182 189 196 203 210 217 224 231 238 245 252 259 266 273 280 287 294 301 308 315 322 329 336 343 350 357 364 371 378 385 392 399 406 413 420 427 434 441 448 455 462 469 476 483 490 497 504 511 518 525 532 539 546 553 560 567 574 581 588 595 602 609 616 623 630 637 644 651 658 665 672 679 686 693 700 707 714 721 728 735 742 749 756 763 770 777 784 791 798 805 812 819 826 833 840 847 854 861 868 875 882 889 896 903 910 917 924 931 938 945 952 959 966 973 980 987 994"
+                input: "7.0 8.0 9.0 2 3 5",
+                expected: "Media ponderada: 8.30"
+            },
+            {
+                input: "5.0 6.0 7.0 1 1 1",
+                expected: "Media ponderada: 6.00"
+            },
+            {
+                input: "10.0 10.0 10.0 5 5 5",
+                expected: "Media ponderada: 10.00"
             }
         ],
-        dica: "Use <code>int i = 7; while (i < 1000) { printf(\"%d \", i); i += 7; }</code> ou verifique com <code>i % 7 == 0</code>."
+        dica: "Leia 6 valores: nota1, nota2, nota3, peso1, peso2, peso3. Use <code>float</code> e <code>%.2f</code> para formatar."
     },
     {
         id: 2,
-        titulo: "Soma de N números (para no zero)",
+        titulo: "Aumento de Salário (25%)",
         pontos: 20,
-        enunciado: `<p>Escreva um programa que <strong>calcule e imprima a soma de N números digitados</strong>.</p>
-                    <p>Caso o usuário digite <strong>zero</strong>, o programa deve <strong>parar a leitura</strong> de números e imprimir o resultado.</p>
-                    <p style="color:var(--warning);">O zero digitado <strong>não deve ser considerado</strong> no cálculo.</p>`,
-        exemplo: `📥 Entrada:  5 10 15 0
-📤 Saída:    Soma: 30`,
+        enunciado: `<p>Escreva um programa em linguagem C que receba como entrada o <strong>valor do salário de um funcionário</strong>, calcule e apresente o <strong>novo salário</strong>, sabendo-se que este sofreu um <strong>aumento de 25%</strong>.</p>`,
+        exemplo: `📥 Entrada:  2000.00\n📤 Saída:    Novo salario: 2500.00`,
         codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
         testCases: [
             {
-                input: "5 10 15 0",
-                expected: "Soma: 30"
+                input: "2000.00",
+                expected: "Novo salario: 2500.00"
             },
             {
-                input: "7 3 0",
-                expected: "Soma: 10"
+                input: "1500.00",
+                expected: "Novo salario: 1875.00"
             },
             {
-                input: "0",
-                expected: "Soma: 0"
-            },
-            {
-                input: "100 200 50 25 0",
-                expected: "Soma: 375"
+                input: "3500.50",
+                expected: "Novo salario: 4375.62"
             }
         ],
-        dica: "Use <code>while(1)</code> com <code>scanf</code>. Se num == 0, dê <code>break</code>. Acumule em <code>soma += num</code>."
+        dica: "Multiplique o salário por 1.25 ou calcule: salario + (salario * 0.25). Use <code>%.2f</code>."
     },
     {
         id: 3,
-        titulo: "Média de N números (para no zero)",
-        pontos: 20,
-        enunciado: `<p>Escreva um programa que <strong>calcule e imprima a média de N números digitados</strong>.</p>
-                    <p>Caso o usuário digite <strong>zero</strong>, o programa deve <strong>parar a leitura</strong> de números e imprimir o resultado.</p>
-                    <p style="color:var(--warning);">O zero digitado <strong>não deve ser considerado</strong> no cálculo.</p>`,
-        exemplo: `📥 Entrada:  8 6 10 0
-📤 Saída:    Media: 8.00`,
+        titulo: "Salário Líquido com Gratificação e Imposto",
+        pontos: 25,
+        enunciado: `<p>Escreva um programa em linguagem C que receba como entrada o <strong>salário bruto</strong> de um funcionário, calcule e apresente o <strong>salário líquido</strong>, sabendo-se que:</p>
+                     <ul style="list-style-position:inside;margin:10px 0;">
+                        <li><strong>Gratificação</strong>: 5% sobre o salário bruto</li>
+                        <li><strong>Imposto</strong>: 7% sobre o salário bruto</li>
+                     </ul>`,
+        exemplo: `📥 Entrada:  3000.00\n📤 Saída:    Salario liquido: 2940.00`,
         codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
         testCases: [
             {
-                input: "8 6 10 0",
-                expected: "Media: 8.00"
+                input: "3000.00",
+                expected: "Salario liquido: 2940.00"
             },
             {
-                input: "7 8 9 0",
-                expected: "Media: 8.00"
+                input: "2500.00",
+                expected: "Salario liquido: 2450.00"
             },
             {
-                input: "5 5 5 5 0",
-                expected: "Media: 5.00"
-            },
-            {
-                input: "10 20 30 0",
-                expected: "Media: 20.00"
+                input: "5000.00",
+                expected: "Salario liquido: 4900.00"
             }
         ],
-        dica: "Conte quantos números foram digitados (exceto o zero). Média = soma / contador. Use <code>float</code>."
+        dica: "liquido = bruto + (bruto * 0.05) - (bruto * 0.07). Simplificando: bruto * 0.98."
     },
     {
         id: 4,
-        titulo: "Maior número digitado (para no zero/negativo)",
-        pontos: 25,
-        enunciado: `<p>Escreva um programa que leia <strong>N números inteiros positivos</strong> e, ao final, informe <strong>qual foi o maior número digitado</strong>.</p>
-                    <p>O programa deve <strong>parar a leitura</strong> dos números quando o usuário digitar <strong>zero ou um número negativo</strong>.</p>`,
-        exemplo: `📥 Entrada:  5 12 8 22 4 0
-📤 Saída:    Maior numero: 22`,
+        titulo: "Conversor Horas/Minutos para Minutos",
+        pontos: 20,
+        enunciado: `<p>Escreva um programa em linguagem C que receba como entrada um <strong>horário formado por horas e minutos</strong>, calcule e apresente o <strong>tempo correspondente em minutos</strong>.</p>`,
+        exemplo: `📥 Entrada:  2 30\n📤 Saída:    Total de minutos: 150`,
         codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
         testCases: [
             {
-                input: "5 12 8 22 4 0",
-                expected: "Maior numero: 22"
+                input: "2 30",
+                expected: "Total de minutos: 150"
             },
             {
-                input: "3 7 2 9 1 -1",
-                expected: "Maior numero: 9"
+                input: "1 0",
+                expected: "Total de minutos: 60"
             },
             {
-                input: "15 0",
-                expected: "Maior numero: 15"
+                input: "0 45",
+                expected: "Total de minutos: 45"
             },
             {
-                input: "10 20 30 40 50 0",
-                expected: "Maior numero: 50"
+                input: "5 15",
+                expected: "Total de minutos: 315"
             }
         ],
-        dica: "Inicialize <code>maior = 0</code>. Para cada número > maior, atualize. Pare quando num <= 0."
+        dica: "Multiplique as horas por 60 e some os minutos. Use variáveis <code>int</code>."
     },
     {
         id: 5,
-        titulo: "Contagem de Pares e Ímpares (para no zero/negativo)",
+        titulo: "Idade Atual e Idade em 2030",
         pontos: 25,
-        enunciado: `<p>Escreva um programa que leia <strong>N números inteiros positivos</strong> e, ao final, informe <strong>quantos números pares e quantos números ímpares</strong> foram digitados.</p>
-                    <p>O programa deve <strong>parar a leitura</strong> dos números quando o usuário digitar <strong>zero ou um número negativo</strong>.</p>`,
-        exemplo: `📥 Entrada:  2 4 7 9 10 0
-📤 Saída:    Pares: 3
-            Impares: 2`,
+        enunciado: `<p>Escreva um programa em linguagem C que receba como entradas o <strong>ano de nascimento</strong> de uma pessoa e o <strong>ano atual</strong>, calcule e apresente:</p>
+                     <ul style="list-style-position:inside;margin:10px 0;">
+                        <li>A <strong>idade desta pessoa</strong> (ano atual - ano de nascimento)</li>
+                        <li><strong>Quantos anos essa pessoa terá em 2030</strong></li>
+                     </ul>`,
+        exemplo: `📥 Entrada:  1990 2024\n📤 Saída:    Idade atual: 34\n            Idade em 2030: 40`,
         codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
         testCases: [
             {
-                input: "2 4 7 9 10 0",
-                expected: "Pares: 3\nImpares: 2"
+                input: "1990 2024",
+                expected: "Idade atual: 34\nIdade em 2030: 40"
             },
             {
-                input: "1 3 5 7 -1",
-                expected: "Pares: 0\nImpares: 4"
+                input: "2000 2024",
+                expected: "Idade atual: 24\nIdade em 2030: 30"
             },
             {
-                input: "2 4 6 8 0",
-                expected: "Pares: 4\nImpares: 0"
-            },
-            {
-                input: "1 2 3 4 5 0",
-                expected: "Pares: 2\nImpares: 3"
+                input: "2010 2024",
+                expected: "Idade atual: 14\nIdade em 2030: 20"
             }
         ],
-        dica: "Use contadores <code>pares</code> e <code>impares</code>. Verifique com <code>num % 2 == 0</code>."
+        dica: "Calcule idade_atual = ano_atual - ano_nascimento. idade_2030 = 2030 - ano_nascimento."
     },
     {
         id: 6,
-        titulo: "Menor número digitado (para no zero/negativo)",
+        titulo: "Cálculo de Degraus para Altura Desejada",
         pontos: 25,
-        enunciado: `<p>Escreva um programa que leia <strong>N números inteiros positivos</strong> e, ao final, informe <strong>qual foi o menor número digitado</strong>.</p>
-                    <p>O programa deve <strong>parar a leitura</strong> dos números quando o usuário digitar <strong>zero ou um número negativo</strong>.</p>`,
-        exemplo: `📥 Entrada:  15 8 22 5 12 0
-📤 Saída:    Menor numero: 5`,
+        enunciado: `<p>Considerando que cada degrau de uma escada tem <strong>X centímetros de altura</strong>, escreva um programa em linguagem C que receba como entradas:</p>
+                     <ul style="list-style-position:inside;margin:10px 0;">
+                        <li>A <strong>altura dos degraus</strong> (em centímetros)</li>
+                        <li>A <strong>altura que o usuário deseja alcançar</strong> subindo a escada (em centímetros)</li>
+                     </ul>
+                     <p>O algoritmo deve calcular e apresentar <strong>quantos degraus</strong> o usuário deverá subir para atingir o seu objetivo.</p>
+                     <p style="color:var(--warning);">O programa <strong>não deve considerar</strong> a altura do usuário.</p>`,
+        exemplo: `📥 Entrada:  20 300\n📤 Saída:    Degraus necessarios: 15`,
         codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
         testCases: [
             {
-                input: "15 8 22 5 12 0",
-                expected: "Menor numero: 5"
+                input: "20 300",
+                expected: "Degraus necessarios: 15"
             },
             {
-                input: "30 20 10 5 -1",
-                expected: "Menor numero: 5"
+                input: "18 270",
+                expected: "Degraus necessarios: 15"
             },
             {
-                input: "100 50 25 0",
-                expected: "Menor numero: 25"
+                input: "15 200",
+                expected: "Degraus necessarios: 14"
             },
             {
-                input: "7 7 7 0",
-                expected: "Menor numero: 7"
+                input: "10 100",
+                expected: "Degraus necessarios: 10"
             }
         ],
-        dica: "Inicialize <code>menor</code> com um valor grande (ex: primeiro número). Compare e atualize."
-    },
-    {
-        id: 7,
-        titulo: "Ímpares menores que N",
-        pontos: 25,
-        enunciado: `<p>Escreva um programa que leia um <strong>número inteiro positivo</strong> e <strong>imprima todos os números ímpares positivos menores</strong> que o número digitado.</p>`,
-        exemplo: `📥 Entrada:  10
-📤 Saída:    1 3 5 7 9`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "10",
-                expected: "1 3 5 7 9"
-            },
-            {
-                input: "7",
-                expected: "1 3 5"
-            },
-            {
-                input: "15",
-                expected: "1 3 5 7 9 11 13"
-            },
-            {
-                input: "2",
-                expected: "1"
-            }
-        ],
-        dica: "Use <code>i = 1; while (i < n) { printf(\"%d \", i); i += 2; }</code>"
-    },
-    {
-        id: 8,
-        titulo: "Intervalo entre X e Y (X < Y garantido)",
-        pontos: 30,
-        enunciado: `<p>Escreva um programa que leia <strong>dois números inteiros positivos (X e Y) diferentes</strong> e imprima todos os números inteiros que estão no <strong>intervalo formado pelos números digitados</strong>.</p>
-                    <p style="color:var(--accent2);">O programa deve <strong>solicitar ao usuário que ele digite os números de forma que X sempre seja menor que Y</strong>.</p>`,
-        exemplo: `📥 Entrada:  3 8
-📤 Saída:    3 4 5 6 7 8`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "3 8",
-                expected: "3 4 5 6 7 8"
-            },
-            {
-                input: "5 10",
-                expected: "5 6 7 8 9 10"
-            },
-            {
-                input: "1 5",
-                expected: "1 2 3 4 5"
-            },
-            {
-                input: "7 12",
-                expected: "7 8 9 10 11 12"
-            }
-        ],
-        dica: "Leia X e Y. Suponha que X < Y (usuário garante). Use <code>while (x <= y) { printf(\"%d \", x); x++; }</code>"
-    },
-    {
-        id: 9,
-        titulo: "Intervalo entre X e Y (detecta menor/maior)",
-        pontos: 35,
-        enunciado: `<p>Escreva um programa que leia <strong>dois números inteiros positivos (X e Y) diferentes</strong> e imprima todos os números inteiros que estão no <strong>intervalo formado pelos números digitados</strong>.</p>
-                    <p style="color:var(--accent2);">O programa deve <strong>testar qual dos números digitados é o menor e qual é o maior</strong>, antes de imprimir os números do intervalo.</p>`,
-        exemplo: `📥 Entrada:  8 3
-📤 Saída:    3 4 5 6 7 8
-
-📥 Entrada:  3 8
-📤 Saída:    3 4 5 6 7 8`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "8 3",
-                expected: "3 4 5 6 7 8"
-            },
-            {
-                input: "3 8",
-                expected: "3 4 5 6 7 8"
-            },
-            {
-                input: "12 7",
-                expected: "7 8 9 10 11 12"
-            },
-            {
-                input: "10 10",
-                expected: "10"
-            }
-        ],
-        dica: "Encontre <code>menor</code> e <code>maior</code> com <code>if</code>. Depois use <code>while (menor <= maior)</code>."
-    },
-    {
-        id: 10,
-        titulo: "Múltiplos de 9 entre 100 e 1000",
-        pontos: 25,
-        enunciado: `<p>Escreva um programa que <strong>imprima todos os múltiplos de 9</strong> que estão no <strong>intervalo entre 100 e 1000</strong>.</p>`,
-        exemplo: `📤 Saída (primeiros):
-108 117 126 135 ... 990 999`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "",
-                expected: "108 117 126 135 144 153 162 171 180 189 198 207 216 225 234 243 252 261 270 279 288 297 306 315 324 333 342 351 360 369 378 387 396 405 414 423 432 441 450 459 468 477 486 495 504 513 522 531 540 549 558 567 576 585 594 603 612 621 630 639 648 657 666 675 684 693 702 711 720 729 738 747 756 765 774 783 792 801 810 819 828 837 846 855 864 873 882 891 900 909 918 927 936 945 954 963 972 981 990 999"
-            }
-        ],
-        dica: "Comece em 108 (primeiro múltiplo de 9 >= 100). Use <code>while (i <= 1000) { printf(\"%d \", i); i += 9; }</code>"
+        dica: "Divida a altura desejada pela altura do degrau. Use <code>ceil()</code> da biblioteca <code>math.h</code> ou verifique se há resto na divisão."
     }
 ];
 
 // ========== LOCALSTORAGE ==========
-const STORAGE_KEY = 'lista4_while_exercicios_c_progress';
+const STORAGE_KEY = 'lista1_exercicios_c_progress';
 
 function loadProgress() {
     try {
@@ -756,7 +609,7 @@ function highlightC(code) {
         .replace(/%[dfsclu]/g, '<span class="format">$&</span>')
         .replace(/\b(int|float|double|char|void|long|short|unsigned|signed|const|static|extern|struct|enum|typedef|sizeof)\b/g, '<span class="type">$1</span>')
         .replace(/\b(if|else|for|while|do|switch|case|break|continue|return|goto|default)\b/g, '<span class="keyword">$1</span>')
-        .replace(/\b(printf|scanf|puts|gets|putchar|getchar|fopen|fclose|fprintf|fscanf|malloc|calloc|free|main|ceil|abs)\b/g, '<span class="function">$1</span>')
+        .replace(/\b(printf|scanf|puts|gets|putchar|getchar|fopen|fclose|fprintf|fscanf|malloc|calloc|free|main|ceil)\b/g, '<span class="function">$1</span>')
         .replace(/\b(\d+\.?\d*)\b/g, '<span class="number">$1</span>')
         .replace(/(\{|\})/g, '<span class="brace">$1</span>');
 }
@@ -808,6 +661,7 @@ let correctCount = 0;
 let currentQuest = 0;
 
 function init() {
+    // Carregar progresso salvo
     const savedProgress = loadProgress();
     questResults = {};
     totalScore = 0;
@@ -827,6 +681,7 @@ function init() {
     document.getElementById('correct-count').textContent = correctCount;
     document.getElementById('total-score').textContent = totalScore;
     
+    // Atualizar barra de progresso
     const progressPercent = (correctCount / QUESTOES.length) * 100;
     document.getElementById('progress-bar').style.width = progressPercent + '%';
     
@@ -881,7 +736,7 @@ function renderQuest(i) {
             </div>
             <div class="test-panel">
                 <h3>🧪 Testes (${q.testCases.length})</h3>
-                ${q.testCases.map((t, i) => `<div class="test-case"><div class="label">Teste ${i+1}</div><div class="value">📥 ${t.input || '(sem entrada)'}</div><div class="value">📤 ${t.expected}</div></div>`).join('')}
+                ${q.testCases.map((t, i) => `<div class="test-case"><div class="label">Teste ${i+1}</div><div class="value">📥 ${t.input}</div><div class="value">📤 ${t.expected}</div></div>`).join('')}
             </div>
         </div>
         <div style="text-align:center;margin-top:20px;">
@@ -905,14 +760,17 @@ function retryQuest(id) {
     const q = QUESTOES.find(x => x.id === id);
     if (!q) return;
     
+    // Remove do progresso
     delete questResults[id];
     
+    // Atualiza localStorage
     const progress = loadProgress();
     delete progress[id];
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
     
-    totalScore = Math.max(0, totalScore - q.pontos);
-    correctCount = Math.max(0, correctCount - 1);
+    // Atualiza pontuação
+    totalScore -= q.pontos;
+    correctCount--;
     
     document.getElementById('total-score').textContent = totalScore;
     document.getElementById('correct-count').textContent = correctCount;
@@ -993,7 +851,7 @@ async function submitCode(id) {
     results.forEach(r => {
         h += `<div style="margin:10px 0;padding:12px;background:rgba(0,0,0,0.3);border-radius:10px;">
             <strong>${r.passed ? '✅' : '❌'} Teste ${r.test}:</strong> 
-            📥 <code>${r.input || '(vazio)'}</code> → 
+            📥 <code>${r.input}</code> → 
             📤 Esperado: <code style="color:#6dfabc;">${r.expected}</code> | 
             Obtido: <code style="color:${r.passed ? '#6dfabc' : '#e74c3c'};">${r.got || '(vazio)'}</code>
             ${r.error ? `<br>⚠️ ${r.error}` : ''}
@@ -1008,6 +866,7 @@ async function submitCode(id) {
         totalScore += q.pontos;
         correctCount++;
         
+        // Salvar no localStorage
         saveProgress(id, 'correct', q.pontos);
         
         document.getElementById('total-score').textContent = totalScore;
@@ -1018,6 +877,7 @@ async function submitCode(id) {
         
         renderNav();
         
+        // Oferecer próxima questão
         const nextIndex = QUESTOES.findIndex(x => x.id === id) + 1;
         if (nextIndex < QUESTOES.length) {
             setTimeout(() => {
@@ -1029,7 +889,7 @@ async function submitCode(id) {
             }, 1000);
         } else {
             setTimeout(() => {
-                alert('🏆 PARABÉNS! Você completou todas as questões da Lista 4!');
+                alert('🏆 PARABÉNS! Você completou todas as questões da Lista 1!');
             }, 1000);
         }
     } else {
@@ -1119,6 +979,5 @@ document.addEventListener('click', function(e) {
 </script>
 <script src="JS/footer.js"></script>
 <script src="JS/sidebar.js"></script>
-
 </body>
 </html>

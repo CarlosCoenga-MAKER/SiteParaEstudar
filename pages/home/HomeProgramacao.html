@@ -2,11 +2,11 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <base href="../../">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Matemática · SiteParaEstudar</title>
+    <title>Programação em C · SiteParaEstudar</title>
     <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="Style/style.css">
-    <link rel="stylesheet" href="Style/sidbar.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -296,7 +296,7 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             width: 100%;
-            max-width: 1100px;
+            max-width: 900px;
             margin-bottom: 50px;
         }
 
@@ -324,6 +324,7 @@
             left: 0;
             right: 0;
             height: 3px;
+            background: var(--accent);
         }
 
         .math-card:hover {
@@ -345,7 +346,7 @@
 
         .math-card h3 {
             font-family: 'Syne', sans-serif;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             letter-spacing: -0.5px;
         }
@@ -400,111 +401,161 @@
 
 <!-- ========== HOME PAGE ========== -->
 <div class="home-page">
-    <a href="index.html" class="back-home-btn">← Voltar ao Início</a>
-    <div class="home-logo">∑</div>
-    <h1 class="home-title">Fundamentos Matemáticos</h1>
-    <p class="home-subtitle">Explore os conteúdos de matemática discreta com provas interativas, exercícios por tema e gabaritos comentados.</p>
+    <a href="/index.html" class="back-home-btn">← Voltar ao Início</a>
+    <div class="home-logo">💻</div>
+    <h1 class="home-title">Programação em C</h1>
+    <p class="home-subtitle">Ferramentas e exercícios para aprender e praticar Linguagem C</p>
 
     <div class="cards-grid">
-        <!-- Card: Prova Completa -->
-        <a href="matematica.html" class="math-card" style="--card-accent: #7c6dfa;">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #7c6dfa, #5a4fd6);">📋</div>
-            <h3>Prova Completa</h3>
-            <p>24 questões abrangendo todos os temas: Conjuntos, Relações, Funções e Combinatória. Com dicas e gabaritos.</p>
+        <!-- Card: Compilador -->
+        <a href="/pages/listaProgramacao/compilador-c.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #7c6dfa, #5a4fd6);">⚙️</div>
+            <h3>Compilador Online</h3>
+            <p>Compilador online para testar e executar código em Linguagem C diretamente do navegador.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #7c6dfa; color: #7c6dfa; background: rgba(124,109,250,0.1);">24 questões</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Gabaritos</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Dicas</span>
+                <span class="math-tag" style="border-color: #7c6dfa; color: #7c6dfa; background: rgba(124,109,250,0.1);">Compilador</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Online</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Gratuito</span>
             </div>
         </a>
 
-        <!-- Card: Prova Avaliativa 1 -->
-        <a href="prova1Avaliativa.html" class="math-card" style="--card-accent: #6dfabc;">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #6dfabc, #3dd68c);">📋</div>
-            <h3>Prova Avaliativa 1</h3>
-            <p>7 questões de múltipla escolha: Conjuntos, Relações, Funções e Combinatória. Com verificação automática e gabaritos detalhados.</p>
+           <!-- Card: Guia Didatico de como interpretar -->
+        <a href="/pages/listaProgramacao/Guias/GuiaDidáticoCimterpretar.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <h3>Quia Didatica de como interpretar enunciados</h3>
+            <p>Nesse guia vai explicar como devemos interpretar os enunciados corretamente para resolver o problema em questão.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">7 questões</span>
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Múltipla escolha</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Gabaritos</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
             </div>
         </a>
 
-        <!-- Card: Lista de Conjuntos -->
-        <a href="ListaConjuntos.html" class="math-card" style="--card-accent: #7c6dfa;">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #7c6dfa, #a89fff);">∩</div>
-            <h3>Lista de Conjuntos</h3>
-            <p>21 exercícios de múltipla escolha sobre pertinência, subconjuntos, operações e conjunto das partes.</p>
+        <!-- Card: Questões em C -->
+        <a href="/pages/listaProgramacao/questoes-c.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <h3>Questões em C</h3>
+            <p>Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #7c6dfa; color: #7c6dfa; background: rgba(124,109,250,0.1);">21 questões</span>
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Múltipla escolha</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
             </div>
         </a>
 
-        <!-- Card: Lista de Relações -->
-        <a href="exercicios-relacoes.html" class="math-card" style="--card-accent: #ff9db5;">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #ff9db5);">↔</div>
-            <h3>Lista de Relações</h3>
-            <p>11 exercícios focados em propriedades (reflexiva, simétrica, transitiva), classificação e partições.</p>
+        <!-- Card: Lista de Exercicio 1 -->
+        <a href="/pages/listaProgramacao/lista1pro.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <h3>Lista de Exercícios 1</h3>
+            <p>Primeira Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">11 questões</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Ordem parcial</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Equivalência</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
             </div>
         </a>
 
-        <!-- Card: Lista de Funções -->
-        <a href="exercicios-funcoes.html" class="math-card" style="--card-accent: #6dfabc;">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #6dfabc, #3dd68c);">f(x)</div>
-            <h3>Lista de Funções</h3>
-            <p>10 exercícios sobre classificação (injetora, sobrejetora, bijetora), composição e inversa.</p>
+        <!-- Card: Lista de Exercicio 2 -->
+        <a href="/pages/listaProgramacao/lista2pro.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <h3>Lista de Exercícios 2</h3>
+            <p>Segunda Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">10 questões</span>
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Múltipla escolha</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Composição</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
             </div>
         </a>
 
-        <!-- Card: Lista de Combinatória -->
-        <a href="exercicios-combinatoria.html" class="math-card" style="--card-accent: #fadc6d;">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fadc6d, #e6b800);">C(n,k)</div>
-            <h3>Lista de Combinatória</h3>
-            <p>15 exercícios sobre princípio multiplicativo, permutações, combinações e princípio da inclusão-exclusão.</p>
+         <!-- Card: Lista de Exercicio 3 -->
+        <a href="/pages/listaProgramacao/lista3pro.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <h3>Lista de Exercícios 3</h3>
+            <p>Terceira Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">15 questões</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">P. Gavetas</span>
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Inclusão-Exclusão</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
             </div>
         </a>
 
-        <!-- Card: Regras de Inferência da Lógica Proposicional -->
-        <a href="exercicios-RegrasdeInferenciadaLogicaProposicional.html" class="math-card" style="--card-accent: #fadc6d;">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fadc6d, #e6b800);">⊢</div>
-            <h3>Regras de Inferência · Lógica Proposicional</h3>
-            <p>37 exercícios de demonstração lógica usando Modus Ponens, Modus Tollens, regras de conjunção, disjunção, bicondicional e DeMorgan.</p>
+         <!-- Card: Lista de Exercicio 4 -->
+        <a href="/pages/listaProgramacao/lista4pro.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <h3>Lista de Exercícios 4</h3>
+            <p>Quarta Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">37 questões</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">MP, MT</span>
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Dedução natural</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
             </div>
         </a>
 
-        <!-- Card: Lógica de Predicados -->
-        <a href="exercicios-logicaPredicados.html" class="math-card" style="--card-accent: #7c6dfa;">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #7c6dfa, #a89fff);">∀∃</div>
-            <h3>Lógica de Predicados · Formalização</h3>
-            <p>31 exercícios de tradução para linguagem de primeira ordem com predicados R(x), V(x), S(x), constantes e quantificadores universal e existencial.</p>
+         <!-- Card: Lista de Exercicio 5 -->
+        <a href="/pages/listaProgramacao/lista5pro.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <h3>Lista de Exercícios 5</h3>
+            <p>Quinta Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #7c6dfa; color: #7c6dfa; background: rgba(124,109,250,0.1);">31 questões</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">∀, ∃</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Verificação</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+            </div>
+        </a>
+
+         <!-- Card: Lista de Exercicio 6 -->
+        <a href="/pages/listaProgramacao/lista6pro.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <h3>Lista de Exercícios 6</h3>
+            <p>Sexta Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+            </div>
+        </a>
+
+         <!-- Card: Guia Didatico da Lista 6 -->
+        <a href="/pages/listaProgramacao/Guias/GuiaDidáticoLista 6.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <h3>Quia Didatica para a Lista 6</h3>
+            <p>Quia Didatica ela explica tudo sobre os Vetores Unidimensionais.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+            </div>
+        </a>
+
+         <!-- Card: Lista de Exercicio 7 -->
+        <a href="/pages/listaProgramacao/lista7pro.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <h3>Lista de Exercícios 7</h3>
+            <p>setima Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+            </div>
+        </a>
+
+          <!-- Card: Guia Didatico da Lista 7 -->
+        <a href="/pages/listaProgramacao/Guias/GuiaDidáticoLista 7.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <h3>Quia Didatica para a Lista 7</h3>
+            <p>Quia Didatica ela explica tudo sobre os Vetores bidimiensionais.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
             </div>
         </a>
     </div>
 </div>
 
-<script src="JS/footer.js"></script>
+<script src="JS/questoes.js"></script>
 <script src="JS/sidebar.js"></script>
+<script src="JS/footer.js"></script>
 
 </body>
 </html>

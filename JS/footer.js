@@ -135,20 +135,20 @@
                 <div class="footer-col">
                     <h4>📚 Matemática</h4>
                     <ul>
-                        <li><a href="ListaConjuntos.html">Teoria dos Conjuntos</a></li>
-                        <li><a href="exercicios-relacoes.html">Relações Binárias</a></li>
-                        <li><a href="exercicios-funcoes.html">Funções</a></li>
-                        <li><a href="exercicios-combinatoria.html">Combinatória</a></li>
-                        <li><a href="matematica.html">Prova Completa (24Q)</a></li>
-                        <li><a href="prova1Avaliativa.html">Prova Avaliativa 1</a></li>
+                        <li><a href="/pages/matematica/ListaConjuntos.html">Teoria dos Conjuntos</a></li>
+                        <li><a href="/pages/matematica/exercicios-relacoes.html">Relações Binárias</a></li>
+                        <li><a href="/pages/matematica/exercicios-funcoes.html">Funções</a></li>
+                        <li><a href="/pages/matematica/exercicios-combinatoria.html">Combinatória</a></li>
+                        <li><a href="/pages/matematica/matematica.html">Prova Completa (24Q)</a></li>
+                        <li><a href="/pages/matematica/prova1Avaliativa.html">Prova Avaliativa 1</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-col">
                     <h4>📚 Programação em C</h4>
                     <ul>
-                        <li><a href="compilador-c.html">Copilador C</a></li>
-                        <li><a href="questoes-c.html">Questões em C</a></li>
+                        <li><a href="/pages/listaProgramacao/compilador-c.html">Copilador C</a></li>
+                        <li><a href="/pages/listaProgramacao/questoes-c.html">Questões em C</a></li>
                         
                     </ul>
                 </div>
@@ -156,23 +156,23 @@
                 <div class="footer-col">
                     <h4>📋 Administração</h4>
                     <ul>
-                        <li><a href="mapa_mental_Adm.html">Mapa Mental</a></li>
-                        <li><a href="casos.html">Casos de Administração</a></li>
-                        <li><a href="casos.html#adm-cientifica">Adm. Científica</a></li>
-                        <li><a href="casos.html#teoria-classica">Teoria Clássica</a></li>
-                        <li><a href="casos.html#relacoes-humanas">Relações Humanas</a></li>
+                        <li><a href="/pages/adm/mapa_mental_Adm.html">Mapa Mental</a></li>
+                        <li><a href="/pages/adm/casos.html">Casos de Administração</a></li>
+                        <li><a href="/pages/adm/casos.html#adm-cientifica">Adm. Científica</a></li>
+                        <li><a href="/pages/adm/casos.html#teoria-classica">Teoria Clássica</a></li>
+                        <li><a href="/pages/adm/casos.html#relacoes-humanas">Relações Humanas</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-col">
                     <h4>🔗 Links Rápidos</h4>
                     <ul>
-                        <li><a href="index.html">🏠 Início</a></li>
-                        <li><a href="HomeMatematica.html">∑ Home Matemática</a></li>
-                        <li><a href="HomeProgramacao.html">💻 Home Programação em C</a></li>
-                        <li><a href="videos.html">▶️ Videos Aulas</a></li>
-                        <li><a href="livros.html">📚 Biblioteca</a></li>
-                         <li><a href="filmes.html">🎬 Filmes</a></li>
+                        <li><a href="/index.html">🏠 Início</a></li>
+                        <li><a href="/pages/home/HomeMatematica.html">∑ Home Matemática</a></li>
+                        <li><a href="/pages/home/HomeProgramacao.html">💻 Home Programação em C</a></li>
+                        <li><a href="/pages/videosaulas/videos.html">▶️ Videos Aulas</a></li>
+                        <li><a href="/pages/biblioteca/livros.html">📚 Biblioteca</a></li>
+                         <li><a href="/pages/filmes/filmes.html">🎬 Filmes</a></li>
                         <li><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">⬆ Voltar ao Topo</a></li>
                     </ul>
                 </div>

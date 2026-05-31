@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <base href="../../">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Exercícios de Combinatória · SiteParaEstudar</title>
     <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="Style/sidbar.css">
-    <link rel="stylesheet" href="Style/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -290,20 +289,17 @@
         .btn-reveal { background: transparent; border: 1px solid var(--border); color: var(--muted); }
         .btn-reveal:hover { border-color: var(--accent4); color: var(--accent4); background: rgba(109,250,188,0.05); }
 
-        .score-bar {
-            position: sticky;
-            top: 0;
-            z-index: 110;
-            background: rgba(13,13,15,0.88);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
+        .stats-container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto 0;
+            padding: 0 20px 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 12px 25px;
+            align-items: center;
             gap: 16px;
             flex-wrap: wrap;
-            box-shadow: 0 1px 20px rgba(0,0,0,0.5);
         }
 
         .score-info {
@@ -358,7 +354,7 @@
         .btn-check-all:hover { background: #ffe899; transform: translateY(-1px); }
 
         @media (max-width: 600px) {
-            .score-bar { padding: 10px 14px; }
+            .stats-container { padding: 10px 14px; flex-direction: column; align-items: stretch; }
             .q-card { padding: 18px 14px; }
             .option { padding: 12px 14px; }
             .btn { padding: 7px 15px; font-size: 11px; }
@@ -372,13 +368,13 @@
 <div class="glow glow-3"></div>
 
 <header>
-    <a href="HomeMatematica.html" class="back-home">← Voltar para Matemática</a>
+    <a href="/pages/home/HomeMatematica.html" class="back-home">← Voltar para Home Matemática</a>
     <div class="tag">Lista de Exercícios</div>
     <h1>Contagem e Combinatória</h1>
     <p>15 exercícios em formato de múltipla escolha</p>
 </header>
 
-<div class="score-bar">
+<div class="stats-container">
     <div class="score-info">
         <div class="score-stat">📝 <strong id="answered-count">0</strong>/<span id="total-count">15</span></div>
         <div class="score-stat" style="color:var(--correct)">✓ <strong id="correct-count">0</strong></div>
@@ -394,7 +390,7 @@
 
 <script>
     // ========================================
-    // Dados das questões (sem conflito com questoes.js)
+    // Dados das questões
     // ========================================
     const QUESTOES = [
         { id: "q1", text: "Uma loja de iogurte tem 5 sabores, 3 acompanhamentos e 2 coberturas. Quantas sobremesas diferentes?", correct: "C", options: { A: "10", B: "25", C: "30", D: "60" }, explanation: "5 × 3 × 2 = 30 combinações possíveis." },
@@ -450,7 +446,6 @@
         });
         container.innerHTML = html;
         
-        // Adicionar eventos às opções
         document.querySelectorAll('.option').forEach(opt => {
             opt.removeEventListener('click', handleOptionClick);
             opt.addEventListener('click', handleOptionClick);
@@ -599,8 +594,6 @@
     window.checkAll = checkAll;
 </script>
 <script src="JS/footer.js"></script>
-<script src="JS/sidebar.js"></script>
-<script src="JS/questoes.js"></script>
 
 </body>
 </html>

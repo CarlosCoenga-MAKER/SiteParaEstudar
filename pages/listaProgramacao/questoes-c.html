@@ -2,10 +2,11 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <base href="../../">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Exercícios 5 · Programação C (For)</title>
-   <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
-   <link rel="stylesheet" href="Style/style.css">
+    <title>Questões de Programação C · SiteParaEstudar</title>
+    <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0d0d0f;
@@ -20,7 +21,6 @@
             --correct: #2ecc71;
             --wrong: #e74c3c;
             --warning: #fadc6d;
-            --info: #6dcffa;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,42 +50,8 @@
             background: linear-gradient(135deg, var(--accent), var(--accent2));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: var(--muted);
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
-
-        .tag-for {
-            display: inline-block;
-            background: rgba(109,207,250,0.15);
-            color: var(--info);
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .obs-box {
-            background: rgba(109,207,250,0.08);
-            border: 2px solid rgba(109,207,250,0.25);
-            border-radius: 12px;
-            padding: 14px 18px;
             margin-bottom: 15px;
-            color: var(--info);
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
-        .obs-box .icon { font-size: 22px; }
 
         .quest-nav {
             display: flex; gap: 8px; flex-wrap: wrap;
@@ -115,9 +81,6 @@
         .quest-points { background: rgba(250,220,109,0.15); color: var(--warning); padding: 5px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; }
         .quest-title { font-size: 22px; font-weight: 700; margin-bottom: 15px; color: #fff; }
         .quest-desc { color: var(--muted); margin-bottom: 18px; line-height: 1.8; font-size: 16px; }
-        .quest-desc p { margin-bottom: 8px; }
-        .quest-desc ul { list-style-position: inside; margin: 10px 0; }
-        .quest-desc ul li { margin-bottom: 6px; }
         .quest-example { background: #0a0a0d; border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 18px; }
         .quest-example h4 { color: var(--accent2); margin-bottom: 8px; font-size: 15px; }
         .quest-example pre { font-family: 'Fira Code', monospace; font-size: 14px; color: var(--muted); white-space: pre-wrap; line-height: 1.6; }
@@ -262,16 +225,16 @@
         .result-box.success { background: rgba(46,204,113,0.1); border: 2px solid rgba(46,204,113,0.3); color: var(--correct); }
         .result-box.fail { background: rgba(231,76,60,0.1); border: 2px solid rgba(231,76,60,0.3); color: #ff8080; }
 
-        .score-bar {
-            background: rgba(13,13,15,0.92);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 12px;
-            font-size: 15px;
+        .score-bar { 
+            background: rgba(13,13,15,0.92); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid var(--border); 
+            padding: 10px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-radius: 12px; 
+            font-size: 15px; 
             margin-bottom: 12px;
             flex-wrap: wrap;
             gap: 10px;
@@ -379,36 +342,20 @@
 <!-- Overlay para expandir -->
 <div class="code-overlay" id="code-overlay"></div>
 
-<!-- Hamburger Menu -->
-<div class="hamburger-btn" id="hamburger-btn" onclick="toggleSidebar()">
-    <div class="hamburger-line"></div>
-    <div class="hamburger-line"></div>
-    <div class="hamburger-line"></div>
-</div>
-
-
 <div class="container">
-    <h1>📝 Lista de Exercícios 5</h1>
-    <p class="subtitle">Programação em Linguagem C · 10 Exercícios</p>
-    <div style="text-align:center;">
-        <span class="tag-for">🔁 Comando For</span>
-    </div>
-    <div class="obs-box">
-        <span class="icon">📌</span>
-        <span><strong>Observação:</strong> Todos os programas devem ser desenvolvidos em linguagem C. <strong>Utilize o comando for</strong>.</span>
-    </div>
-
+    <h1>💻 Questões de Programação em C</h1>
+    
     <div class="progress-container">
         <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
     </div>
 
     <div class="score-bar">
-        <span style="font-weight:700;">✅ <span id="correct-count">0</span> / <span id="total-quest">10</span></span>
+        <span style="font-weight:700;">✅ <span id="correct-count">0</span> / <span id="total-quest">15</span></span>
         <span style="font-weight:700;">⭐ <span id="total-score">0</span> pontos</span>
         <span style="color: var(--accent2); font-weight: 700;">🟢 GCC Online</span>
         <button class="btn-hint" onclick="resetProgress()" style="font-size: 13px; padding: 6px 14px;">🔄 Resetar Progresso</button>
     </div>
-
+    
     <div class="quest-nav" id="quest-nav"></div>
     <div class="quest-card" id="quest-card"></div>
 </div>
@@ -416,273 +363,129 @@
 <script>
 const QUESTOES = [
     {
-        id: 1,
-        titulo: "Tabuada de Multiplicação (1 a 9)",
-        pontos: 20,
-        enunciado: `<p>Escreva um programa que <strong>imprima a tabuada de multiplicação</strong> de um número digitado pelo usuário.</p>
-                    <p>O programa deve <strong>pedir para o usuário digitar um número de 1 até 9</strong> e imprimir a tabuada desse número.</p>`,
-        exemplo: `📥 Entrada:  7
-📤 Saída:    
-7 x 1 = 7
-7 x 2 = 14
-7 x 3 = 21
-7 x 4 = 28
-7 x 5 = 35
-7 x 6 = 42
-7 x 7 = 49
-7 x 8 = 56
-7 x 9 = 63
-7 x 10 = 70`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "7",
-                expected: "7 x 1 = 7\n7 x 2 = 14\n7 x 3 = 21\n7 x 4 = 28\n7 x 5 = 35\n7 x 6 = 42\n7 x 7 = 49\n7 x 8 = 56\n7 x 9 = 63\n7 x 10 = 70"
-            },
-            {
-                input: "3",
-                expected: "3 x 1 = 3\n3 x 2 = 6\n3 x 3 = 9\n3 x 4 = 12\n3 x 5 = 15\n3 x 6 = 18\n3 x 7 = 21\n3 x 8 = 24\n3 x 9 = 27\n3 x 10 = 30"
-            },
-            {
-                input: "9",
-                expected: "9 x 1 = 9\n9 x 2 = 18\n9 x 3 = 27\n9 x 4 = 36\n9 x 5 = 45\n9 x 6 = 54\n9 x 7 = 63\n9 x 8 = 72\n9 x 9 = 81\n9 x 10 = 90"
-            }
-        ],
-        dica: "Use <code>for(i = 1; i <= 10; i++)</code> e imprima <code>num x i = num * i</code>."
+        id: 1, titulo: "Soma de Dois Números", pontos: 10,
+        enunciado: `<p>Escreva um programa que <strong>leia dois números</strong> e <strong>imprima a soma</strong>.</p>`,
+        exemplo: `📥 Entrada:  5 8\n📤 Saída:    13`,
+        codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"5 8",expected:"13"},{input:"-3 10",expected:"7"},{input:"0 0",expected:"0"}],
+        dica: "Use <code>printf(\"%d\", a + b);</code>"
     },
     {
-        id: 2,
-        titulo: "Tabuada Completa (4 operações, 1 a 9)",
-        pontos: 30,
-        enunciado: `<p>Escreva um programa que <strong>imprima a tabuada completa dos números de 1 até 9</strong>, considerando as <strong>quatro operações aritméticas básicas</strong>:</p>
-                    <ul style="list-style-position:inside;">
-                        <li>Soma (+)</li>
-                        <li>Subtração (-)</li>
-                        <li>Multiplicação (×)</li>
-                        <li>Divisão (÷)</li>
-                    </ul>`,
-        exemplo: `📤 Saída (exemplo para o 1):
-Tabuada do 1:
-1 + 1 = 2
-1 + 2 = 3
-...
-1 - 1 = 0
-...
-1 x 1 = 1
-...
-1 / 1 = 1.00
-...
-
-(Tabuada do 2, 3, ... até 9)`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "",
-                expected: "Tabuada do 1:\n1 + 1 = 2\n1 + 2 = 3\n1 + 3 = 4\n1 + 4 = 5\n1 + 5 = 6\n1 + 6 = 7\n1 + 7 = 8\n1 + 8 = 9\n1 + 9 = 10\n1 - 1 = 0\n1 - 2 = -1\n1 - 3 = -2\n1 - 4 = -3\n1 - 5 = -4\n1 - 6 = -5\n1 - 7 = -6\n1 - 8 = -7\n1 - 9 = -8\n1 x 1 = 1\n1 x 2 = 2\n1 x 3 = 3\n1 x 4 = 4\n1 x 5 = 5\n1 x 6 = 6\n1 x 7 = 7\n1 x 8 = 8\n1 x 9 = 9\n1 / 1 = 1.00\n1 / 2 = 0.50\n1 / 3 = 0.33\n1 / 4 = 0.25\n1 / 5 = 0.20\n1 / 6 = 0.17\n1 / 7 = 0.14\n1 / 8 = 0.12\n1 / 9 = 0.11\n\nTabuada do 2:\n2 + 1 = 3\n2 + 2 = 4\n2 + 3 = 5\n2 + 4 = 6\n2 + 5 = 7\n2 + 6 = 8\n2 + 7 = 9\n2 + 8 = 10\n2 + 9 = 11\n2 - 1 = 1\n2 - 2 = 0\n2 - 3 = -1\n2 - 4 = -2\n2 - 5 = -3\n2 - 6 = -4\n2 - 7 = -5\n2 - 8 = -6\n2 - 9 = -7\n2 x 1 = 2\n2 x 2 = 4\n2 x 3 = 6\n2 x 4 = 8\n2 x 5 = 10\n2 x 6 = 12\n2 x 7 = 14\n2 x 8 = 16\n2 x 9 = 18\n2 / 1 = 2.00\n2 / 2 = 1.00\n2 / 3 = 0.67\n2 / 4 = 0.50\n2 / 5 = 0.40\n2 / 6 = 0.33\n2 / 7 = 0.29\n2 / 8 = 0.25\n2 / 9 = 0.22\n\nTabuada do 3:\n3 + 1 = 4\n3 + 2 = 5\n3 + 3 = 6\n3 + 4 = 7\n3 + 5 = 8\n3 + 6 = 9\n3 + 7 = 10\n3 + 8 = 11\n3 + 9 = 12\n3 - 1 = 2\n3 - 2 = 1\n3 - 3 = 0\n3 - 4 = -1\n3 - 5 = -2\n3 - 6 = -3\n3 - 7 = -4\n3 - 8 = -5\n3 - 9 = -6\n3 x 1 = 3\n3 x 2 = 6\n3 x 3 = 9\n3 x 4 = 12\n3 x 5 = 15\n3 x 6 = 18\n3 x 7 = 21\n3 x 8 = 24\n3 x 9 = 27\n3 / 1 = 3.00\n3 / 2 = 1.50\n3 / 3 = 1.00\n3 / 4 = 0.75\n3 / 5 = 0.60\n3 / 6 = 0.50\n3 / 7 = 0.43\n3 / 8 = 0.38\n3 / 9 = 0.33"
-            }
-        ],
-        dica: "Use dois <code>for</code> aninhados: externo para o número (1 a 9), interno para o operando (1 a 9). Para divisão use <code>float</code> e <code>%.2f</code>."
+        id: 2, titulo: "Maior de Três", pontos: 15,
+        enunciado: `<p>Leia <strong>três números</strong> e imprima o <strong>maior</strong>.</p>`,
+        exemplo: `📥 5 8 3\n📤 8`,
+        codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"5 8 3",expected:"8"},{input:"10 10 5",expected:"10"},{input:"-1 -5 -3",expected:"-1"}],
+        dica: "<code>if</code> para comparar. Use variável <code>maior</code>."
     },
     {
-        id: 3,
-        titulo: "Verificar Número Primo",
-        pontos: 25,
-        enunciado: `<p>Escreva um programa que <strong>verifique se um número inteiro fornecido pelo usuário é primo ou não</strong>.</p>`,
-        exemplo: `📥 Entrada:  7
-📤 Saída:    Primo
-
-📥 Entrada:  10
-📤 Saída:    Nao primo`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "7",
-                expected: "Primo"
-            },
-            {
-                input: "10",
-                expected: "Nao primo"
-            },
-            {
-                input: "2",
-                expected: "Primo"
-            },
-            {
-                input: "1",
-                expected: "Nao primo"
-            },
-            {
-                input: "17",
-                expected: "Primo"
-            }
-        ],
-        dica: "Use <code>for(i = 2; i <= num/2; i++)</code> e verifique se <code>num % i == 0</code>. Se encontrar divisor, não é primo."
+        id: 3, titulo: "Tabuada", pontos: 15,
+        enunciado: `<p>Leia um número e imprima a <strong>tabuada</strong> (1 a 10).</p>`,
+        exemplo: `📥 7\n📤 7 x 1 = 7\n7 x 2 = 14\n...\n7 x 10 = 70`,
+        codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"7",expected:"7 x 1 = 7\n7 x 2 = 14\n7 x 3 = 21\n7 x 4 = 28\n7 x 5 = 35\n7 x 6 = 42\n7 x 7 = 49\n7 x 8 = 56\n7 x 9 = 63\n7 x 10 = 70"}],
+        dica: "<code>for(i=1;i<=10;i++)</code>"
     },
     {
-        id: 4,
-        titulo: "Série de Fibonacci (30 termos)",
-        pontos: 25,
-        enunciado: `<p>Escreva um programa que <strong>imprima a série de Fibonacci até o trigésimo termo</strong>.</p>
-                    <p style="color:var(--accent2);">Os dez primeiros termos da série são: <strong>1, 1, 2, 3, 5, 8, 13, 21, 34, 55</strong>.</p>`,
-        exemplo: `📤 Saída (30 termos):
-1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765 10946 17711 28657 46368 75025 121393 196418 317811 514229 832040`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "",
-                expected: "1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765 10946 17711 28657 46368 75025 121393 196418 317811 514229 832040"
-            }
-        ],
-        dica: "Use <code>long long</code> para os números. Inicie com <code>a = 1, b = 1</code>. No <code>for</code>, imprima e atualize: <code>prox = a + b; a = b; b = prox;</code>"
+        id: 4, titulo: "Fatorial", pontos: 20,
+        enunciado: `<p>Leia um número e calcule o <strong>fatorial</strong>.</p>`,
+        exemplo: `📥 5\n📤 120`,
+        codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"5",expected:"120"},{input:"0",expected:"1"}],
+        dica: "<code>long long</code> para números grandes."
     },
     {
-        id: 5,
-        titulo: "20 Números: Pares e Ímpares",
-        pontos: 20,
-        enunciado: `<p>Escreva um programa que leia <strong>20 números inteiros positivos</strong> e, ao final, informe <strong>quantos números pares e quantos números ímpares</strong> foram digitados.</p>`,
-        exemplo: `📥 Entrada:  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-📤 Saída:    Pares: 10
-            Impares: 10`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20",
-                expected: "Pares: 10\nImpares: 10"
-            },
-            {
-                input: "2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40",
-                expected: "Pares: 20\nImpares: 0"
-            },
-            {
-                input: "1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39",
-                expected: "Pares: 0\nImpares: 20"
-            }
-        ],
-        dica: "Use <code>for(i = 0; i < 20; i++)</code> para ler 20 números. Verifique com <code>num % 2 == 0</code> e incremente contadores."
+        id: 5, titulo: "Pares e Ímpares", pontos: 20,
+        enunciado: `<p>Leia <strong>5 números</strong> e imprima quantos são pares e ímpares.</p>`,
+        exemplo: `📥 2 4 7 9 10\n📤 Pares: 3\nImpares: 2`,
+        codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"2 4 7 9 10",expected:"Pares: 3\nImpares: 2"},{input:"1 3 5 7 9",expected:"Pares: 0\nImpares: 5"}],
+        dica: "<code>num % 2 == 0</code> verifica se é par."
     },
     {
-        id: 6,
-        titulo: "15 Números: Menor Digitado",
-        pontos: 20,
-        enunciado: `<p>Escreva um programa que leia <strong>15 números inteiros positivos</strong> e, ao final, informe <strong>qual foi o menor número digitado</strong>.</p>`,
-        exemplo: `📥 Entrada:  15 8 22 5 12 30 7 18 25 10 3 14 9 20 6
-📤 Saída:    Menor numero: 3`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "15 8 22 5 12 30 7 18 25 10 3 14 9 20 6",
-                expected: "Menor numero: 3"
-            },
-            {
-                input: "50 40 30 20 10 60 70 80 90 100 15 25 35 45 55",
-                expected: "Menor numero: 10"
-            },
-            {
-                input: "5 5 5 5 5 5 5 5 5 5 5 5 5 5 5",
-                expected: "Menor numero: 5"
-            }
-        ],
-        dica: "Use <code>for(i = 0; i < 15; i++)</code>. Inicialize <code>menor</code> com o primeiro número lido, depois compare e atualize."
+        id: 6, titulo: "Média Aritmética", pontos: 15,
+        enunciado: `<p>Leia <strong>4 notas</strong> e calcule a <strong>média aritmética</strong>.</p>`,
+        exemplo: `📥 7.5 8.0 6.5 9.0\n📤 Media: 7.75`,
+        codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"7.5 8.0 6.5 9.0",expected:"Media: 7.75"},{input:"10 10 10 10",expected:"Media: 10.00"}],
+        dica: "Use <code>float</code> e <code>%.2f</code> para formatar."
     },
     {
-        id: 7,
-        titulo: "Números Pares no Intervalo (ordem crescente)",
-        pontos: 25,
-        enunciado: `<p>Escreva um programa que leia <strong>dois números inteiros positivos diferentes</strong> e imprima <strong>todos os números pares compreendidos no intervalo</strong> formado por esses números, em <strong>ordem crescente</strong>.</p>
-                    <p style="color:var(--accent2);">Antes de imprimir os pares, o programa deve verificar qual dos números digitados é o maior e qual é o menor. Utilize o operador de resto da divisão (%).</p>`,
-        exemplo: `📥 Entrada:  10 3
-📤 Saída:    4 6 8 10
-
-📥 Entrada:  3 10
-📤 Saída:    4 6 8 10`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "10 3",
-                expected: "4 6 8 10"
-            },
-            {
-                input: "3 10",
-                expected: "4 6 8 10"
-            },
-            {
-                input: "1 7",
-                expected: "2 4 6"
-            },
-            {
-                input: "20 14",
-                expected: "14 16 18 20"
-            }
-        ],
-        dica: "Encontre <code>menor</code> e <code>maior</code>. Use <code>for(i = menor; i <= maior; i++)</code> e <code>if(i % 2 == 0)</code> para imprimir só pares."
+        id: 7, titulo: "Conversor Celsius-Fahrenheit", pontos: 20,
+        enunciado: `<p>Leia uma temperatura em <strong>Celsius</strong> e converta para <strong>Fahrenheit</strong>.</p><p>Fórmula: F = (C × 9/5) + 32</p>`,
+        exemplo: `📥 0\n📤 32.0`,
+       codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"0",expected:"32.0"},{input:"100",expected:"212.0"}],
+        dica: "Use <code>float</code> para temperatura."
     },
     {
-        id: 8,
-        titulo: "Intervalo em Ordem Decrescente",
-        pontos: 25,
-        enunciado: `<p>Escreva um programa que leia <strong>dois números inteiros positivos (X e Y) diferentes</strong> e imprima <strong>todos os números inteiros (pares e ímpares)</strong> que estão no intervalo formado pelos números digitados, em <strong>ordem decrescente</strong>, incluindo os próprios números digitados.</p>
-                    <p style="color:var(--accent2);">O programa deve testar qual dos números digitados é o menor e qual é o maior, antes de imprimir os números do intervalo.</p>`,
-        exemplo: `📥 Entrada:  3 8
-📤 Saída:    8 7 6 5 4 3
-
-📥 Entrada:  8 3
-📤 Saída:    8 7 6 5 4 3`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "3 8",
-                expected: "8 7 6 5 4 3"
-            },
-            {
-                input: "8 3",
-                expected: "8 7 6 5 4 3"
-            },
-            {
-                input: "5 12",
-                expected: "12 11 10 9 8 7 6 5"
-            },
-            {
-                input: "10 10",
-                expected: "10"
-            }
-        ],
-        dica: "Encontre <code>menor</code> e <code>maior</code>. Use <code>for(i = maior; i >= menor; i--)</code> para ordem decrescente."
+        id: 8, titulo: "Números Primos", pontos: 25,
+        enunciado: `<p>Leia um número e verifique se é <strong>primo</strong>.</p>`,
+        exemplo: `📥 7\n📤 Primo\n📥 10\n📤 Nao primo`,
+        codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"7",expected:"Primo"},{input:"10",expected:"Nao primo"},{input:"2",expected:"Primo"}],
+        dica: "Verifique divisores de 2 até √n."
     },
     {
-        id: 9,
-        titulo: "Soma de 100 até 200",
-        pontos: 20,
-        enunciado: `<p>Escreva um programa que <strong>imprima a soma de todos os números inteiros de 100 até 200</strong>.</p>`,
-        exemplo: `📤 Saída:    Soma de 100 a 200: 15150`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "",
-                expected: "Soma de 100 a 200: 15150"
-            }
-        ],
-        dica: "Use <code>for(i = 100; i <= 200; i++) { soma += i; }</code> ou fórmula: (100 + 200) * 101 / 2."
+        id: 9, titulo: "Soma de 1 a N", pontos: 15,
+        enunciado: `<p>Leia N e calcule a <strong>soma de 1 até N</strong>.</p>`,
+        exemplo: `📥 5\n📤 15`,
+       codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"5",expected:"15"},{input:"100",expected:"5050"}],
+        dica: "Use <code>for</code> ou fórmula: n*(n+1)/2."
     },
     {
-        id: 10,
-        titulo: "Múltiplos de 9 entre 100 e 1000",
-        pontos: 25,
-        enunciado: `<p>Escreva um programa que <strong>imprima todos os múltiplos de 9</strong> que estão no <strong>intervalo entre 100 e 1000</strong>.</p>`,
-        exemplo: `📤 Saída (primeiros):
-108 117 126 135 ... 990 999`,
-        codeTemplate: `#include <stdio.h>\n\nint main() {\n    \n}`,
-        testCases: [
-            {
-                input: "",
-                expected: "108 117 126 135 144 153 162 171 180 189 198 207 216 225 234 243 252 261 270 279 288 297 306 315 324 333 342 351 360 369 378 387 396 405 414 423 432 441 450 459 468 477 486 495 504 513 522 531 540 549 558 567 576 585 594 603 612 621 630 639 648 657 666 675 684 693 702 711 720 729 738 747 756 765 774 783 792 801 810 819 828 837 846 855 864 873 882 891 900 909 918 927 936 945 954 963 972 981 990 999"
-            }
-        ],
-        dica: "Comece em 108 (primeiro múltiplo de 9 >= 100). Use <code>for(i = 108; i <= 1000; i += 9)</code>."
+        id: 10, titulo: "Inverter Número", pontos: 25,
+        enunciado: `<p>Leia um número inteiro e <strong>inverta seus dígitos</strong>.</p>`,
+        exemplo: `📥 1234\n📤 4321`,
+       codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"1234",expected:"4321"},{input:"100",expected:"1"}],
+        dica: "Use <code>while</code> com <code>% 10</code> e <code>/ 10</code>."
+    },
+    {
+        id: 11, titulo: "Calculadora Simples", pontos: 20,
+        enunciado: `<p>Leia dois números e um operador (+, -, *, /) e imprima o <strong>resultado</strong>.</p>`,
+        exemplo: `📥 10 + 5\n📤 15`,
+       codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"10 + 5",expected:"15"},{input:"20 / 4",expected:"5"}],
+        dica: "Use <code>switch</code> para o operador."
+    },
+    {
+        id: 12, titulo: "Fibonacci", pontos: 25,
+        enunciado: `<p>Leia N e imprima os <strong>primeiros N termos</strong> da sequência de Fibonacci.</p>`,
+        exemplo: `📥 5\n📤 0 1 1 2 3`,
+      codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"5",expected:"0 1 1 2 3"},{input:"7",expected:"0 1 1 2 3 5 8"}],
+        dica: "Comece com a=0, b=1 e atualize."
+    },
+    {
+        id: 13, titulo: "Contar Dígitos", pontos: 20,
+        enunciado: `<p>Leia um número e <strong>conte quantos dígitos</strong> ele tem.</p>`,
+        exemplo: `📥 12345\n📤 5 digitos`,
+        codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"12345",expected:"5 digitos"},{input:"0",expected:"1 digitos"}],
+        dica: "Divida por 10 até chegar a 0."
+    },
+    {
+        id: 14, titulo: "Palíndromo", pontos: 30,
+        enunciado: `<p>Leia um número e verifique se é <strong>palíndromo</strong> (igual de trás pra frente).</p>`,
+        exemplo: `📥 1221\n📤 Palindromo\n📥 123\n📤 Nao palindromo`,
+      codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"1221",expected:"Palindromo"},{input:"123",expected:"Nao palindromo"}],
+        dica: "Inverta o número e compare com o original."
+    },
+    {
+        id: 15, titulo: "MDC (Euclides)", pontos: 30,
+        enunciado: `<p>Leia dois números e calcule o <strong>MDC</strong> usando o algoritmo de Euclides.</p>`,
+        exemplo: `📥 48 18\n📤 MDC: 6`,
+       codeTemplate: `#include <stdio.h>\n\nint main() {\n}`,
+        testCases: [{input:"48 18",expected:"MDC: 6"},{input:"100 25",expected:"MDC: 25"}],
+        dica: "Enquanto b != 0: temp = b; b = a % b; a = temp;"
     }
 ];
 
 // ========== LOCALSTORAGE ==========
-const STORAGE_KEY = 'lista5_for_exercicios_c_progress';
+const STORAGE_KEY = 'questoes_c_progress';
 
 function loadProgress() {
     try {
@@ -722,25 +525,6 @@ function resetProgress() {
     }
 }
 
-// ========== SIDEBAR ==========
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    const hamburger = document.getElementById('hamburger-btn');
-    
-    const isOpen = sidebar.classList.contains('open');
-    
-    if (isOpen) {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('show');
-        hamburger.classList.remove('open');
-    } else {
-        sidebar.classList.add('open');
-        overlay.classList.add('show');
-        hamburger.classList.add('open');
-    }
-}
-
 // ========== FUNÇÕES ==========
 function highlightC(code) {
     return code
@@ -750,7 +534,7 @@ function highlightC(code) {
         .replace(/%[dfsclu]/g, '<span class="format">$&</span>')
         .replace(/\b(int|float|double|char|void|long|short|unsigned|signed|const|static|extern|struct|enum|typedef|sizeof)\b/g, '<span class="type">$1</span>')
         .replace(/\b(if|else|for|while|do|switch|case|break|continue|return|goto|default)\b/g, '<span class="keyword">$1</span>')
-        .replace(/\b(printf|scanf|puts|gets|putchar|getchar|fopen|fclose|fprintf|fscanf|malloc|calloc|free|main|ceil|abs)\b/g, '<span class="function">$1</span>')
+        .replace(/\b(printf|scanf|puts|gets|putchar|getchar|fopen|fclose|fprintf|fscanf|malloc|calloc|free|main)\b/g, '<span class="function">$1</span>')
         .replace(/\b(\d+\.?\d*)\b/g, '<span class="number">$1</span>')
         .replace(/(\{|\})/g, '<span class="brace">$1</span>');
 }
@@ -802,6 +586,7 @@ let correctCount = 0;
 let currentQuest = 0;
 
 function init() {
+    // Carregar progresso salvo
     const savedProgress = loadProgress();
     questResults = {};
     totalScore = 0;
@@ -821,6 +606,7 @@ function init() {
     document.getElementById('correct-count').textContent = correctCount;
     document.getElementById('total-score').textContent = totalScore;
     
+    // Atualizar barra de progresso
     const progressPercent = (correctCount / QUESTOES.length) * 100;
     document.getElementById('progress-bar').style.width = progressPercent + '%';
     
@@ -875,7 +661,7 @@ function renderQuest(i) {
             </div>
             <div class="test-panel">
                 <h3>🧪 Testes (${q.testCases.length})</h3>
-                ${q.testCases.map((t, i) => `<div class="test-case"><div class="label">Teste ${i+1}</div><div class="value">📥 ${t.input || '(sem entrada)'}</div><div class="value">📤 ${t.expected.substring(0, 80)}${t.expected.length > 80 ? '...' : ''}</div></div>`).join('')}
+                ${q.testCases.map((t, i) => `<div class="test-case"><div class="label">Teste ${i+1}</div><div class="value">📥 ${t.input}</div><div class="value">📤 ${t.expected}</div></div>`).join('')}
             </div>
         </div>
         <div style="text-align:center;margin-top:20px;">
@@ -899,14 +685,17 @@ function retryQuest(id) {
     const q = QUESTOES.find(x => x.id === id);
     if (!q) return;
     
+    // Remove do progresso
     delete questResults[id];
     
+    // Atualiza localStorage
     const progress = loadProgress();
     delete progress[id];
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
     
-    totalScore = Math.max(0, totalScore - q.pontos);
-    correctCount = Math.max(0, correctCount - 1);
+    // Atualiza pontuação
+    totalScore -= q.pontos;
+    correctCount--;
     
     document.getElementById('total-score').textContent = totalScore;
     document.getElementById('correct-count').textContent = correctCount;
@@ -987,9 +776,9 @@ async function submitCode(id) {
     results.forEach(r => {
         h += `<div style="margin:10px 0;padding:12px;background:rgba(0,0,0,0.3);border-radius:10px;">
             <strong>${r.passed ? '✅' : '❌'} Teste ${r.test}:</strong> 
-            📥 <code>${r.input || '(vazio)'}</code> → 
-            📤 Esperado: <code style="color:#6dfabc;">${r.expected.substring(0, 60)}${r.expected.length > 60 ? '...' : ''}</code> | 
-            Obtido: <code style="color:${r.passed ? '#6dfabc' : '#e74c3c'};">${(r.got || '(vazio)').substring(0, 60)}${(r.got || '').length > 60 ? '...' : ''}</code>
+            📥 <code>${r.input}</code> → 
+            📤 Esperado: <code style="color:#6dfabc;">${r.expected}</code> | 
+            Obtido: <code style="color:${r.passed ? '#6dfabc' : '#e74c3c'};">${r.got || '(vazio)'}</code>
             ${r.error ? `<br>⚠️ ${r.error}` : ''}
         </div>`;
     });
@@ -1002,6 +791,7 @@ async function submitCode(id) {
         totalScore += q.pontos;
         correctCount++;
         
+        // Salvar no localStorage
         saveProgress(id, 'correct', q.pontos);
         
         document.getElementById('total-score').textContent = totalScore;
@@ -1012,6 +802,7 @@ async function submitCode(id) {
         
         renderNav();
         
+        // Oferecer próxima questão
         const nextIndex = QUESTOES.findIndex(x => x.id === id) + 1;
         if (nextIndex < QUESTOES.length) {
             setTimeout(() => {
@@ -1023,7 +814,7 @@ async function submitCode(id) {
             }, 1000);
         } else {
             setTimeout(() => {
-                alert('🏆 PARABÉNS! Você completou todas as questões da Lista 5!');
+                alert('🏆 PARABÉNS! Você completou todas as questões!');
             }, 1000);
         }
     } else {
@@ -1111,6 +902,8 @@ document.addEventListener('click', function(e) {
     }
 });
 </script>
+
+<script src="JS/questoes.js"></script>
 <script src="JS/footer.js"></script>
 <script src="JS/sidebar.js"></script>
 

@@ -2,8 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <base href="../../">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Exercícios de Funções · SiteParaEstudar</title>
+    <title>Exercícios de Relações · SiteParaEstudar</title>
     <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="Style/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,9 +14,9 @@
             --surface: #15151a;
             --card: #1c1c24;
             --border: #2a2a38;
-            --accent: #6dfabc;
-            --accent2: #3dd68c;
-            --accent3: #7c6dfa;
+            --accent: #fa6d8a;
+            --accent2: #ff9db5;
+            --accent3: #6dfabc;
             --accent4: #fadc6d;
             --text: #e8e8f0;
             --muted: #7878a0;
@@ -45,8 +46,8 @@
             position: fixed;
             inset: 0;
             background-image:
-                linear-gradient(rgba(109,250,188,0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(109,250,188,0.04) 1px, transparent 1px);
+                linear-gradient(rgba(250,109,138,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(250,109,138,0.04) 1px, transparent 1px);
             background-size: 40px 40px;
             pointer-events: none;
             z-index: 0;
@@ -94,7 +95,7 @@
         }
         .hamburger-btn:hover {
             border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(109,250,188,0.2);
+            box-shadow: 0 0 20px rgba(250,109,138,0.2);
         }
         .hamburger-line {
             width: 20px;
@@ -104,9 +105,16 @@
             transition: all 0.3s ease;
             transform-origin: center;
         }
-        .hamburger-btn.open .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-        .hamburger-btn.open .hamburger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
-        .hamburger-btn.open .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .hamburger-btn.open .hamburger-line:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .hamburger-btn.open .hamburger-line:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .hamburger-btn.open .hamburger-line:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
 
         .sidebar-overlay {
             position: fixed;
@@ -188,10 +196,13 @@
             width: 100%;
             text-align: left;
         }
-        .sidebar-link:hover { background: rgba(109,250,188,0.1); color: var(--text); }
+        .sidebar-link:hover {
+            background: rgba(250,109,138,0.1);
+            color: var(--text);
+        }
         .sidebar-link.active {
-            background: rgba(109,250,188,0.15);
-            border: 1px solid rgba(109,250,188,0.3);
+            background: rgba(250,109,138,0.15);
+            border: 1px solid rgba(250,109,138,0.3);
             color: #fff;
         }
         .sidebar-link .icon {
@@ -219,7 +230,7 @@
             text-align: center;
             padding: 30px 20px 35px;
             border-bottom: 1px solid var(--border);
-            background: radial-gradient(ellipse at 50% 0%, rgba(109,250,188,0.06), transparent 70%);
+            background: radial-gradient(ellipse at 50% 0%, rgba(250,109,138,0.06), transparent 70%);
         }
 
         .back-home {
@@ -242,13 +253,13 @@
             font-family: 'Space Mono', monospace;
             font-size: 11px;
             color: var(--accent);
-            border: 1px solid rgba(109,250,188,0.4);
+            border: 1px solid rgba(250,109,138,0.4);
             border-radius: 30px;
             padding: 5px 18px;
             letter-spacing: 2px;
             margin-bottom: 20px;
             text-transform: uppercase;
-            background: rgba(109,250,188,0.08);
+            background: rgba(250,109,138,0.08);
             backdrop-filter: blur(10px);
         }
         .tag::before {
@@ -264,7 +275,7 @@
             font-weight: 800;
             line-height: 1.1;
             letter-spacing: -1.5px;
-            background: linear-gradient(135deg, #ffffff 20%, var(--accent) 60%, var(--accent3) 100%);
+            background: linear-gradient(135deg, #ffffff 20%, var(--accent) 60%, var(--accent4) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -329,12 +340,12 @@
         }
         .q-text .math {
             font-family: 'Space Mono', monospace;
-            background: rgba(109,250,188,0.12);
-            border: 1px solid rgba(109,250,188,0.25);
+            background: rgba(250,109,138,0.12);
+            border: 1px solid rgba(250,109,138,0.25);
             border-radius: 5px;
             padding: 1px 7px;
             font-size: 13px;
-            color: #b8ffe0;
+            color: #ffb8c4;
             font-weight: 600;
         }
 
@@ -357,14 +368,14 @@
 
         .option:hover:not(.disabled) {
             border-color: var(--accent);
-            background: rgba(109,250,188,0.06);
+            background: rgba(250,109,138,0.06);
             transform: translateX(3px);
         }
 
         .option.selected {
             border-color: var(--accent);
-            background: rgba(109,250,188,0.12);
-            box-shadow: 0 0 15px rgba(109,250,188,0.08);
+            background: rgba(250,109,138,0.12);
+            box-shadow: 0 0 15px rgba(250,109,138,0.08);
         }
 
         .option.correct-answer {
@@ -395,7 +406,7 @@
             transition: all var(--transition);
         }
 
-        .option.selected .opt-letter { background: var(--accent); color: #0d0d0f; }
+        .option.selected .opt-letter { background: var(--accent); color: #fff; }
         .option.correct-answer .opt-letter { background: var(--correct); color: #fff; }
         .option.wrong-answer .opt-letter { background: var(--wrong); color: #fff; }
 
@@ -412,7 +423,7 @@
         .feedback.show { display: block; }
         .feedback.correct { background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.3); color: var(--correct); }
         .feedback.wrong { background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.3); color: #ff8080; }
-        .feedback.info { background: rgba(109,250,188,0.1); border: 1px solid rgba(109,250,188,0.3); color: #b8ffe0; }
+        .feedback.info { background: rgba(250,109,138,0.1); border: 1px solid rgba(250,109,138,0.3); color: #ffb8c4; }
 
         .feedback strong { display: block; margin-bottom: 4px; font-size: 14px; }
 
@@ -432,8 +443,8 @@
             gap: 6px;
         }
 
-        .btn-primary { background: var(--accent); color: #0d0d0f; box-shadow: 0 4px 10px rgba(109,250,188,0.25); }
-        .btn-primary:hover:not(:disabled) { background: #8fffd0; transform: translateY(-2px); }
+        .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 10px rgba(250,109,138,0.25); }
+        .btn-primary:hover:not(:disabled) { background: #ff8099; transform: translateY(-2px); }
         .btn-primary:disabled { opacity: 0.5; cursor: default; }
         .btn-secondary { background: var(--border); color: var(--muted); }
         .btn-secondary:hover { background: #3a3a48; color: var(--text); }
@@ -489,16 +500,16 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            background: linear-gradient(90deg, var(--accent), var(--accent4));
             border-radius: 20px;
             transition: width 0.5s ease;
             width: 0%;
-            box-shadow: 0 0 12px rgba(109,250,188,0.5);
+            box-shadow: 0 0 12px rgba(250,109,138,0.5);
         }
 
         .btn-check-all {
             background: var(--accent);
-            color: #0d0d0f;
+            color: #fff;
             border: none;
             padding: 9px 22px;
             border-radius: 25px;
@@ -507,10 +518,10 @@
             font-weight: 700;
             cursor: pointer;
             transition: all var(--transition);
-            box-shadow: 0 4px 12px rgba(109,250,188,0.3);
+            box-shadow: 0 4px 12px rgba(250,109,138,0.3);
             letter-spacing: 0.5px;
         }
-        .btn-check-all:hover { background: #8fffd0; transform: translateY(-1px); }
+        .btn-check-all:hover { background: #ff8099; transform: translateY(-1px); }
 
         @media (max-width: 600px) {
             .hamburger-btn { top: 12px; left: 12px; width: 38px; height: 38px; z-index: 200; }
@@ -528,15 +539,15 @@
 <div class="glow glow-3"></div>
 
 <header>
-    <a href="HomeMatematica.html" class="back-home">← Voltar para Matemática</a>
+    <a href="/pages/home/HomeMatematica.html" class="back-home">← Voltar para home Matemática</a>
     <div class="tag">Lista de Exercícios</div>
-    <h1>Funções</h1>
-    <p>10 exercícios em formato de múltipla escolha</p>
+    <h1>Relações Binárias</h1>
+    <p>11 exercícios em formato de múltipla escolha</p>
 </header>
 
 <div class="score-bar">
     <div class="score-info">
-        <div class="score-stat">📝 <strong id="answered-count">0</strong>/<span id="total-count">10</span></div>
+        <div class="score-stat">📝 <strong id="answered-count">0</strong>/<span id="total-count">11</span></div>
         <div class="score-stat" style="color:var(--correct)">✓ <strong id="correct-count">0</strong></div>
         <div class="score-stat" style="color:var(--wrong)">✗ <strong id="wrong-count">0</strong></div>
     </div>
@@ -552,18 +563,18 @@
 <div class="q-card" id="q1">
     <div class="q-number">Questão 1</div>
     <div class="q-text">
-        Sendo <span class="math">E = {a,b,c,d}</span> e <span class="math">F = {1,2,3}</span>, qual das relações abaixo <strong>É uma função</strong> de E em F?
+        Sejam <span class="math">E = {0, 1, 2}</span> e <span class="math">F = {1, 2, 3, 4, 5}</span>. A relação <span class="math">x R y ↔ x = y − 2</span> (x ∈ E, y ∈ F) resulta em qual conjunto?
     </div>
     <div class="options" id="opts-q1">
-        <div class="option" onclick="selectOpt('q1','A')"><span class="opt-letter">A</span> R1 = {(a,1), (b,2), (c,3)}</div>
-        <div class="option" onclick="selectOpt('q1','B')"><span class="opt-letter">B</span> R2 = {(a,1), (b,1), (c,2), (d,3)}</div>
-        <div class="option" onclick="selectOpt('q1','C')"><span class="opt-letter">C</span> R3 = {(a,1), (a,2), (b,1), (c,2), (d,3)}</div>
-        <div class="option" onclick="selectOpt('q1','D')"><span class="opt-letter">D</span> R2 e R4 = {(a,2),(b,2),(c,2),(d,2)} são funções</div>
+        <div class="option" onclick="selectOpt('q1','A')"><span class="opt-letter">A</span> R = {(0,2), (1,3), (2,4)}</div>
+        <div class="option" onclick="selectOpt('q1','B')"><span class="opt-letter">B</span> R = {(1,3), (2,4)}</div>
+        <div class="option" onclick="selectOpt('q1','C')"><span class="opt-letter">C</span> R = {(0,2), (1,3), (2,4), (3,5)}</div>
+        <div class="option" onclick="selectOpt('q1','D')"><span class="opt-letter">D</span> R = {(2,1), (3,2), (4,3)}</div>
     </div>
     <div class="feedback" id="fb-q1"></div>
     <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q1','D')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q1','D) R2 e R4 são funções (cada elemento do domínio tem exatamente uma imagem). R1: falta d. R3: a tem duas imagens.')">📖 Gabarito</button>
+        <button class="btn btn-primary" onclick="checkSingle('q1','A')">✓ Verificar</button>
+        <button class="btn btn-reveal" onclick="revealAnswer('q1','A) Para cada x∈E: y=x+2. x=0→y=2✓, x=1→y=3✓, x=2→y=4✓.')">📖 Gabarito</button>
         <button class="btn btn-secondary" onclick="resetQ('q1')">↺ Limpar</button>
     </div>
 </div>
@@ -572,19 +583,18 @@
 <div class="q-card" id="q2">
     <div class="q-number">Questão 2</div>
     <div class="q-text">
-        Quais funções de <span class="math">E = {a,b,c,d}</span> em <span class="math">F = {0,1,2,3,4}</span> são <strong>INJETORAS</strong>?<br>
-        f1={(a,0),(b,1),(c,2),(d,4)} | f2={(a,1),(b,2),(c,3),(d,1)} | f3={(a,2),(b,4),(c,3),(d,0)}
+        Para a relação <span class="math">x R y ↔ x + y &lt; 7</span> em ℕ, quais pares pertencem à relação?
     </div>
     <div class="options" id="opts-q2">
-        <div class="option" onclick="selectOpt('q2','A')"><span class="opt-letter">A</span> Apenas f1</div>
-        <div class="option" onclick="selectOpt('q2','B')"><span class="opt-letter">B</span> f1 e f3</div>
-        <div class="option" onclick="selectOpt('q2','C')"><span class="opt-letter">C</span> f1, f2 e f3</div>
-        <div class="option" onclick="selectOpt('q2','D')"><span class="opt-letter">D</span> Nenhuma</div>
+        <div class="option" onclick="selectOpt('q2','A')"><span class="opt-letter">A</span> (1,3) e (4,4)</div>
+        <div class="option" onclick="selectOpt('q2','B')"><span class="opt-letter">B</span> (1,3), (3,3) e (4,4)</div>
+        <div class="option" onclick="selectOpt('q2','C')"><span class="opt-letter">C</span> (1,3) e (3,3)</div>
+        <div class="option" onclick="selectOpt('q2','D')"><span class="opt-letter">D</span> (2,5) e (4,4)</div>
     </div>
     <div class="feedback" id="fb-q2"></div>
     <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q2','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q2','B) f1: todas imagens diferentes ✓. f2: a→1 e d→1 (repetida) ✗. f3: todas imagens diferentes ✓.')">📖 Gabarito</button>
+        <button class="btn btn-primary" onclick="checkSingle('q2','C')">✓ Verificar</button>
+        <button class="btn btn-reveal" onclick="revealAnswer('q2','C) 1+3=4&lt;7 ✓, 3+3=6&lt;7 ✓, 2+5=7≮7 ✗, 4+4=8≮7 ✗.')">📖 Gabarito</button>
         <button class="btn btn-secondary" onclick="resetQ('q2')">↺ Limpar</button>
     </div>
 </div>
@@ -593,18 +603,18 @@
 <div class="q-card" id="q3">
     <div class="q-number">Questão 3</div>
     <div class="q-text">
-        Quais funções de <span class="math">E = {a,b,c}</span> em <span class="math">F = {0,1}</span> são <strong>SOBREJETORAS</strong>?
+        Classifique a relação <span class="math">R = {(1,2), (1,4), (1,6), (2,3), (4,3)}</span>:
     </div>
     <div class="options" id="opts-q3">
-        <div class="option" onclick="selectOpt('q3','A')"><span class="opt-letter">A</span> f1={(a,0),(b,0),(c,0)}</div>
-        <div class="option" onclick="selectOpt('q3','B')"><span class="opt-letter">B</span> f2={(a,0),(b,0),(c,1)} e f3={(a,1),(b,0),(c,1)}</div>
-        <div class="option" onclick="selectOpt('q3','C')"><span class="opt-letter">C</span> Apenas f2</div>
-        <div class="option" onclick="selectOpt('q3','D')"><span class="opt-letter">D</span> f4={(a,1),(b,1),(c,1)}</div>
+        <div class="option" onclick="selectOpt('q3','A')"><span class="opt-letter">A</span> Um-para-um</div>
+        <div class="option" onclick="selectOpt('q3','B')"><span class="opt-letter">B</span> Um-para-muitos</div>
+        <div class="option" onclick="selectOpt('q3','C')"><span class="opt-letter">C</span> Muitos-para-um</div>
+        <div class="option" onclick="selectOpt('q3','D')"><span class="opt-letter">D</span> Muitos-para-muitos</div>
     </div>
     <div class="feedback" id="fb-q3"></div>
     <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q3','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q3','B) f2 e f3 cobrem todo o contradomínio {0,1}. f1 só cobre {0}, f4 só cobre {1}.')">📖 Gabarito</button>
+        <button class="btn btn-primary" onclick="checkSingle('q3','D')">✓ Verificar</button>
+        <button class="btn btn-reveal" onclick="revealAnswer('q3','D) 1 aparece 3 vezes à esquerda (um-para-muitos) e 3 aparece à direita de 2 e 4 (muitos-para-um) = muitos-para-muitos.')">📖 Gabarito</button>
         <button class="btn btn-secondary" onclick="resetQ('q3')">↺ Limpar</button>
     </div>
 </div>
@@ -613,18 +623,18 @@
 <div class="q-card" id="q4">
     <div class="q-number">Questão 4</div>
     <div class="q-text">
-        Quais funções de <span class="math">E = {r,s,t}</span> em <span class="math">F = {1,2,3}</span> são <strong>BIJETORAS</strong>?
+        Seja <span class="math">R = </span> a relação &lt; de <span class="math">A = {1,2,3,4}</span> em <span class="math">B = {1,3,5}</span> ("x é menor que y"). Qual é R?
     </div>
     <div class="options" id="opts-q4">
-        <div class="option" onclick="selectOpt('q4','A')"><span class="opt-letter">A</span> f1={(r,1),(s,1),(t,2)}</div>
-        <div class="option" onclick="selectOpt('q4','B')"><span class="opt-letter">B</span> f2={(r,3),(s,1),(t,2)} e f4={(r,1),(s,2),(t,3)}</div>
-        <div class="option" onclick="selectOpt('q4','C')"><span class="opt-letter">C</span> f3={(r,3),(s,2),(t,3)}</div>
-        <div class="option" onclick="selectOpt('q4','D')"><span class="opt-letter">D</span> Todas são bijetoras</div>
+        <div class="option" onclick="selectOpt('q4','A')"><span class="opt-letter">A</span> R = {(1,3),(1,5),(2,3),(2,5),(3,5),(4,5)}</div>
+        <div class="option" onclick="selectOpt('q4','B')"><span class="opt-letter">B</span> R = {(1,3),(1,5),(2,3),(2,5),(3,5)}</div>
+        <div class="option" onclick="selectOpt('q4','C')"><span class="opt-letter">C</span> R = {(1,1),(1,3),(1,5),(2,3),(2,5),(3,5),(4,5)}</div>
+        <div class="option" onclick="selectOpt('q4','D')"><span class="opt-letter">D</span> R = {(2,3),(2,5),(3,5),(4,5)}</div>
     </div>
     <div class="feedback" id="fb-q4"></div>
     <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q4','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q4','B) f2 e f4 são injetoras e sobrejetoras (bijetoras). f1: não injetora (r,s→1). f3: não injetora (r,t→3).')">📖 Gabarito</button>
+        <button class="btn btn-primary" onclick="checkSingle('q4','A')">✓ Verificar</button>
+        <button class="btn btn-reveal" onclick="revealAnswer('q4','A) x&lt;y: 1&lt;3✓,1&lt;5✓,2&lt;3✓,2&lt;5✓,3&lt;5✓,4&lt;5✓. 3&lt;3✗.')">📖 Gabarito</button>
         <button class="btn btn-secondary" onclick="resetQ('q4')">↺ Limpar</button>
     </div>
 </div>
@@ -633,18 +643,18 @@
 <div class="q-card" id="q5">
     <div class="q-number">Questão 5</div>
     <div class="q-text">
-        Sejam <span class="math">S={1,2,3,4}, T={1,...,6}, U={6,7,8,9,10}</span>, <span class="math">f={(1,2),(2,4),(3,3),(4,6)}</span> e <span class="math">g={(1,7),(2,6),(3,9),(4,7),(5,8),(6,9)}</span>. Qual é <span class="math">g ∘ f</span>?
+        Construa uma relação T em <span class="math">S = {1,2,3,4}</span> que seja reflexiva e transitiva, mas NÃO simétrica e NÃO antissimétrica. Qual das opções satisfaz?
     </div>
     <div class="options" id="opts-q5">
-        <div class="option" onclick="selectOpt('q5','A')"><span class="opt-letter">A</span> g∘f = {(1,6),(2,7),(3,9),(4,9)}</div>
-        <div class="option" onclick="selectOpt('q5','B')"><span class="opt-letter">B</span> g∘f = {(1,7),(2,6),(3,9),(4,7)}</div>
-        <div class="option" onclick="selectOpt('q5','C')"><span class="opt-letter">C</span> g∘f = {(1,9),(2,7),(3,9),(4,6)}</div>
-        <div class="option" onclick="selectOpt('q5','D')"><span class="opt-letter">D</span> g∘f = {(1,6),(2,7),(3,3),(4,6)}</div>
+        <div class="option" onclick="selectOpt('q5','A')"><span class="opt-letter">A</span> T = {(1,1),(2,2),(3,3),(4,4),(1,2),(2,1)}</div>
+        <div class="option" onclick="selectOpt('q5','B')"><span class="opt-letter">B</span> T = {(1,1),(2,2),(3,3),(4,4),(1,2),(2,3)}</div>
+        <div class="option" onclick="selectOpt('q5','C')"><span class="opt-letter">C</span> T = {(1,1),(2,2),(3,3),(4,4),(1,2),(2,1),(1,3),(2,3),(1,4),(2,4)}</div>
+        <div class="option" onclick="selectOpt('q5','D')"><span class="opt-letter">D</span> T = {(1,1),(2,2),(3,3),(4,4),(1,2),(2,3),(1,3)}</div>
     </div>
     <div class="feedback" id="fb-q5"></div>
     <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q5','A')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q5','A) (g∘f)(1)=g(2)=6, (g∘f)(2)=g(4)=7, (g∘f)(3)=g(3)=9, (g∘f)(4)=g(6)=9.')">📖 Gabarito</button>
+        <button class="btn btn-primary" onclick="checkSingle('q5','C')">✓ Verificar</button>
+        <button class="btn btn-reveal" onclick="revealAnswer('q5','C) Reflexiva (todos (x,x)), transitiva, não simétrica (ex: (1,3)∈T mas (3,1)∉T), não antissimétrica (1R2 e 2R1 com 1≠2).')">📖 Gabarito</button>
         <button class="btn btn-secondary" onclick="resetQ('q5')">↺ Limpar</button>
     </div>
 </div>
@@ -653,18 +663,18 @@
 <div class="q-card" id="q6">
     <div class="q-number">Questão 6</div>
     <div class="q-text">
-        Sejam <span class="math">f(x) = x + 1</span> e <span class="math">g(x) = 3x</span>. Calcule <span class="math">(g ∘ f)(5)</span> e <span class="math">(f ∘ g)(5)</span>.
+        Seja <span class="math">W = {1,2,3,4}</span> e <span class="math">R1 = {(1,2),(4,3),(2,2),(2,1),(3,1)}</span>. R1 é:
     </div>
     <div class="options" id="opts-q6">
-        <div class="option" onclick="selectOpt('q6','A')"><span class="opt-letter">A</span> (g∘f)(5)=18 | (f∘g)(5)=16</div>
-        <div class="option" onclick="selectOpt('q6','B')"><span class="opt-letter">B</span> (g∘f)(5)=16 | (f∘g)(5)=18</div>
-        <div class="option" onclick="selectOpt('q6','C')"><span class="opt-letter">C</span> (g∘f)(5)=15 | (f∘g)(5)=18</div>
-        <div class="option" onclick="selectOpt('q6','D')"><span class="opt-letter">D</span> (g∘f)(5)=18 | (f∘g)(5)=15</div>
+        <div class="option" onclick="selectOpt('q6','A')"><span class="opt-letter">A</span> Simétrica e transitiva</div>
+        <div class="option" onclick="selectOpt('q6','B')"><span class="opt-letter">B</span> Nem simétrica, nem transitiva</div>
+        <div class="option" onclick="selectOpt('q6','C')"><span class="opt-letter">C</span> Simétrica, mas não transitiva</div>
+        <div class="option" onclick="selectOpt('q6','D')"><span class="opt-letter">D</span> Transitiva, mas não simétrica</div>
     </div>
     <div class="feedback" id="fb-q6"></div>
     <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q6','A')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q6','A) g∘f: f(5)=6, g(6)=18. f∘g: g(5)=15, f(15)=16.')">📖 Gabarito</button>
+        <button class="btn btn-primary" onclick="checkSingle('q6','B')">✓ Verificar</button>
+        <button class="btn btn-reveal" onclick="revealAnswer('q6','B) Simetria: (4,3)∈R1 mas (3,4)∉R1 ✗. Transitividade: (4,3) e (3,1)∈R1 mas (4,1)∉R1 ✗.')">📖 Gabarito</button>
         <button class="btn btn-secondary" onclick="resetQ('q6')">↺ Limpar</button>
     </div>
 </div>
@@ -673,18 +683,18 @@
 <div class="q-card" id="q7">
     <div class="q-number">Questão 7</div>
     <div class="q-text">
-        É possível encontrar uma função de <span class="math">S = {a,b,c,d}</span> em <span class="math">T = {x,y,z}</span> que seja <strong>INJETORA</strong>?
+        A relação <span class="math">R = {(1,1),(2,3),(3,2)}</span> sobre <span class="math">X = {1,2,3}</span> é:
     </div>
     <div class="options" id="opts-q7">
-        <div class="option" onclick="selectOpt('q7','A')"><span class="opt-letter">A</span> Sim, pois |S| > |T|</div>
-        <div class="option" onclick="selectOpt('q7','B')"><span class="opt-letter">B</span> Não, pois |S| > |T| (4 > 3)</div>
-        <div class="option" onclick="selectOpt('q7','C')"><span class="opt-letter">C</span> Sim, pois os elementos são diferentes</div>
-        <div class="option" onclick="selectOpt('q7','D')"><span class="opt-letter">D</span> Sim, se definirmos corretamente</div>
+        <div class="option" onclick="selectOpt('q7','A')"><span class="opt-letter">A</span> Reflexiva, simétrica e transitiva</div>
+        <div class="option" onclick="selectOpt('q7','B')"><span class="opt-letter">B</span> Simétrica, mas não reflexiva e não transitiva</div>
+        <div class="option" onclick="selectOpt('q7','C')"><span class="opt-letter">C</span> Reflexiva e simétrica, mas não transitiva</div>
+        <div class="option" onclick="selectOpt('q7','D')"><span class="opt-letter">D</span> Transitiva, mas não reflexiva e não simétrica</div>
     </div>
     <div class="feedback" id="fb-q7"></div>
     <div class="q-actions">
         <button class="btn btn-primary" onclick="checkSingle('q7','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q7','B) Impossível: 4 elementos no domínio, só 3 no contradomínio. Pelo Princípio das Gavetas, 2 terão mesma imagem.')">📖 Gabarito</button>
+        <button class="btn btn-reveal" onclick="revealAnswer('q7','B) Reflexiva? (2,2)∉R ✗. Simétrica? (2,3)∈R→(3,2)∈R ✓. Transitiva? (2,3) e (3,2)∈R→(2,2) precisa estar, mas não está ✗.')">📖 Gabarito</button>
         <button class="btn btn-secondary" onclick="resetQ('q7')">↺ Limpar</button>
     </div>
 </div>
@@ -693,18 +703,18 @@
 <div class="q-card" id="q8">
     <div class="q-number">Questão 8</div>
     <div class="q-text">
-        Sejam <span class="math">f(x) = 2x + 1</span> e <span class="math">g(x) = x² − 2</span>. Qual é a fórmula de <span class="math">(g ∘ f)(x)</span>?
+        Seja R a relação de <span class="math">E = {2,3,4,5}</span> em <span class="math">F = {3,6,7,10}</span> definida por "x divide y". Qual é R?
     </div>
     <div class="options" id="opts-q8">
-        <div class="option" onclick="selectOpt('q8','A')"><span class="opt-letter">A</span> 4x² + 4x − 1</div>
-        <div class="option" onclick="selectOpt('q8','B')"><span class="opt-letter">B</span> 4x² + 4x + 1</div>
-        <div class="option" onclick="selectOpt('q8','C')"><span class="opt-letter">C</span> 2x² − 3</div>
-        <div class="option" onclick="selectOpt('q8','D')"><span class="opt-letter">D</span> 4x² − 1</div>
+        <div class="option" onclick="selectOpt('q8','A')"><span class="opt-letter">A</span> R = {(2,6),(2,10),(3,3),(3,6),(5,10)}</div>
+        <div class="option" onclick="selectOpt('q8','B')"><span class="opt-letter">B</span> R = {(2,6),(3,3),(3,6),(5,10)}</div>
+        <div class="option" onclick="selectOpt('q8','C')"><span class="opt-letter">C</span> R = {(2,6),(2,10),(3,3),(3,6),(4,4),(5,10)}</div>
+        <div class="option" onclick="selectOpt('q8','D')"><span class="opt-letter">D</span> R = {(2,6),(2,10),(3,6),(5,10)}</div>
     </div>
     <div class="feedback" id="fb-q8"></div>
     <div class="q-actions">
         <button class="btn btn-primary" onclick="checkSingle('q8','A')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q8','A) (g∘f)(x) = (2x+1)² − 2 = 4x² + 4x + 1 − 2 = 4x² + 4x − 1.')">📖 Gabarito</button>
+        <button class="btn btn-reveal" onclick="revealAnswer('q8','A) 2 divide 6 e 10; 3 divide 3 e 6; 5 divide 10. 4 não divide nenhum elemento de F.')">📖 Gabarito</button>
         <button class="btn btn-secondary" onclick="resetQ('q8')">↺ Limpar</button>
     </div>
 </div>
@@ -713,18 +723,18 @@
 <div class="q-card" id="q9">
     <div class="q-number">Questão 9</div>
     <div class="q-text">
-        Seja <span class="math">f: A → B, g: B → C, h: C → D</span>. Se f e g são sobrejetoras, então:
+        Qual relação em <span class="math">S = {a,b,c,d,e}</span> é uma <strong>relação de equivalência</strong>?
     </div>
     <div class="options" id="opts-q9">
-        <div class="option" onclick="selectOpt('q9','A')"><span class="opt-letter">A</span> h ∘ g ∘ f é necessariamente sobrejetora</div>
-        <div class="option" onclick="selectOpt('q9','B')"><span class="opt-letter">B</span> g ∘ f é necessariamente sobrejetora</div>
-        <div class="option" onclick="selectOpt('q9','C')"><span class="opt-letter">C</span> h ∘ g ∘ f é necessariamente injetora</div>
-        <div class="option" onclick="selectOpt('q9','D')"><span class="opt-letter">D</span> Nada se pode afirmar</div>
+        <div class="option" onclick="selectOpt('q9','A')"><span class="opt-letter">A</span> R1 = {(a,a),(b,b),(c,c),(d,d),(e,e),(a,b),(b,c),(c,d),(d,e)}</div>
+        <div class="option" onclick="selectOpt('q9','B')"><span class="opt-letter">B</span> R2 = {(a,a),(b,b),(c,c),(d,d),(e,e),(a,c),(b,d)}</div>
+        <div class="option" onclick="selectOpt('q9','C')"><span class="opt-letter">C</span> R3 = {(a,b),(b,c),(a,c),(c,a),(c,b),(b,a),(a,a),(b,b),(c,c),(d,d),(e,e)}</div>
+        <div class="option" onclick="selectOpt('q9','D')"><span class="opt-letter">D</span> R2 e R3 são de equivalência</div>
     </div>
     <div class="feedback" id="fb-q9"></div>
     <div class="q-actions">
-        <button class="btn btn-primary" onclick="checkSingle('q9','B')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q9','B) A composição de funções sobrejetoras é sobrejetora. Mas h pode não ser sobrejetora, então não garantimos para h∘g∘f.')">📖 Gabarito</button>
+        <button class="btn btn-primary" onclick="checkSingle('q9','C')">✓ Verificar</button>
+        <button class="btn btn-reveal" onclick="revealAnswer('q9','C) R3 é reflexiva (todos (x,x)), simétrica (todas as setas têm volta) e transitiva. R1 não é simétrica, R2 não é transitiva.')">📖 Gabarito</button>
         <button class="btn btn-secondary" onclick="resetQ('q9')">↺ Limpar</button>
     </div>
 </div>
@@ -733,27 +743,47 @@
 <div class="q-card" id="q10">
     <div class="q-number">Questão 10</div>
     <div class="q-text">
-        Seja <span class="math">W = {1,2,3,4,5}</span> e <span class="math">f = {(1,2),(2,3),(3,2),(4,5),(5,1)}</span>. f tem inversa?
+        Qual coleção é uma <strong>partição</strong> de <span class="math">X = {a,b,c,d,e,f,g}</span>?
     </div>
     <div class="options" id="opts-q10">
-        <div class="option" onclick="selectOpt('q10','A')"><span class="opt-letter">A</span> Sim, pois é bijetora</div>
-        <div class="option" onclick="selectOpt('q10','B')"><span class="opt-letter">B</span> Não, pois não é injetora (2→3 e 3→2 não são problema, mas 1←5 e 1 não aparece como imagem)</div>
-        <div class="option" onclick="selectOpt('q10','C')"><span class="opt-letter">C</span> Não, pois não é sobrejetora (4 não é imagem de ninguém)</div>
-        <div class="option" onclick="selectOpt('q10','D')"><span class="opt-letter">D</span> Sim, trocando os pares ordenados</div>
+        <div class="option" onclick="selectOpt('q10','A')"><span class="opt-letter">A</span> A1={a,c,e}, A2={b}, A3={d,g}</div>
+        <div class="option" onclick="selectOpt('q10','B')"><span class="opt-letter">B</span> B1={a,c,g}, B2={c,d}, B3={b,e,f}</div>
+        <div class="option" onclick="selectOpt('q10','C')"><span class="opt-letter">C</span> C1={a,b,e,g}, C2={c}, C3={d,f}</div>
+        <div class="option" onclick="selectOpt('q10','D')"><span class="opt-letter">D</span> D1={a,b,c,d,e,f,g}</div>
     </div>
     <div class="feedback" id="fb-q10"></div>
     <div class="q-actions">
         <button class="btn btn-primary" onclick="checkSingle('q10','C')">✓ Verificar</button>
-        <button class="btn btn-reveal" onclick="revealAnswer('q10','C) Im(f) = {1,2,3,5}. O elemento 4 ∈ W não é imagem de ninguém, logo f não é sobrejetora → não é bijetora → não tem inversa.')">📖 Gabarito</button>
+        <button class="btn btn-reveal" onclick="revealAnswer('q10','C) Cobre todos elementos sem interseção. A: falta f. B: c aparece em B1 e B2. D: é um bloco só, é partição trivial.')">📖 Gabarito</button>
         <button class="btn btn-secondary" onclick="resetQ('q10')">↺ Limpar</button>
+    </div>
+</div>
+
+<!-- Q11 -->
+<div class="q-card" id="q11">
+    <div class="q-number">Questão 11</div>
+    <div class="q-text">
+        Qual relação em <span class="math">S = {a,b,c,d,e}</span> é uma <strong>ordem parcial</strong>?
+    </div>
+    <div class="options" id="opts-q11">
+        <div class="option" onclick="selectOpt('q11','A')"><span class="opt-letter">A</span> R1 = {(a,a),(b,b),(c,c),(d,d),(e,e),(a,b),(b,c),(c,d),(d,e)}</div>
+        <div class="option" onclick="selectOpt('q11','B')"><span class="opt-letter">B</span> R2 = {(a,a),(b,b),(c,c),(d,d),(e,e),(a,c),(b,d)}</div>
+        <div class="option" onclick="selectOpt('q11','C')"><span class="opt-letter">C</span> R1 e R2 são ordens parciais</div>
+        <div class="option" onclick="selectOpt('q11','D')"><span class="opt-letter">D</span> Nenhuma é ordem parcial</div>
+    </div>
+    <div class="feedback" id="fb-q11"></div>
+    <div class="q-actions">
+        <button class="btn btn-primary" onclick="checkSingle('q11','C')">✓ Verificar</button>
+        <button class="btn btn-reveal" onclick="revealAnswer('q11','C) Ambas são reflexivas, antissimétricas e transitivas. R1: a≤b≤c≤d≤e. R2: a≤c, b≤d.')">📖 Gabarito</button>
+        <button class="btn btn-secondary" onclick="resetQ('q11')">↺ Limpar</button>
     </div>
 </div>
 
 </div><!-- end content -->
 
 <script src="JS/footer.js"></script>
-<script src="JS//sidebar.js"></script>
-<script src="JS//questoes.js"></script>
+<script src="JS/sidebar.js"></script>
+<script src="JS/questoes.js"></script>
 
 </body>
 </html>
