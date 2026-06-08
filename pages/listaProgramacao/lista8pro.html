@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <base href="../../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Exercícios 8 · Programação C (Funções)</title>
+    <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="Style/style.css">
+    <style>
+        :root {
+            --bg: #0d0d0f;
+            --surface: #15151a;
+            --card: #1c1c24;
+            --border: #2a2a38;
+            --accent: #7c6dfa;
+            --accent2: #6dfabc;
+            --accent3: #fa6d8a;
+            --text: #e8e8f0;
+            --muted: #7878a0;
+            --correct: #2ecc71;
+            --wrong: #e74c3c;
+            --warning: #fadc6d;
+            --info: #6dcffa;
+            --destaque: #ff9f43;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            font-size: 18px;
+            min-height: 100vh;
+            padding: 20px;
+            padding-top: 10px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2em;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .tag-funcao {
+            display: inline-block;
+            background: rgba(255,159,67,0.15);
+            color: var(--destaque);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .obs-box {
+            background: rgba(255,159,67,0.08);
+            border: 2px solid rgba(255,159,67,0.25);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 15px;
+            color: var(--destaque);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .obs-box .icon { font-size: 22px; }
+
+        .quest-nav {
+            display: flex; gap: 8px; flex-wrap: wrap;
+            justify-content: center; padding: 8px 0; margin-bottom: 10px;
+        }
+        .quest-nav button {
+            width: 42px; height: 42px; border-radius: 10px;
+            border: 2px solid var(--border); background: var(--surface);
+            color: var(--text); font-weight: 700; font-size: 16px;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .quest-nav button:hover { border-color: var(--accent); }
+        .quest-nav button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .quest-nav button.correct { background: var(--correct); border-color: var(--correct); color: #fff; }
+        .quest-nav button.wrong { background: var(--wrong); border-color: var(--wrong); color: #fff; }
+
+        .quest-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 25px 30px; margin-bottom: 20px;
+        }
+
+        .quest-header {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 15px;
+        }
+        .quest-number { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--accent); }
+        .quest-points { background: rgba(250,220,109,0.15); color: var(--warning); padding: 5px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; }
+        .quest-title { font-size: 22px; font-weight: 700; margin-bottom: 15px; color: #fff; }
+        .quest-desc { color: var(--muted); margin-bottom: 18px; line-height: 1.8; font-size: 16px; }
+        .quest-desc p { margin-bottom: 8px; }
+        .quest-desc ul { list-style-position: inside; margin: 10px 0; }
+        .quest-desc li { margin-bottom: 6px; }
+        .quest-example { background: #0a0a0d; border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 18px; }
+        .quest-example h4 { color: var(--accent2); margin-bottom: 8px; font-size: 15px; }
+        .quest-example pre { font-family: 'Fira Code', monospace; font-size: 14px; color: var(--muted); white-space: pre-wrap; line-height: 1.6; }
+        .info-box {
+            background: rgba(255,159,67,0.08);
+            border: 1px solid rgba(255,159,67,0.2);
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin: 10px 0;
+            font-size: 14px;
+            color: var(--destaque);
+        }
+
+        .code-section { display: grid; grid-template-columns: 1fr 320px; gap: 18px; margin-bottom: 10px; }
+        @media (max-width: 1000px) { .code-section { grid-template-columns: 1fr; } }
+
+        .code-editor-wrapper {
+            background: #1E1E1E; border: 1px solid #3C3C3C;
+            border-radius: 10px; overflow: hidden;
+        }
+        .code-editor-header {
+            background: #2D2D2D; padding: 8px 16px;
+            font-size: 13px; color: #CCCCCC;
+            display: flex; justify-content: space-between;
+            align-items: center; border-bottom: 1px solid #3C3C3C;
+        }
+        .code-editor-body {
+            display: flex;
+            height: 440px;
+            overflow: hidden;
+        }
+
+        .line-numbers {
+            padding: 16px 10px 16px 16px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 15px;
+            line-height: 1.8;
+            color: #858585;
+            background: #1A1A1A;
+            border-right: 1px solid #3C3C3C;
+            text-align: right;
+            user-select: none;
+            white-space: pre;
+            overflow: hidden;
+            min-width: 50px;
+            flex-shrink: 0;
+        }
+
+        .code-content {
+            position: relative;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .code-highlight {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            padding: 16px; font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 15px; line-height: 1.8; white-space: pre-wrap;
+            word-wrap: break-word; overflow: auto;
+            background: #1E1E1E; tab-size: 4;
+            z-index: 1;
+            color: #D4D4D4;
+        }
+
+        .code-textarea {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%; height: 100%;
+            padding: 16px; font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 15px; line-height: 1.8; resize: none;
+            outline: none; border: none;
+            background: transparent !important;
+            color: transparent !important;
+            caret-color: #FFFFFF;
+            tab-size: 4; z-index: 2; overflow: auto;
+            -webkit-text-fill-color: transparent !important;
+        }
+
+        .code-highlight .preprocessor { color: #C586C0; }
+        .code-highlight .header-file { color: #CE9178; }
+        .code-highlight .keyword { color: #569CD6; font-weight: 600; }
+        .code-highlight .type { color: #569CD6; }
+        .code-highlight .function { color: #DCDCAA; }
+        .code-highlight .string { color: #CE9178; }
+        .code-highlight .format { color: #E57373; }
+        .code-highlight .number { color: #B5CEA8; }
+        .code-highlight .comment { color: #6A9955; font-style: italic; }
+        .code-highlight .brace { color: #FFD700; }
+
+        .btn-expand {
+            background: transparent; border: 1px solid #555;
+            color: #CCCCCC; cursor: pointer;
+            padding: 4px 10px; border-radius: 6px;
+            font-size: 13px; transition: all 0.3s;
+            display: flex; align-items: center; gap: 5px;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-expand:hover { background: #3C3C3C; border-color: #888; color: #fff; }
+
+        .code-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9998;
+            cursor: pointer;
+        }
+        .code-overlay.show { display: block; }
+
+        .code-editor-wrapper.expanded {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            z-index: 9999;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+        }
+        .code-editor-wrapper.expanded .code-editor-body {
+            height: calc(100vh - 80px) !important;
+        }
+        .code-editor-wrapper.expanded .line-numbers {
+            font-size: 20px !important;
+            line-height: 2 !important;
+            padding: 22px 10px 22px 22px !important;
+        }
+        .code-editor-wrapper.expanded .code-highlight,
+        .code-editor-wrapper.expanded .code-textarea {
+            font-size: 20px !important;
+            line-height: 2 !important;
+            padding: 22px !important;
+        }
+
+        .test-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+        .test-panel h3 { font-size: 15px; color: var(--accent); margin-bottom: 10px; font-weight: 700; }
+        .test-case { background: #0a0a0d; border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: 13px; }
+        .test-case .label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700; }
+        .test-case .value { font-family: 'Fira Code', monospace; font-size: 13px; color: var(--text); line-height: 1.5; }
+
+        .btn { padding: 10px 22px; border: none; border-radius: 10px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-submit { background: var(--accent); color: #fff; font-size: 17px; padding: 14px 36px; box-shadow: 0 6px 20px rgba(124,109,250,0.3); border-radius: 14px; }
+        .btn-submit:hover { background: #8f80ff; transform: translateY(-1px); }
+        .btn-submit:disabled { background: #555; cursor: not-allowed; transform: none; }
+        .btn-hint { background: transparent; border: 2px solid var(--border); color: var(--muted); font-size: 14px; }
+        .btn-hint:hover { border-color: var(--warning); color: var(--warning); }
+        .btn-reset { background: transparent; border: 2px solid #e74c3c; color: #e74c3c; font-size: 14px; }
+        .btn-reset:hover { background: rgba(231,76,60,0.1); }
+
+        .result-box { display: none; padding: 16px; border-radius: 12px; margin-top: 15px; font-size: 15px; line-height: 1.7; }
+        .result-box.show { display: block; }
+        .result-box.success { background: rgba(46,204,113,0.1); border: 2px solid rgba(46,204,113,0.3); color: var(--correct); }
+        .result-box.fail { background: rgba(231,76,60,0.1); border: 2px solid rgba(231,76,60,0.3); color: #ff8080; }
+
+        .score-bar {
+            background: rgba(13,13,15,0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 12px;
+            font-size: 15px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .spinner { display: none; width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .spinner.show { display: inline-block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .hint-box { display: none; background: rgba(250,220,109,0.08); border: 2px solid rgba(250,220,109,0.25); color: var(--warning); padding: 12px 16px; border-radius: 10px; margin-top: 12px; font-size: 14px; line-height: 1.7; }
+        .hint-box.show { display: block; }
+
+        .hamburger-btn {
+            position: fixed; top: 20px; left: 20px; z-index: 200;
+            width: 44px; height: 44px;
+            background: rgba(21,21,26,0.85); backdrop-filter: blur(16px);
+            border: 1px solid var(--border); border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 5px; cursor: pointer;
+            transition: all 0.3s;
+        }
+        .hamburger-btn:hover { border-color: var(--accent); box-shadow: 0 0 15px rgba(124,109,250,0.2); }
+        .hamburger-line {
+            width: 20px; height: 2px; background: var(--text); border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .hamburger-btn.open .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger-btn.open .hamburger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger-btn.open .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .sidebar-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px); z-index: 250; opacity: 0;
+            pointer-events: none; transition: opacity 0.3s;
+        }
+        .sidebar-overlay.show { opacity: 1; pointer-events: all; }
+
+        .sidebar {
+            position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
+            background: rgba(21,21,26,0.95); backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border); z-index: 260;
+            transform: translateX(-100%); transition: transform 0.35s;
+            display: flex; flex-direction: column; padding: 0;
+        }
+        .sidebar.open { transform: translateX(0); }
+
+        .sidebar-header {
+            padding: 24px 20px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .sidebar-logo {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; font-weight: 800; font-size: 18px; color: #fff;
+        }
+        .sidebar-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; }
+
+        .sidebar-nav {
+            flex: 1; padding: 16px 12px; display: flex;
+            flex-direction: column; gap: 4px; overflow-y: auto;
+        }
+        .sidebar-link {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px; border-radius: 10px;
+            color: var(--muted); text-decoration: none;
+            font-size: 14px; transition: all 0.3s; font-weight: 500;
+        }
+        .sidebar-link:hover { background: rgba(124,109,250,0.1); color: var(--text); }
+        .sidebar-link.active { background: rgba(124,109,250,0.15); border: 1px solid rgba(124,109,250,0.3); color: #fff; }
+        .sidebar-link .icon {
+            width: 28px; height: 28px; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; flex-shrink: 0;
+        }
+        .sidebar-footer {
+            padding: 16px 20px; border-top: 1px solid var(--border);
+            font-size: 11px; color: var(--muted); text-align: center;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .code-highlight, .code-textarea, .line-numbers { font-size: 13px; padding: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="code-overlay" id="code-overlay"></div>
+
+<div class="hamburger-btn" id="hamburger-btn" onclick="toggleSidebar()">
+    <div class="hamburger-line"></div>
+    <div class="hamburger-line"></div>
+    <div class="hamburger-line"></div>
+</div>
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">C</div>
+        <div class="sidebar-title">Lista 8 · Funções</div>
+    </div>
+    <div class="sidebar-nav">
+        <a href="#" class="sidebar-link active" onclick="goToQuest(0); toggleSidebar(); return false;"><span class="icon">1</span> Módulo</a>
+        <a href="#" class="sidebar-link" onclick="goToQuest(1); toggleSidebar(); return false;"><span class="icon">2</span> Distância</a>
+        <a href="#" class="sidebar-link" onclick="goToQuest(2); toggleSidebar(); return false;"><span class="icon">3</span> Média Ponderada</a>
+        <a href="#" class="sidebar-link" onclick="goToQuest(3); toggleSidebar(); return false;"><span class="icon">4</span> Dobro/Triplo</a>
+        <a href="#" class="sidebar-link" onclick="goToQuest(4); toggleSidebar(); return false;"><span class="icon">5</span> Maior/Menor</a>
+        <a href="#" class="sidebar-link" onclick="goToQuest(5); toggleSidebar(); return false;"><span class="icon">6</span> Número Primo</a>
+    </div>
+    <div class="sidebar-footer">⚙️ Passagem por valor</div>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<div class="container">
+    <h1>📝 Lista de Exercícios 8</h1>
+    <p class="subtitle">Programação em Linguagem C · 6 Exercícios</p>
+    <div style="text-align:center;">
+        <span class="tag-funcao">⚙️ Funções · Passagem por Valor</span>
+    </div>
+    <div class="obs-box">
+        <span class="icon">📌</span>
+        <span><strong>Observação:</strong> Todos os programas devem ser desenvolvidos em linguagem C. Utilize <strong>passagem de argumentos por valor</strong> em todos os exercícios.</span>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+    </div>
+
+    <div class="score-bar">
+        <span style="font-weight:700;">✅ <span id="correct-count">0</span> / <span id="total-quest">6</span></span>
+        <span style="font-weight:700;">⭐ <span id="total-score">0</span> pontos</span>
+        <span style="color: var(--accent2); font-weight: 700;">🟢 GCC Online</span>
+        <button class="btn-hint" onclick="resetProgress()" style="font-size: 13px; padding: 6px 14px;">🔄 Resetar Progresso</button>
+    </div>
+
+    <div class="quest-nav" id="quest-nav"></div>
+    <div class="quest-card" id="quest-card"></div>
+</div>
+
+<script>
+const TEMPLATE_PADRAO = `#include <stdio.h>
+
+int main() {
+    
+    return 0;
+}`;
+
+const QUESTOES = [
+    {
+        id: 1,
+        titulo: "Módulo de um Número",
+        pontos: 15,
+        enunciado: `<p>Escreva um programa que calcule, através de uma função, o <strong>módulo</strong> de um número, ou seja, que converta qualquer número digitado em positivo. Utilize <strong>passagem de argumentos por valor</strong>. O programa deve imprimir o módulo do número.</p>
+                    <div class="info-box">💡 Exemplo: -3 → 3 | 2 → 2</div>`,
+        exemplo: `📥 Entrada: -3\n📤 Saída: 3`,
+        codeTemplate: TEMPLATE_PADRAO,
+        testCases: [
+            { input: "-3", expected: "3" },
+            { input: "2", expected: "2" },
+            { input: "-15", expected: "15" },
+            { input: "0", expected: "0" }
+        ],
+        dica: "Crie uma função que recebe um número inteiro e retorna o seu valor absoluto. Dentro da função, verifique se o número é negativo. Se sim, retorne -num; caso contrário, retorne num. Na main, leia o número e chame a função."
+    },
+    {
+        id: 2,
+        titulo: "Distância Euclidiana",
+        pontos: 20,
+        enunciado: `<p>Escreva um programa que calcule, através de uma função, a <strong>distância euclidiana</strong> entre dois pontos. O programa deverá solicitar as coordenadas dos dois pontos ao usuário. Utilize passagem de argumentos por valor. Pesquise na biblioteca <strong>math.h</strong> as funções para calcular raiz quadrada e potência.</p>
+                    <div class="info-box">📐 Dist = √[(x₁-x₂)² + (y₁-y₂)²]</div>`,
+        exemplo: `📥 Entrada: 0 0 3 4\n📤 Saída: 5.00`,
+        codeTemplate: TEMPLATE_PADRAO,
+        testCases: [
+            { input: "0 0 3 4", expected: "5.00" },
+            { input: "1 1 4 5", expected: "5.00" },
+            { input: "2 3 2 3", expected: "0.00" }
+        ],
+        dica: "Crie uma função que recebe 4 parâmetros double (x1, y1, x2, y2) e retorna a distância. Use sqrt() e pow() da biblioteca math.h. Lembre de compilar com -lm."
+    },
+    {
+        id: 3,
+        titulo: "Média Ponderada",
+        pontos: 20,
+        enunciado: `<p>Escreva um programa que calcule, através de uma função, a <strong>média ponderada</strong> de um aluno que realizou três avaliações durante o semestre. A leitura das notas deve ser realizada na função <strong>main()</strong> e a leitura dos pesos deve ser realizada na função que você escreverá. Utilize passagem de argumentos por valor. A média calculada deve ser retornada. Considere para aprovação média ≥ 6,0.</p>`,
+        exemplo: `📥 Entrada (notas): 7.0 5.0 9.0\n📥 Entrada (pesos na função): 1 2 2\n📤 Saída: Media = 7.40 - Aprovado`,
+        codeTemplate: TEMPLATE_PADRAO,
+        testCases: [
+            { input: "7.0 5.0 9.0\\n1 2 2", expected: "Media = 7.40 - Aprovado" },
+            { input: "4.0 5.0 6.0\\n1 1 1", expected: "Media = 5.00 - Reprovado" },
+            { input: "10.0 8.0 6.0\\n2 3 1", expected: "Media = 8.67 - Aprovado" }
+        ],
+        dica: "A função deve receber as 3 notas como parâmetros, ler os 3 pesos DENTRO da função, calcular a média ponderada e retornar. Na main, leia as notas, chame a função e exiba o resultado."
+    },
+    {
+        id: 4,
+        titulo: "Dobro e Triplo (void)",
+        pontos: 15,
+        enunciado: `<p>Escreva um programa que calcule, através de <strong>duas funções</strong>, o dobro e o triplo de vários números inteiros digitados. O programa deve oferecer ao usuário a possibilidade de interromper a execução quando desejar. As funções devem realizar o cálculo e <strong>imprimir o resultado na tela</strong>, ou seja, não devem retornar valor (<code>void</code>).</p>`,
+        exemplo: `📥 Entrada: 4\n📤 Saída: Dobro: 8\nTriplo: 12\nContinuar? (s/n): s\n📥 Entrada: 2\n📤 Saída: Dobro: 4\nTriplo: 6`,
+        codeTemplate: TEMPLATE_PADRAO,
+        testCases: [
+            { input: "4\\ns\\n2\\nn", expected: "Dobro: 8\\nTriplo: 12\\nContinuar? (s/n): Dobro: 4\\nTriplo: 6\\nContinuar? (s/n): " }
+        ],
+        dica: "Crie duas funções void: uma que recebe um número e imprime 'Dobro: X', outra que imprime 'Triplo: X'. Na main, use um loop do-while para repetir enquanto o usuário digitar 's' ou 'S'."
+    },
+    {
+        id: 5,
+        titulo: "Maior e Menor Valor",
+        pontos: 15,
+        enunciado: `<p>Escreva um programa que leia <strong>três valores reais</strong> e, através de uma função, imprima uma mensagem informando qual foi o <strong>maior valor lido</strong> e qual foi o <strong>menor valor lido</strong>. A função não deve retornar valor (<code>void</code>).</p>`,
+        exemplo: `📥 Entrada: 10.5 3.2 7.8\n📤 Saída: Maior: 10.50, Menor: 3.20`,
+        codeTemplate: TEMPLATE_PADRAO,
+        testCases: [
+            { input: "10.5 3.2 7.8", expected: "Maior: 10.50, Menor: 3.20" },
+            { input: "-1 -5 0", expected: "Maior: 0.00, Menor: -5.00" },
+            { input: "7 7 7", expected: "Maior: 7.00, Menor: 7.00" }
+        ],
+        dica: "Crie uma função void que recebe 3 doubles e imprime o maior e o menor. Compare os três valores para encontrar o máximo e o mínimo."
+    },
+    {
+        id: 6,
+        titulo: "Número Primo",
+        pontos: 15,
+        enunciado: `<p>Escreva um programa que verifique, através de uma função, se um número inteiro digitado pelo usuário é <strong>primo</strong>. A função deve retornar para a função principal um código que identifique essa característica. A função principal deve imprimir a mensagem adequada.</p>
+                    <div class="info-box">💡 Número primo: divisível apenas por 1 e por ele mesmo.</div>`,
+        exemplo: `📥 Entrada: 7\n📤 Saída: O número digitado é primo`,
+        codeTemplate: TEMPLATE_PADRAO,
+        testCases: [
+            { input: "7", expected: "O número digitado é primo" },
+            { input: "10", expected: "O número digitado não é primo" },
+            { input: "2", expected: "O número digitado é primo" },
+            { input: "1", expected: "O número digitado não é primo" }
+        ],
+        dica: "Crie uma função que retorna 1 se o número é primo, 0 caso contrário. Teste divisores de 2 até a raiz quadrada do número. Lembre: números menores que 2 não são primos."
+    }
+];
+
+const STORAGE_KEY = 'lista8_funcoes_exercicios_c_progress';
+
+function loadProgress() {
+    try { const data = localStorage.getItem(STORAGE_KEY); return data ? JSON.parse(data) : {}; } catch(e) { return {}; }
+}
+function saveProgress(questionId, result, score) {
+    try { const progress = loadProgress(); progress[questionId] = { result, score, timestamp: new Date().toISOString() }; localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); } catch(e) {}
+}
+function resetProgress() {
+    if (confirm('Tem certeza que deseja resetar TODO o progresso? Esta ação não pode ser desfeita.')) {
+        localStorage.removeItem(STORAGE_KEY);
+        questResults = {};
+        totalScore = 0;
+        correctCount = 0;
+        document.getElementById('total-score').textContent = '0';
+        document.getElementById('correct-count').textContent = '0';
+        document.getElementById('progress-bar').style.width = '0%';
+        renderNav();
+        goToQuest(0);
+        alert('✅ Progresso resetado com sucesso!');
+    }
+}
+
+let questResults = {}, totalScore = 0, correctCount = 0, currentQuest = 0;
+
+function init() {
+    const saved = loadProgress();
+    questResults = {}; totalScore = 0; correctCount = 0;
+    for (const [id, data] of Object.entries(saved)) {
+        if (data.result === 'correct') {
+            questResults[id] = 'correct';
+            const q = QUESTOES.find(x => x.id == id);
+            totalScore += (data.score || (q ? q.pontos : 0));
+            correctCount++;
+        } else if (data.result === 'wrong') {
+            questResults[id] = 'wrong';
+        }
+    }
+    document.getElementById('total-quest').textContent = QUESTOES.length;
+    document.getElementById('correct-count').textContent = correctCount;
+    document.getElementById('total-score').textContent = totalScore;
+    document.getElementById('progress-bar').style.width = (correctCount / QUESTOES.length) * 100 + '%';
+    renderNav();
+    renderQuest(0);
+}
+
+function renderNav() {
+    document.getElementById('quest-nav').innerHTML = QUESTOES.map((q, i) => {
+        let statusClass = '';
+        if (i === currentQuest) statusClass = 'active';
+        else if (questResults[q.id] === 'correct') statusClass = 'correct';
+        else if (questResults[q.id] === 'wrong') statusClass = 'wrong';
+        return `<button class="${statusClass}" onclick="goToQuest(${i})">${q.id}</button>`;
+    }).join('');
+}
+
+function goToQuest(i) {
+    currentQuest = i;
+    renderNav();
+    renderQuest(i);
+}
+
+function syncHighlight() {
+    const ta = document.getElementById('code-textarea');
+    const hl = document.getElementById('code-highlight');
+    const ln = document.getElementById('line-numbers');
+    if (ta && hl) {
+        let sanitized = ta.value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        hl.innerHTML = sanitized
+            .replace(/^(#include)\s+(<.*?>)/gm, '<span class="preprocessor">$1</span> <span class="header-file">$2</span>')
+            .replace(/(\/\/.*)/g, '<span class="comment">$1</span>')
+            .replace(/"([^"\\]|\\.)*"/g, '<span class="string">$&</span>')
+            .replace(/%[dfsclu]/g, '<span class="format">$&</span>')
+            .replace(/\b(int|float|double|char|void|long|short|unsigned|signed|const|static|extern|struct|enum|typedef|sizeof|return)\b/g, '<span class="type">$1</span>')
+            .replace(/\b(if|else|for|while|do|switch|case|break|continue|goto|default)\b/g, '<span class="keyword">$1</span>')
+            .replace(/\b(printf|scanf|puts|gets|putchar|getchar|main)\b/g, '<span class="function">$1</span>')
+            .replace(/\b(\d+\.?\d*)\b/g, '<span class="number">$1</span>')
+            .replace(/(\{|\})/g, '<span class="brace">$1</span>');
+        if (ln) {
+            let lines = ta.value.split('\n');
+            ln.textContent = Array.from({ length: lines.length }, (_, i) => i + 1).join('\n');
+        }
+    }
+}
+
+function syncScroll() {
+    const ta = document.getElementById('code-textarea');
+    const hl = document.getElementById('code-highlight');
+    const ln = document.getElementById('line-numbers');
+    if (ta && hl) {
+        hl.scrollTop = ta.scrollTop;
+        hl.scrollLeft = ta.scrollLeft;
+    }
+    if (ln) ln.scrollTop = ta.scrollTop;
+}
+
+function handleKeyDown(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        const q = QUESTOES[currentQuest];
+        if (!questResults[q.id] || questResults[q.id] !== 'correct') {
+            submitCode(q.id);
+        }
+    }
+    if (e.key === 'Tab') {
+        e.preventDefault();
+        const s = e.target.selectionStart;
+        e.target.value = e.target.value.substring(0, s) + '    ' + e.target.value.substring(e.target.selectionEnd);
+        e.target.selectionStart = e.target.selectionEnd = s + 4;
+        syncHighlight();
+    }
+}
+
+function toggleExpand(e) {
+    if (e) e.stopPropagation();
+    const w = document.getElementById('code-editor-wrapper');
+    const ov = document.getElementById('code-overlay');
+    const btn = document.querySelector('.btn-expand');
+    if (!w) return;
+    w.classList.toggle('expanded');
+    ov.classList.toggle('show');
+    document.body.style.overflow = w.classList.contains('expanded') ? 'hidden' : '';
+    if (btn) btn.innerHTML = w.classList.contains('expanded') ? '⛶ Recolher' : '⛶ Expandir';
+    setTimeout(syncHighlight, 50);
+}
+
+function showHint(id) {
+    document.getElementById(`hint-box-${id}`)?.classList.toggle('show');
+}
+
+function retryQuest(id) {
+    const q = QUESTOES.find(x => x.id === id);
+    if (!q) return;
+    delete questResults[id];
+    const prog = loadProgress();
+    delete prog[id];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(prog));
+    totalScore = Math.max(0, totalScore - q.pontos);
+    correctCount = Math.max(0, correctCount - 1);
+    document.getElementById('total-score').textContent = totalScore;
+    document.getElementById('correct-count').textContent = correctCount;
+    document.getElementById('progress-bar').style.width = (correctCount / QUESTOES.length) * 100 + '%';
+    renderNav();
+    renderQuest(QUESTOES.indexOf(q));
+}
+
+async function submitCode(id) {
+    const code = document.getElementById('code-textarea').value.trim();
+    const q = QUESTOES.find(x => x.id === id);
+    const rb = document.getElementById(`result-box-${id}`);
+    const btn = document.getElementById('submit-btn');
+    const sp = document.getElementById('spinner');
+    
+    if (!code) {
+        rb.className = 'result-box fail show';
+        rb.innerHTML = '<h3>❌ Erro</h3>Digite seu código!';
+        return;
+    }
+    
+    btn.disabled = true;
+    sp.classList.add('show');
+    rb.className = 'result-box show';
+    rb.innerHTML = '<h3>🔄 Compilando...</h3>';
+    
+    let ok = true;
+    let results = [];
+    
+    for (let i = 0; i < q.testCases.length; i++) {
+        const tc = q.testCases[i];
+        try {
+            const r = await fetch('https://siteparaestudar.onrender.com/compilar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code, input: tc.input })
+            });
+            if (!r.ok) throw new Error('Erro servidor');
+            const d = await r.json();
+            const exp = tc.expected.trim();
+            const got = (d.output || '').trim();
+            const pass = got === exp && !d.error;
+            results.push({
+                test: i + 1,
+                input: tc.input,
+                expected: exp,
+                got: got,
+                error: d.error || '',
+                passed: pass
+            });
+            if (!pass) ok = false;
+        } catch (e) {
+            results.push({
+                test: i + 1,
+                input: tc.input,
+                expected: tc.expected,
+                got: 'ERRO',
+                error: e.message,
+                passed: false
+            });
+            ok = false;
+        }
+    }
+    
+    let h = ok ? `<h3>🎉 Todos passaram! +${q.pontos} pts</h3>` : '<h3>❌ Falhou</h3>';
+    results.forEach(r => {
+        h += `<div style="margin:10px 0;padding:12px;background:rgba(0,0,0,0.3);border-radius:10px;">
+            <strong>${r.passed ? '✅' : '❌'} Teste ${r.test}:</strong> 
+            📥 <code>${(r.input || '').substring(0, 60)}${(r.input || '').length > 60 ? '...' : ''}</code> → 
+            📤 Esperado: <code style="color:#6dfabc;">${r.expected.substring(0, 80)}${r.expected.length > 80 ? '...' : ''}</code> | 
+            Obtido: <code style="color:${r.passed ? '#6dfabc' : '#e74c3c'};">${(r.got || '').substring(0, 80)}${(r.got || '').length > 80 ? '...' : ''}</code>
+            ${r.error ? `<br>⚠️ ${r.error}` : ''}
+        </div>`;
+    });
+    
+    rb.className = `result-box show ${ok ? 'success' : 'fail'}`;
+    rb.innerHTML = h;
+    
+    if (ok) {
+        questResults[id] = 'correct';
+        totalScore += q.pontos;
+        correctCount++;
+        saveProgress(id, 'correct', q.pontos);
+        document.getElementById('total-score').textContent = totalScore;
+        document.getElementById('correct-count').textContent = correctCount;
+        document.getElementById('progress-bar').style.width = (correctCount / QUESTOES.length) * 100 + '%';
+        renderNav();
+        
+        const nextIdx = QUESTOES.findIndex(x => x.id === id) + 1;
+        if (nextIdx < QUESTOES.length) {
+            setTimeout(() => {
+                if (confirm('🎉 Parabéns! Deseja ir para a próxima questão?')) {
+                    goToQuest(nextIdx);
+                } else {
+                    renderQuest(QUESTOES.findIndex(x => x.id === id));
+                }
+            }, 1000);
+        } else {
+            setTimeout(() => {
+                alert('🏆 PARABÉNS! Você completou todas as questões da Lista 8!');
+            }, 1000);
+        }
+    } else {
+        questResults[id] = 'wrong';
+        saveProgress(id, 'wrong', 0);
+        renderNav();
+    }
+    
+    btn.disabled = false;
+    sp.classList.remove('show');
+}
+
+function renderQuest(i) {
+    const q = QUESTOES[i];
+    const isCompleted = questResults[q.id] === 'correct';
+    
+    document.getElementById('quest-card').innerHTML = `
+        <div class="quest-header">
+            <span class="quest-number">Questão ${q.id} ${isCompleted ? '✅' : ''}</span>
+            <span class="quest-points">⭐ ${q.pontos} pontos</span>
+        </div>
+        <div class="quest-title">${q.titulo}</div>
+        <div class="quest-desc">${q.enunciado}</div>
+        <div class="quest-example"><h4>📋 Exemplo:</h4><pre>${q.exemplo}</pre></div>
+        <div class="code-section">
+            <div class="code-editor-wrapper" id="code-editor-wrapper">
+                <div class="code-editor-header">
+                    <span>📝 main.c</span>
+                    <span style="display:flex;align-items:center;gap:10px;">
+                        <button class="btn-expand" onclick="toggleExpand(event)">⛶ Expandir</button>
+                        <span style="font-size:12px;">Ctrl+Enter</span>
+                    </span>
+                </div>
+                <div class="code-editor-body">
+                    <div class="line-numbers" id="line-numbers"></div>
+                    <div class="code-content">
+                        <div class="code-highlight" id="code-highlight"></div>
+                        <textarea class="code-textarea" id="code-textarea" oninput="syncHighlight()" onscroll="syncScroll()" onkeydown="handleKeyDown(event)"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="test-panel">
+                <h3>🧪 Testes (${q.testCases.length})</h3>
+                ${q.testCases.map((t, idx) => `<div class="test-case"><div class="label">Teste ${idx+1}</div><div class="value">📥 ${(t.input || '').substring(0, 80)}${(t.input || '').length > 80 ? '...' : ''}</div><div class="value">📤 ${t.expected.substring(0, 100)}${t.expected.length > 100 ? '...' : ''}</div></div>`).join('')}
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:20px;">
+            ${!isCompleted ? `
+                <button class="btn btn-submit" id="submit-btn" onclick="submitCode(${q.id})">✅ Enviar e Validar</button>
+                <span class="spinner" id="spinner"></span>
+                <button class="btn btn-hint" onclick="showHint(${q.id})">💡 Dica</button>
+            ` : `
+                <p style="color: var(--correct); font-weight: 700; font-size: 18px;">✅ Questão já resolvida! +${q.pontos} pontos</p>
+                <button class="btn btn-reset" onclick="retryQuest(${q.id})" style="margin-top: 10px;">🔄 Tentar Novamente</button>
+            `}
+        </div>
+        <div class="result-box" id="result-box-${q.id}"></div>
+        <div class="hint-box" id="hint-box-${q.id}">${q.dica}</div>
+    `;
+    
+    const ta = document.getElementById('code-textarea');
+    if (ta) {
+        ta.value = q.codeTemplate;
+        syncHighlight();
+    }
+}
+
+function toggleSidebar() {
+    const s = document.getElementById('sidebar');
+    const o = document.getElementById('sidebar-overlay');
+    const h = document.getElementById('hamburger-btn');
+    if (s && o && h) {
+        s.classList.toggle('open');
+        o.classList.toggle('show');
+        h.classList.toggle('open');
+    }
+}
+
+document.getElementById('code-overlay').addEventListener('click', (e) => {
+    const w = document.getElementById('code-editor-wrapper');
+    if (e.target.id === 'code-overlay' && w && w.classList.contains('expanded')) {
+        toggleExpand();
+    }
+});
+
+document.addEventListener('keydown', e => {
+    if (e.key === "Escape") {
+        const w = document.getElementById('code-editor-wrapper');
+        if (w && w.classList.contains('expanded')) {
+            toggleExpand();
+        }
+    }
+});
+
+init();
+</script>
+</body>
+</html>
