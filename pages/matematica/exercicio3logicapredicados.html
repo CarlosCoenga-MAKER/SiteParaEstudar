@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Provas Lógicas · Dedução Natural · Consulta na Direita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d0f;
+            --surface: #15151a;
+            --card: #1c1c24;
+            --border: #2a2a38;
+            --accent: #6dfabc;
+            --accent2: #fadc6d;
+            --accent3: #7c6dfa;
+            --accent4: #ff8c6d;
+            --text: #e8e8f0;
+            --muted: #7878a0;
+            --correct: #2ecc71;
+            --wrong: #e74c3c;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', 'Syne', sans-serif;
+            min-height: 100vh;
+            line-height: 1.5;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(109,250,188,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(109,250,188,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+        .glow {
+            position: fixed;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 15s infinite alternate;
+        }
+        .glow-1 { background: var(--accent); top: -150px; left: -150px; }
+        .glow-2 { background: var(--accent3); bottom: -150px; right: -150px; }
+        @keyframes floatGlow {
+            0% { transform: translate(0,0) scale(1); }
+            100% { transform: translate(20px, -20px) scale(1.05); }
+        }
+        
+        /* Layout principal com sidebar na DIREITA */
+        .app-wrapper {
+            display: flex;
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 0px;
+            align-items: flex-start;
+        }
+        
+        /* Main content ocupa todo espaço disponível */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            margin-right: 20px;
+        }
+        
+        /* Sidebar de regras - na DIREITA, colapsável */
+        .rules-sidebar {
+            width: 360px;
+            flex-shrink: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+        .rules-sidebar.collapsed {
+            width: 50px;
+            overflow: hidden;
+        }
+        .rules-sidebar.collapsed .rules-content {
+            display: none;
+        }
+        .rules-sidebar.collapsed .sidebar-header .toggle-btn span {
+            transform: rotate(180deg);
+        }
+        
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .sidebar-header h3 {
+            font-size: 14px;
+            color: var(--accent2);
+            font-family: 'Space Mono', monospace;
+            margin: 0;
+        }
+        .toggle-btn {
+            background: var(--border);
+            border: none;
+            color: var(--accent2);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .toggle-btn:hover {
+            background: var(--accent);
+            color: #0d0d0f;
+        }
+        
+        .rules-content {
+            padding: 16px;
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        .rules-content h4 {
+            font-size: 12px;
+            color: var(--accent);
+            margin: 16px 0 8px 0;
+            font-family: 'Space Mono', monospace;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
+        }
+        .rules-content h4:first-child { margin-top: 0; }
+        
+        .rule-item {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            padding: 6px 8px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            margin-bottom: 6px;
+            border-left: 2px solid var(--accent);
+        }
+        .rule-item strong {
+            color: var(--accent2);
+        }
+        .equivalence-item {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            padding: 4px 6px;
+            color: var(--muted);
+            border-left: 1px solid var(--border);
+            margin-bottom: 4px;
+        }
+        
+        .progress-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: var(--surface);
+            padding: 12px 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+        }
+        .stats {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            display: flex;
+            gap: 20px;
+        }
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            transition: width 0.3s;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        .nav-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text);
+        }
+        .nav-btn:hover:not(:disabled) {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .question-panel {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        .question-header {
+            background: rgba(0,0,0,0.3);
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+        .badge-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            color: var(--accent2);
+            margin-bottom: 8px;
+        }
+        .premissas-box {
+            padding: 16px 24px;
+            background: rgba(109,250,188,0.03);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .prem-tag {
+            background: var(--surface);
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border-left: 3px solid var(--accent2);
+        }
+        .conclusao-area {
+            padding: 12px 24px;
+            background: rgba(124,109,250,0.08);
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+        }
+        .symbols-bar {
+            padding: 12px 20px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        .symbol-btn {
+            background: #20202a;
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            color: var(--accent2);
+        }
+        .symbol-btn:hover {
+            background: var(--accent2);
+            color: #0d0d0f;
+        }
+        .editor-area {
+            padding: 24px;
+        }
+        textarea {
+            width: 100%;
+            background: #0a0a0e;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #e2e8f0;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .action-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: var(--accent2);
+            color: #0d0d0f;
+        }
+        .btn-primary:hover {
+            background: #ffe48f;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .feedback {
+            background: rgba(46,204,113,0.08);
+            border-left: 3px solid var(--correct);
+            padding: 14px 18px;
+            border-radius: var(--radius-md);
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            margin-top: 16px;
+            display: none;
+        }
+        .feedback.error {
+            border-left-color: var(--wrong);
+            background: rgba(231,76,60,0.08);
+            color: #ffafaf;
+        }
+        .feedback.success {
+            border-left-color: var(--correct);
+            background: rgba(46,204,113,0.1);
+            color: #b0ffcc;
+        }
+        .feedback.show {
+            display: block;
+        }
+        .model-answer {
+            margin-top: 12px;
+            font-size: 12px;
+            background: #12121a;
+            padding: 12px;
+            border-radius: 12px;
+            font-family: 'Space Mono', monospace;
+            white-space: pre-wrap;
+        }
+        
+        @media (max-width: 900px) {
+            .app-wrapper { flex-direction: column; }
+            .main-content { margin-right: 0; margin-bottom: 20px; }
+            .rules-sidebar {
+                width: 100%;
+                position: relative;
+                max-height: none;
+            }
+            .rules-sidebar.collapsed {
+                width: 100%;
+            }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 11px;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+        
+        .rules-sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .rules-sidebar::-webkit-scrollbar-track {
+            background: var(--border);
+        }
+        .rules-sidebar::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+
+<div class="app-wrapper">
+    <!-- Área principal (ESQUERDA) -->
+    <div class="main-content">
+        <div class="progress-container">
+            <div class="stats">
+                <span>📋 <span id="current-num">1</span>/<span id="total-num">17</span></span>
+                <span>✅ <span id="solved-count">0</span> resolvidas</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="global-progress"></div></div>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prevBtn" disabled>◀ Anterior</button>
+                <button class="nav-btn" id="nextBtn">Próxima ▶</button>
+            </div>
+        </div>
+        
+        <div id="main-card"></div>
+    </div>
+    
+    <!-- Sidebar de regras na DIREITA colapsável -->
+    <div class="rules-sidebar" id="rulesSidebar">
+        <div class="sidebar-header">
+            <h3>📚 CONSULTA · REGRAS</h3>
+            <button class="toggle-btn" id="toggleRulesBtn" title="Esconder/Mostrar">▶</button>
+        </div>
+        <div class="rules-content">
+            <h4>📋 SÍMBOLOS</h4>
+            <div class="rule-item"><strong>¬</strong> Negação | <strong>→</strong> Se...então</div>
+            <div class="rule-item"><strong>∧</strong> E (conjunção) | <strong>∨</strong> OU (disjunção)</div>
+            <div class="rule-item"><strong>↔</strong> Se e somente se | <strong>⊥</strong> Contradição</div>
+            <div class="rule-item"><strong>∀</strong> Universal | <strong>∃</strong> Existencial</div>
+            
+            <h4>⚡ REGRAS BÁSICAS</h4>
+            <div class="rule-item"><strong>MP</strong> P→Q, P ⊢ Q</div>
+            <div class="rule-item"><strong>~E</strong> ~~P ⊢ P</div>
+            <div class="rule-item"><strong>∧I</strong> P, Q ⊢ P∧Q</div>
+            <div class="rule-item"><strong>∧E</strong> P∧Q ⊢ P / Q</div>
+            <div class="rule-item"><strong>∨I</strong> P ⊢ P∨Q</div>
+            <div class="rule-item"><strong>∨E</strong> P∨Q, P→R, Q→R ⊢ R</div>
+            <div class="rule-item"><strong>↔I</strong> P→Q, Q→P ⊢ P↔Q</div>
+            <div class="rule-item"><strong>↔E</strong> P↔Q ⊢ P→Q / Q→P</div>
+            <div class="rule-item"><strong>PC</strong> [P ⊢ Q] ⇒ P→Q</div>
+            <div class="rule-item"><strong>RAA</strong> [P ⊢ ⊥] ⇒ ~P</div>
+            
+            <h4>🔧 REGRAS DERIVADAS</h4>
+            <div class="rule-item"><strong>MT</strong> P→Q, ~Q ⊢ ~P</div>
+            <div class="rule-item"><strong>SH</strong> P→Q, Q→R ⊢ P→R</div>
+            <div class="rule-item"><strong>DC</strong> P∨Q, P→R, Q→S ⊢ R∨S</div>
+            <div class="rule-item"><strong>SD</strong> P∨Q, ~P ⊢ Q</div>
+            <div class="rule-item"><strong>CONTRAD</strong> P, ~P ⊢ Q</div>
+            
+            <h4>🌍 QUANTIFICADORES</h4>
+            <div class="rule-item"><strong>EU (∀-elim)</strong> ∀x Px ⊢ Pa</div>
+            <div class="rule-item"><strong>IU (∀-intro)</strong> Pa ⊢ ∀x Px (a arbitrário)</div>
+            <div class="rule-item"><strong>IE (∃-intro)</strong> Pa ⊢ ∃x Px</div>
+            <div class="rule-item"><strong>EE (∃-elim)</strong> ∃x Px, [Pa ⊢ Q] ⊢ Q</div>
+            
+            <h4>🔄 EQUIVALÊNCIAS</h4>
+            <div class="equivalence-item">DM: ~(P∧Q) ⇔ (~P∨~Q) | ~(P∨Q) ⇔ (~P∧~Q)</div>
+            <div class="equivalence-item">COM: P∧Q ⇔ Q∧P | P∨Q ⇔ Q∨P</div>
+            <div class="equivalence-item">ASSOC: (P∧(Q∧R)) ⇔ ((P∧Q)∧R)</div>
+            <div class="equivalence-item">DIST: P∧(Q∨R) ⇔ (P∧Q)∨(P∧R)</div>
+            <div class="equivalence-item">DN: P ⇔ ~~P</div>
+            <div class="equivalence-item">TRANS: (P→Q) ⇔ (~Q→~P)</div>
+            <div class="equivalence-item">IM: (P→Q) ⇔ (~P∨Q)</div>
+            <div class="equivalence-item">EXP: ((P∧Q)→R) ⇔ (P→(Q→R))</div>
+            <div class="equivalence-item">Quantificadores: ~∀x~Fx ⇔ ∃xFx | ~∀xFx ⇔ ∃x~Fx</div>
+            <div class="equivalence-item">∀x~Fx ⇔ ~∃xFx | ~∃x~Fx ⇔ ∀xFx</div>
+            
+            <h4>📖 REGRAS DOS EXERCÍCIOS</h4>
+            <div class="equivalence-item">Silogismo Hipotético (SH): P→Q, Q→R ⊢ P→R</div>
+            <div class="equivalence-item">Silogismo Disjuntivo (SD): P∨Q, ~P ⊢ Q</div>
+            <div class="equivalence-item">Modus Tollens (MT): P→Q, ~Q ⊢ ~P</div>
+            <div class="equivalence-item">Prova Condicional (PC): Supor P, derivar Q → P→Q</div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    📚 Barra de consulta na direita — clique em "▶" para esconder/mostrar as regras.<br>
+    Escreva sua prova passo a passo e valide. Regras: MP, MT, SH, SD, ∧I, ∧E, ∨I, ∨E, PC, RAA, ∀-elim, ∀-intro, ∃-intro, ∃-elim.
+</footer>
+
+<script>
+    // 17 argumentos completos
+    const argumentos = [
+        { id: 1, premissas: ["∀x (Fx → Gx)", "∀x Fx"], conclusao: "Ga", provaModelo: "1. ∀x (Fx → Gx) (Prem)\n2. ∀x Fx (Prem)\n3. Fa → Ga (∀-elim 1)\n4. Fa (∀-elim 2)\n5. Ga (MP 3,4)" },
+        { id: 2, premissas: ["∀x ∀y Fxy"], conclusao: "Faa", provaModelo: "1. ∀x ∀y Fxy (Prem)\n2. ∀y Fay (∀-elim 1)\n3. Faa (∀-elim 2)" },
+        { id: 3, premissas: ["∀x (Px → Cx)", "∀x (Cx → Vx)"], conclusao: "∀x (Px → Vx)", provaModelo: "1. ∀x(Px→Cx) (Prem)\n2. ∀x(Cx→Vx) (Prem)\n3. Suponha a arbitrário\n4. Pa→Ca (∀-elim 1)\n5. Ca→Va (∀-elim 2)\n6. Pa→Va (SH 4,5)\n7. ∀x(Px→Vx) (∀-intro)" },
+        { id: 4, premissas: ["∀x (Fx → (Gx ∨ Hx))", "∀x ~Gx"], conclusao: "∀x Fx → ∀x Hx", provaModelo: "1. ∀x(Fx→(Gx∨Hx)) (Prem)\n2. ∀x~Gx (Prem)\n3. Supor ∀xFx\n4. Arbitrário a\n5. Fa→(Ga∨Ha) (∀-elim 1)\n6. Fa (∀-elim hip)\n7. Ga∨Ha (MP 5,6)\n8. ~Ga (∀-elim 2)\n9. Ha (SD 7,8)\n10. ∀xHx (∀-intro)\n11. ∀xFx→∀xHx (→-intro)" },
+        { id: 5, premissas: ["∀x (Fx → (Gx ∨ Hx))", "∀x ~Gx"], conclusao: "∀x (Fx → Hx)", provaModelo: "1. ∀x(Fx→(Gx∨Hx)) (Prem)\n2. ∀x~Gx (Prem)\n3. a arbitrário\n4. Fa→(Ga∨Ha) (∀-elim 1)\n5. ~Ga (∀-elim 2)\n6. Supor Fa\n7. Ga∨Ha (MP)\n8. Ha (SD 7,5)\n9. Fa→Ha (→-intro)\n10. ∀x(Fx→Hx) (∀-intro)" },
+        { id: 6, premissas: ["∀x Fax", "∀x ∀y (Fxy → Gyx)"], conclusao: "∀x Gxa", provaModelo: "1. ∀x Fax (Prem)\n2. ∀x∀y(Fxy→Gyx) (Prem)\n3. b arbitrário\n4. Fba (∀-elim 1)\n5. ∀y(Fby→Gyb) (∀-elim 2)\n6. Fba→Gba (∀-elim 5)\n7. Gba (MP 4,6)\n8. ∀x Gxa (∀-intro)" },
+        { id: 7, premissas: ["∀x Fx → ∀x Gx", "~Ga"], conclusao: "~∀x Fx", provaModelo: "1. ∀xFx→∀xGx (Prem)\n2. ~Ga (Prem)\n3. Supor ∀xFx (RAA)\n4. ∀xGx (MP 1,3)\n5. Ga (∀-elim 4)\n6. ⊥ (2,5)\n7. ~∀xFx (¬-intro 3-6)" },
+        { id: 8, premissas: ["∀x (Fx ∨ Gx)"], conclusao: "∃x Fx ∨ ∃x Gx", provaModelo: "1. ∀x(Fx∨Gx) (Prem)\n2. Sup. ¬(∃xFx∨∃xGx)\n3. ¬∃xFx ∧ ¬∃xGx (DeM)\n4. ∀x¬Fx, ∀x¬Gx\n5. ¬Fa ∧ ¬Ga (∀-elim)\n6. Fa∨Ga (∀-elim 1)\n7. ⊥\n8. ∃xFx ∨ ∃xGx (RAA)" },
+        { id: 9, premissas: ["~∃x Fx"], conclusao: "∀x ~Fx", provaModelo: "1. ~∃xFx (Prem)\n2. a arbitrário\n3. Supor Fa\n4. ∃xFx (∃-intro 3)\n5. ⊥ (1,4)\n6. ~Fa (¬-intro)\n7. ∀x~Fx (∀-intro)" },
+        { id: 10, premissas: ["~∃x (Fx ∧ ~Gx)"], conclusao: "∀x (Fx → Gx)", provaModelo: "1. ~∃x(Fx∧~Gx) (Prem)\n2. a arbitrário\n3. Supor Fa\n4. Supor ~Ga (RAA)\n5. Fa∧~Ga (∧-intro)\n6. ∃x(Fx∧~Gx) (∃-intro)\n7. ⊥\n8. ~~Ga (¬-intro)\n9. Ga (¬¬-elim)\n10. Fa→Ga (→-intro)\n11. ∀x(Fx→Gx) (∀-intro)" },
+        { id: 11, premissas: ["∀x (Fx → Gx)", "∃x Fx"], conclusao: "∃x Gx", provaModelo: "1. ∀x(Fx→Gx) (Prem)\n2. ∃xFx (Prem)\n3. Suponha Fa (∃-elim)\n4. Fa→Ga (∀-elim 1)\n5. Ga (MP 4,3)\n6. ∃xGx (∃-intro 5)\n7. ∃xGx (∃-elim 2,3-6)" },
+        { id: 12, premissas: ["∃x (Fx ∨ Gx)"], conclusao: "∃x Fx ∨ ∃x Gx", provaModelo: "1. ∃x(Fx∨Gx) (Prem)\n2. Suponha Fa∨Ga (∃-elim)\n3. Caso Fa → ∃xFx\n4. Caso Ga → ∃xGx\n5. ∃xFx ∨ ∃xGx (∨-elim)\n6. ∃xFx ∨ ∃xGx (∃-elim)" },
+        { id: 13, premissas: ["∃x Fx ∨ ∃x Gx"], conclusao: "∃x (Fx ∨ Gx)", provaModelo: "1. ∃xFx ∨ ∃xGx (Prem)\n2. Caso ∃xFx: Fa → Fa∨Ga → ∃x(Fx∨Gx)\n3. Caso ∃xGx: Ga → Fa∨Ga → ∃x(Fx∨Gx)\n4. ∃x(Fx∨Gx) (∨-elim)" },
+        { id: 14, premissas: ["∃x ∀y Lxy"], conclusao: "∀x ∃y Lyx", provaModelo: "1. ∃x∀yLxy (Prem)\n2. Suponha ∀yLay (∃-elim)\n3. b arbitrário\n4. Lab (∀-elim 2)\n5. ∃y Lyb (∃-intro)\n6. ∀x∃y Lyx (∀-intro)\n7. ∀x∃y Lyx (∃-elim)" },
+        { id: 15, premissas: ["∀x (Fx → ∃y Lxy)", "∃x (Fx ∧ Gx)"], conclusao: "∃x ∃y (Gx ∧ Lxy)", provaModelo: "1. ∀x(Fx→∃yLxy) (Prem)\n2. ∃x(Fx∧Gx) (Prem)\n3. Suponha Fa∧Ga (∃-elim)\n4. Fa→∃yLay (∀-elim 1)\n5. Fa (∧-elim)\n6. ∃yLay (MP 4,5)\n7. Suponha Lab (∃-elim)\n8. Ga (∧-elim 3)\n9. Ga∧Lab (∧-intro)\n10. ∃y(Ga∧Lay) (∃-intro)\n11. ∃x∃y(Gx∧Lxy) (∃-intro)\n12. ∃x∃y(Gx∧Lxy) (∃-elim)" },
+        { id: 16, premissas: ["∀x ~Fx → ∀x ~Gx"], conclusao: "∃x Gx → ∃x Fx", provaModelo: "1. ∀x~Fx→∀x~Gx (Prem)\n2. Supor ∃xGx\n3. Supor ~∃xFx (RAA)\n4. ∀x~Fx (equiv)\n5. ∀x~Gx (MP 1,4)\n6. ~∃xGx (equiv)\n7. ⊥\n8. ~~∃xFx\n9. ∃xFx\n10. ∃xGx→∃xFx (→-intro)" },
+        { id: 17, premissas: ["~∃x Fx", "~∃x Gx"], conclusao: "~∃x (Fx ∨ Gx)", provaModelo: "1. ~∃xFx (Prem)\n2. ~∃xGx (Prem)\n3. Supor ∃x(Fx∨Gx)\n4. Fa∨Ga (∃-elim)\n5. Caso Fa → ∃xFx → ⊥\n6. Caso Ga → ∃xGx → ⊥\n7. ⊥ (∨-elim)\n8. ~∃x(Fx∨Gx) (¬-intro)" }
+    ];
+
+    let solvedStatus = new Array(argumentos.length).fill(false);
+    let currentIndex = 0;
+    let userProofs = new Array(argumentos.length).fill("");
+
+    const symbols = [
+        { label: "∀", value: "∀" }, { label: "∃", value: "∃" }, { label: "→", value: "→" },
+        { label: "∧", value: "∧" }, { label: "∨", value: "∨" }, { label: "¬", value: "¬" },
+        { label: "⊥", value: "⊥" }, { label: "↔", value: "↔" }
+    ];
+
+    // Controle da sidebar colapsável (DIREITA)
+    const sidebar = document.getElementById('rulesSidebar');
+    const toggleBtn = document.getElementById('toggleRulesBtn');
+    let isCollapsed = false;
+    
+    toggleBtn.addEventListener('click', () => {
+        isCollapsed = !isCollapsed;
+        if (isCollapsed) {
+            sidebar.classList.add('collapsed');
+            toggleBtn.innerHTML = '◀';
+            toggleBtn.title = 'Mostrar consulta';
+        } else {
+            sidebar.classList.remove('collapsed');
+            toggleBtn.innerHTML = '▶';
+            toggleBtn.title = 'Esconder consulta';
+        }
+    });
+
+    function insertSymbol(symbol) {
+        const textarea = document.getElementById('proofInput');
+        if (textarea) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            const newText = text.substring(0, start) + symbol + text.substring(end);
+            textarea.value = newText;
+            textarea.focus();
+            textarea.setSelectionRange(start + symbol.length, start + symbol.length);
+            userProofs[currentIndex] = newText;
+        }
+    }
+
+    function renderCurrentQuestion() {
+        const arg = argumentos[currentIndex];
+        const container = document.getElementById('main-card');
+        const userInput = userProofs[currentIndex] || "";
+        const isSolved = solvedStatus[currentIndex];
+
+        const premHtml = arg.premissas.map(p => `<span class="prem-tag">📌 ${p}</span>`).join('');
+        const symbolsHtml = symbols.map(s => `<button class="symbol-btn" data-sym="${s.value}">${s.label}</button>`).join('');
+        
+        container.innerHTML = `
+            <div class="question-panel">
+                <div class="question-header">
+                    <div class="badge-num">ARGUMENTO ${currentIndex+1} / ${argumentos.length}</div>
+                </div>
+                <div class="premissas-box">
+                    ${premHtml}
+                </div>
+                <div class="conclusao-area">
+                    🎯 ⊢ ${arg.conclusao}
+                </div>
+                <div class="symbols-bar">
+                    ${symbolsHtml}
+                </div>
+                <div class="editor-area">
+                    <div class="instruction">
+                        <span>✍️ Escreva sua demonstração (use os botões ou digite):</span>
+                        ${isSolved ? '<span style="color: var(--correct);">✅ Já validada!</span>' : ''}
+                    </div>
+                    <textarea id="proofInput" rows="12" placeholder="Exemplo:&#10;1. ∀x (Fx → Gx) (Prem)&#10;2. ∀x Fx (Prem)&#10;3. Fa → Ga (∀-elim 1)&#10;4. Fa (∀-elim 2)&#10;5. Ga (MP 3,4)"></textarea>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="validateBtn">🔍 Validar Prova</button>
+                        <button class="btn btn-secondary" id="showModelBtn">📖 Exibir Prova Modelo</button>
+                        <button class="btn btn-secondary" id="clearProofBtn">🗑️ Limpar</button>
+                    </div>
+                    <div id="feedbackArea" class="feedback"></div>
+                    <div id="modelArea" style="display:none;" class="model-answer"></div>
+                </div>
+            </div>
+        `;
+
+        const textarea = document.getElementById('proofInput');
+        if (textarea) {
+            textarea.value = userInput;
+            textarea.addEventListener('input', (e) => {
+                userProofs[currentIndex] = e.target.value;
+            });
+        }
+
+        document.querySelectorAll('.symbol-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const sym = btn.getAttribute('data-sym');
+                insertSymbol(sym);
+            });
+        });
+
+        document.getElementById('validateBtn')?.addEventListener('click', () => validateProof());
+        document.getElementById('showModelBtn')?.addEventListener('click', () => showModel());
+        document.getElementById('clearProofBtn')?.addEventListener('click', () => clearProof());
+        
+        updateNavigation();
+        updateGlobalStats();
+    }
+
+    function validateProof() {
+        const arg = argumentos[currentIndex];
+        const textarea = document.getElementById('proofInput');
+        const userAnswer = textarea.value.trim();
+        if (!userAnswer) {
+            showFeedback("❌ Digite sua prova antes de validar.", "error");
+            return;
+        }
+        userProofs[currentIndex] = userAnswer;
+        
+        const modeloNormalizado = normalizarTexto(arg.provaModelo);
+        const userNormalizado = normalizarTexto(userAnswer);
+        
+        let isCorrect = false;
+        if (userNormalizado === modeloNormalizado || compareProvasFlexivel(userAnswer, arg.provaModelo)) {
+            isCorrect = true;
+        } else if (contemElementosEssenciais(userAnswer, arg)) {
+            isCorrect = true;
+        }
+        
+        if (isCorrect) {
+            solvedStatus[currentIndex] = true;
+            showFeedback("✅ Prova correta! Argumento demonstrado com sucesso.", "success");
+            renderCurrentQuestion();
+        } else {
+            solvedStatus[currentIndex] = false;
+            showFeedback("❌ Prova incorreta. Reveja as regras e a sequência lógica. Consulte a barra lateral à direita.", "error");
+        }
+        updateGlobalStats();
+    }
+    
+    function normalizarTexto(str) {
+        return str.toLowerCase().replace(/\s+/g, ' ').replace(/[^a-z0-9∀∃→∧∨¬⊥()=]/g, '').trim();
+    }
+    
+    function compareProvasFlexivel(user, modelo) {
+        const cleanUser = user.replace(/^\d+\./gm, '').replace(/\s+/g, ' ').toLowerCase();
+        const cleanModel = modelo.replace(/^\d+\./gm, '').replace(/\s+/g, ' ').toLowerCase();
+        return cleanUser.includes(cleanModel.substring(0, 100)) || cleanModel.includes(cleanUser.substring(0, 100));
+    }
+    
+    function contemElementosEssenciais(proof, arg) {
+        const lower = proof.toLowerCase();
+        const temPrem = arg.premissas.every(p => lower.includes(p.toLowerCase().replace(/ /g, '')));
+        const temConclusao = lower.includes(arg.conclusao.toLowerCase().replace(/ /g, ''));
+        const temRegras = /(∀-elim|∃-elim|mp|mt|sh|sd|→-intro|∀-intro|raa|¬-intro|∧-intro|∨-elim)/.test(lower);
+        return temPrem && temConclusao && temRegras;
+    }
+    
+    function showFeedback(msg, type) {
+        const fbDiv = document.getElementById('feedbackArea');
+        if (fbDiv) {
+            fbDiv.textContent = msg;
+            fbDiv.className = `feedback show ${type}`;
+            setTimeout(() => {
+                if (fbDiv) fbDiv.classList.remove('show');
+            }, 4500);
+        }
+    }
+    
+    function showModel() {
+        const arg = argumentos[currentIndex];
+        const modelDiv = document.getElementById('modelArea');
+        if (modelDiv) {
+            modelDiv.style.display = 'block';
+            modelDiv.innerHTML = `<strong>📘 Prova modelo (referência):</strong><br><pre style="font-family:'Space Mono'; white-space:pre-wrap;">${arg.provaModelo}</pre><hr><small>Use como guia. Variações equivalentes são aceitas.</small>`;
+            setTimeout(() => {
+                modelDiv.style.display = 'none';
+            }, 8000);
+        }
+    }
+    
+    function clearProof() {
+        userProofs[currentIndex] = "";
+        solvedStatus[currentIndex] = false;
+        renderCurrentQuestion();
+        showFeedback("🔄 Prova limpa. Tente novamente!", "success");
+        updateGlobalStats();
+    }
+    
+    function updateNavigation() {
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        if (prevBtn) prevBtn.disabled = (currentIndex === 0);
+        if (nextBtn) nextBtn.disabled = (currentIndex === argumentos.length - 1);
+    }
+    
+    function updateGlobalStats() {
+        const solvedCount = solvedStatus.filter(v => v === true).length;
+        document.getElementById('solved-count').innerText = solvedCount;
+        document.getElementById('current-num').innerText = currentIndex + 1;
+        document.getElementById('total-num').innerText = argumentos.length;
+        const percent = (solvedCount / argumentos.length) * 100;
+        document.getElementById('global-progress').style.width = percent + "%";
+    }
+    
+    function goPrev() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderCurrentQuestion();
+        }
+    }
+    
+    function goNext() {
+        if (currentIndex < argumentos.length - 1) {
+            currentIndex++;
+            renderCurrentQuestion();
+        }
+    }
+    
+    document.getElementById('prevBtn')?.addEventListener('click', goPrev);
+    document.getElementById('nextBtn')?.addEventListener('click', goNext);
+    
+    renderCurrentQuestion();
+</script>
+</body>
+</html>

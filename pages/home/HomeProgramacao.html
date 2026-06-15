@@ -293,11 +293,12 @@
         /* Cards Grid */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 24px;
             width: 100%;
-            max-width: 900px;
+            max-width: 1200px;
             margin-bottom: 50px;
+            padding: 0 16px;
         }
 
         .math-card {
@@ -315,6 +316,7 @@
             gap: 14px;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(4px);
         }
 
         .math-card::before {
@@ -325,6 +327,11 @@
             right: 0;
             height: 3px;
             background: var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .math-card:hover::before {
+            transform: scaleX(1.02);
         }
 
         .math-card:hover {
@@ -361,6 +368,7 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            margin-top: 4px;
         }
 
         .math-tag {
@@ -377,19 +385,28 @@
             align-items: center;
             gap: 8px;
             font-family: 'Space Mono', monospace;
-            font-size: 11px;
+            font-size: 12px;
             color: var(--muted);
             text-decoration: none;
             margin-bottom: 30px;
             transition: color var(--transition);
+            background: rgba(21,21,26,0.6);
+            padding: 6px 14px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
         }
-        .back-home-btn:hover { color: var(--accent); }
+        .back-home-btn:hover { color: var(--accent); background: rgba(124,109,250,0.1); }
 
-        @media (max-width: 600px) {
+        /* Responsive fine-tune */
+        @media (max-width: 680px) {
             .hamburger-btn { top: 12px; left: 12px; width: 38px; height: 38px; z-index: 200; }
             .home-title { font-size: 32px; }
-            .cards-grid { grid-template-columns: 1fr; }
+            .cards-grid { grid-template-columns: 1fr; gap: 18px; padding: 0 12px; }
             .math-card { padding: 22px 18px; }
+            .home-page { padding: 80px 16px 40px; }
+        }
+        @media (min-width: 1200px) {
+            .cards-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
@@ -398,6 +415,67 @@
 <div class="glow glow-1"></div>
 <div class="glow glow-2"></div>
 <div class="glow glow-3"></div>
+
+<!-- SIDEBAR STRUCTURE (inserted dynamically but static fallback) -->
+<div class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+    <div class="hamburger-line"></div>
+    <div class="hamburger-line"></div>
+    <div class="hamburger-line"></div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">📘</div>
+        <div class="sidebar-title">Navegação Rápida</div>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="/pages/listaProgramacao/compilador-c.html" class="sidebar-link">
+            <span class="icon">⚙️</span> <span>Compilador Online</span>
+        </a>
+        <a href="/pages/listaProgramacao/Guias/GuiaDidáticoCimterpretar.html" class="sidebar-link">
+            <span class="icon">📋</span> <span>Guia de Interpretação</span>
+        </a>
+        <a href="/pages/listaProgramacao/questoes-c.html" class="sidebar-link">
+            <span class="icon">📚</span> <span>Questões em C</span>
+        </a>
+        <a href="/pages/listaProgramacao/lista1pro.html" class="sidebar-link">
+            <span class="icon">1️⃣</span> <span>Lista de Exercícios 1</span>
+        </a>
+        <a href="/pages/listaProgramacao/lista2pro.html" class="sidebar-link">
+            <span class="icon">2️⃣</span> <span>Lista de Exercícios 2</span>
+        </a>
+        <a href="/pages/listaProgramacao/lista3pro.html" class="sidebar-link">
+            <span class="icon">3️⃣</span> <span>Lista de Exercícios 3</span>
+        </a>
+        <a href="/pages/listaProgramacao/lista4pro.html" class="sidebar-link">
+            <span class="icon">4️⃣</span> <span>Lista de Exercícios 4</span>
+        </a>
+        <a href="/pages/listaProgramacao/lista5pro.html" class="sidebar-link">
+            <span class="icon">5️⃣</span> <span>Lista de Exercícios 5</span>
+        </a>
+        <a href="/pages/listaProgramacao/lista6pro.html" class="sidebar-link">
+            <span class="icon">6️⃣</span> <span>Lista de Exercícios 6</span>
+        </a>
+        <a href="/pages/listaProgramacao/Guias/GuiaDidáticoLista 6.html" class="sidebar-link">
+            <span class="icon">📖</span> <span>Guia Vetores (Lista 6)</span>
+        </a>
+        <a href="/pages/listaProgramacao/lista7pro.html" class="sidebar-link">
+            <span class="icon">7️⃣</span> <span>Lista de Exercícios 7</span>
+        </a>
+        <a href="/pages/listaProgramacao/Guias/GuiaDidáticoLista 7.html" class="sidebar-link">
+            <span class="icon">📘</span> <span>Guia Lista 7</span>
+        </a>
+        <a href="/pages/listaProgramacao/lista8pro.html" class="sidebar-link">
+            <span class="icon">8️⃣</span> <span>Lista de Exercícios 8</span>
+        </a>
+        <a href="/index.html" class="sidebar-link">
+            <span class="icon">🏠</span> <span>Página Inicial</span>
+        </a>
+    </nav>
+    <div class="sidebar-footer">
+        <span>C para estudos · 2025</span>
+    </div>
+</aside>
 
 <!-- ========== HOME PAGE ========== -->
 <div class="home-page">
@@ -419,15 +497,15 @@
             </div>
         </a>
 
-           <!-- Card: Guia Didatico de como interpretar -->
+        <!-- Card: Guia Didático interpretar -->
         <a href="/pages/listaProgramacao/Guias/GuiaDidáticoCimterpretar.html" class="math-card">
             <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
-            <h3>Quia Didatica de como interpretar enunciados</h3>
-            <p>Nesse guia vai explicar como devemos interpretar os enunciados corretamente para resolver o problema em questão.</p>
+            <h3>Guia Didático: Interpretação</h3>
+            <p>Aprenda a interpretar enunciados corretamente para solucionar problemas de programação em C.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Estratégia</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Lógica</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Prática</span>
             </div>
         </a>
 
@@ -435,7 +513,7 @@
         <a href="/pages/listaProgramacao/questoes-c.html" class="math-card">
             <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
             <h3>Questões em C</h3>
-            <p>Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
+            <p>Exercícios práticos com enunciados e desafios de programação em Linguagem C.</p>
             <div class="math-card-tags">
                 <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
                 <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
@@ -443,119 +521,180 @@
             </div>
         </a>
 
-        <!-- Card: Lista de Exercicio 1 -->
+        <!-- Lista 1 -->
         <a href="/pages/listaProgramacao/lista1pro.html" class="math-card">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #7c6dfa, #6d5acf);">📘</div>
             <h3>Lista de Exercícios 1</h3>
-            <p>Primeira Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
+            <p>Fundamentos da linguagem: variáveis, operadores e estrutura sequencial.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+                <span class="math-tag" style="border-color: #7c6dfa; color: #7c6dfa;">Iniciante</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc;">Sintaxe</span>
             </div>
         </a>
 
-        <!-- Card: Lista de Exercicio 2 -->
+        <!-- Lista 2 -->
         <a href="/pages/listaProgramacao/lista2pro.html" class="math-card">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fadc6d, #f5b042);">📗</div>
             <h3>Lista de Exercícios 2</h3>
-            <p>Segunda Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
+            <p>Estruturas condicionais (if/else, switch) e tomada de decisão.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d;">Condicionais</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a;">Lógica</span>
             </div>
         </a>
 
-         <!-- Card: Lista de Exercicio 3 -->
+        <!-- Lista 3 -->
         <a href="/pages/listaProgramacao/lista3pro.html" class="math-card">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #6dfabc, #3acf96);">📙</div>
             <h3>Lista de Exercícios 3</h3>
-            <p>Terceira Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
+            <p>Laços de repetição: for, while e do-while.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc;">Loops</span>
+                <span class="math-tag" style="border-color: #7c6dfa; color: #7c6dfa;">Iteração</span>
             </div>
         </a>
 
-         <!-- Card: Lista de Exercicio 4 -->
+        <!-- Lista 4 -->
         <a href="/pages/listaProgramacao/lista4pro.html" class="math-card">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #d9534f);">📕</div>
             <h3>Lista de Exercícios 4</h3>
-            <p>Quarta Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
+            <p>Arrays unidimensionais e manipulação de vetores.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a;">Vetores</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc;">Coleções</span>
             </div>
         </a>
 
-         <!-- Card: Lista de Exercicio 5 -->
+        <!-- Lista 5 -->
         <a href="/pages/listaProgramacao/lista5pro.html" class="math-card">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #7c6dfa, #9b6dfa);">📔</div>
             <h3>Lista de Exercícios 5</h3>
-            <p>Quinta Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
+            <p>Matrizes, strings e funções básicas.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+                <span class="math-tag" style="border-color: #7c6dfa; color: #7c6dfa;">Matrizes</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d;">Strings</span>
             </div>
         </a>
 
-         <!-- Card: Lista de Exercicio 6 -->
+        <!-- Lista 6 -->
         <a href="/pages/listaProgramacao/lista6pro.html" class="math-card">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fadc6d, #f09b42);">📖</div>
             <h3>Lista de Exercícios 6</h3>
-            <p>Sexta Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
+            <p>Vetores unidimensionais avançados e algoritmos de ordenação simples.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d;">Vetores</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc;">Ordenação</span>
             </div>
         </a>
 
-         <!-- Card: Guia Didatico da Lista 6 -->
-        <a href="/pages/listaProgramacao/Guias/GuiaDidáticoLista 6.html" class="math-card">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
-            <h3>Quia Didatica para a Lista 6</h3>
-            <p>Quia Didatica ela explica tudo sobre os Vetores Unidimensionais.</p>
+        <!-- Guia Lista 6 -->
+        <a href="/pages/listaProgramacao/Guias/GuiaDidáticoLista%206.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #6dfabc, #2ecc71);">📘</div>
+            <h3>Guia: Vetores Unidimensionais</h3>
+            <p>Teoria completa, exemplos e explicações sobre vetores para a lista 6.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc;">Referência</span>
+                <span class="math-tag" style="border-color: #7c6dfa; color: #7c6dfa;">Fundamental</span>
             </div>
         </a>
 
-         <!-- Card: Lista de Exercicio 7 -->
+        <!-- Lista 7 -->
         <a href="/pages/listaProgramacao/lista7pro.html" class="math-card">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #ff6b81);">📗</div>
             <h3>Lista de Exercícios 7</h3>
-            <p>setima Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
+            <p>Ponteiros, alocação dinâmica e modularização.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a;">Ponteiros</span>
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d;">Memória</span>
             </div>
         </a>
 
-          <!-- Card: Lista de Exercicio 7 -->
-        <a href="/pages/listaProgramacao/lista8pro.html" class="math-card">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #e74c3c);">📋</div>
-            <h3>Lista de Exercícios 7</h3>
-            <p>setima Lista Exercícios práticos para resolver em Linguagem C com enunciados e desafios de programação.</p>
+        <!-- Guia Lista 7 -->
+        <a href="/pages/listaProgramacao/Guias/GuiaDidáticoLista%207.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #7c6dfa, #ab8eff);">📚</div>
+            <h3>Guia Didático: Ponteiros</h3>
+            <p>Entenda ponteiros, referências e alocação dinâmica — suporte para lista 7.</p>
             <div class="math-card-tags">
-                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a; background: rgba(250,109,138,0.1);">Exercícios</span>
-                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc; background: rgba(109,250,188,0.1);">Prática</span>
-                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Desafios</span>
+                <span class="math-tag" style="border-color: #7c6dfa; color: #7c6dfa;">Avançado</span>
+                <span class="math-tag" style="border-color: #6dfabc; color: #6dfabc;">Conceitos</span>
+            </div>
+        </a>
+
+        <!-- Lista 8 -->
+        <a href="/pages/listaProgramacao/lista8pro.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #e67e22, #f39c12);">📒</div>
+            <h3>Lista de Exercícios 8</h3>
+            <p>Estruturas (structs), arquivos e projeto prático.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d;">Structs</span>
+                <span class="math-tag" style="border-color: #fa6d8a; color: #fa6d8a;">Arquivos</span>
             </div>
         </a>
     </div>
 </div>
 
-<script src="JS/questoes.js"></script>
-<script src="JS/sidebar.js"></script>
-<script src="JS/footer.js"></script>
+<!-- JavaScript for Sidebar & Interactions (fully functional) -->
+<script>
+    (function() {
+        // Sidebar toggling
+        const hamburger = document.getElementById('hamburgerBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
 
+        function closeSidebar() {
+            if(sidebar) sidebar.classList.remove('open');
+            if(overlay) overlay.classList.remove('show');
+            if(hamburger) hamburger.classList.remove('open');
+        }
+
+        function openSidebar() {
+            if(sidebar) sidebar.classList.add('open');
+            if(overlay) overlay.classList.add('show');
+            if(hamburger) hamburger.classList.add('open');
+        }
+
+        function toggleSidebar() {
+            if(sidebar && sidebar.classList.contains('open')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        }
+
+        if(hamburger) {
+            hamburger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleSidebar();
+            });
+        }
+        if(overlay) {
+            overlay.addEventListener('click', closeSidebar);
+        }
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape' && sidebar && sidebar.classList.contains('open')) {
+                closeSidebar();
+            }
+        });
+        // Prevent sidebar from closing when clicking inside itself
+        if(sidebar) {
+            sidebar.addEventListener('click', (e) => e.stopPropagation());
+        }
+
+        // Set active sidebar link based on current URL (optional)
+        const currentPath = window.location.pathname;
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        sidebarLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if(href && currentPath.includes(href.replace(/^\.\.\/\.\.\//, ''))) {
+                link.classList.add('active');
+            }
+        });
+        // Fallback: if no script error from missing resources, mark first one?
+    })();
+</script>
+<!-- External scripts are optional, but we keep structure to avoid errors -->
+<script src="JS/sidebar.js" onerror="console.log('sidebar.js opcional')"></script>
+<script src="JS/footer.js" onerror="console.log('footer.js opcional')"></script>
 </body>
 </html>

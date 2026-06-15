@@ -2,14 +2,14 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../../../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Guia Didático · Lista 7 - Matrizes em C</title>
     <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="Style/sidbar.css">
-    <link rel="stylesheet" href="Style/styles.css">
+    <link rel="stylesheet" href="Style/sidebar.css">
+    <link rel="stylesheet" href="Style/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-   
- <style>
+    <style>
         :root {
             --bg: #0d0d0f;
             --surface: #15151a;
@@ -49,6 +49,7 @@
             text-align: center;
             background: linear-gradient(135deg, var(--accent), var(--accent2));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
         }
@@ -213,6 +214,7 @@
             font-family: 'Fira Code', monospace;
             font-size: 14px;
             margin: 15px 0;
+            background: transparent;
         }
 
         .matrix-cell {
@@ -266,40 +268,27 @@
 </head>
 <body>
 
-
     <!-- ========== CONTEÚDO PRINCIPAL ========== -->
     <div class="container">
 
         <h1>📐 Guia Didático</h1>
         <p style="text-align:center;color:var(--muted);margin-bottom:30px;">Lista 7 · Matrizes Bidimensionais em Linguagem C</p>
 
-        <!-- ========== NOMENCLATURA ========== -->
+        <!-- ========== NOMENCLATURA PADRÃO ========== -->
         <div class="card">
             <h2>📝 0. Nomenclatura Padrão (Professor)</h2>
 
             <div class="highlight-box">
                 <p>Para facilitar o entendimento, use sempre esta notação:</p>
-                <table>
-                    <tr>
-                        <th style="background:rgba(255,159,67,0.3);">Variável</th>
-                        <th style="background:rgba(255,159,67,0.3);">Significado</th>
-                        <th style="background:rgba(255,159,67,0.3);">Exemplo</th>
-                    </tr>
-                    <tr>
-                        <td><strong style="color:#FF9F43;font-size:18px;">L</strong></td>
-                        <td><strong>Linha</strong> da matriz</td>
-                        <td><code>L = 0, 1, 2, ...</code></td>
-                    </tr>
-                    <tr>
-                        <td><strong style="color:#6DCFFA;font-size:18px;">C</strong></td>
-                        <td><strong>Coluna</strong> da matriz</td>
-                        <td><code>C = 0, 1, 2, ...</code></td>
-                    </tr>
-                    <tr>
-                        <td><strong style="color:#FADC6D;font-size:18px;">D</strong></td>
-                        <td><strong>Dimensão</strong> (tamanho) da matriz quadrada</td>
-                        <td><code>D = 3</code> (matriz 3×3)<br><code>D = 4</code> (matriz 4×4)</td>
-                    </tr>
+                <table style="background:transparent;">
+                    <thead>
+                        <tr><th style="background:rgba(255,159,67,0.3);">Variável</th><th style="background:rgba(255,159,67,0.3);">Significado</th><th style="background:rgba(255,159,67,0.3);">Exemplo</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong style="color:#FF9F43;font-size:18px;">L</strong></td><td><strong>Linha</strong> da matriz</td><td><code>L = 0, 1, 2, ...</code></td></tr>
+                        <tr><td><strong style="color:#6DCFFA;font-size:18px;">C</strong></td><td><strong>Coluna</strong> da matriz</td><td><code>C = 0, 1, 2, ...</code></td></tr>
+                        <tr><td><strong style="color:#FADC6D;font-size:18px;">D</strong></td><td><strong>Dimensão</strong> (tamanho) da matriz quadrada</td><td><code>D = 3</code> (matriz 3×3)<br><code>D = 4</code> (matriz 4×4)</td></tr>
+                    </tbody>
                 </table>
             </div>
 
@@ -352,28 +341,13 @@
                 <div style="color:#6DCFFA;font-size:12px;font-weight:700;">C=3</div>
                 
                 <div style="color:#FF9F43;font-size:12px;font-weight:700;">L=0</div>
-                <div class="matrix-cell">1</div>
-                <div class="matrix-cell">2</div>
-                <div class="matrix-cell">3</div>
-                <div class="matrix-cell">4</div>
-
+                <div class="matrix-cell">1</div><div class="matrix-cell">2</div><div class="matrix-cell">3</div><div class="matrix-cell">4</div>
                 <div style="color:#FF9F43;font-size:12px;font-weight:700;">L=1</div>
-                <div class="matrix-cell">5</div>
-                <div class="matrix-cell">6</div>
-                <div class="matrix-cell">7</div>
-                <div class="matrix-cell">8</div>
-
+                <div class="matrix-cell">5</div><div class="matrix-cell">6</div><div class="matrix-cell">7</div><div class="matrix-cell">8</div>
                 <div style="color:#FF9F43;font-size:12px;font-weight:700;">L=2</div>
-                <div class="matrix-cell">9</div>
-                <div class="matrix-cell">10</div>
-                <div class="matrix-cell">11</div>
-                <div class="matrix-cell">12</div>
-
+                <div class="matrix-cell">9</div><div class="matrix-cell">10</div><div class="matrix-cell">11</div><div class="matrix-cell">12</div>
                 <div style="color:#FF9F43;font-size:12px;font-weight:700;">L=3</div>
-                <div class="matrix-cell">13</div>
-                <div class="matrix-cell">14</div>
-                <div class="matrix-cell">15</div>
-                <div class="matrix-cell">16</div>
+                <div class="matrix-cell">13</div><div class="matrix-cell">14</div><div class="matrix-cell">15</div><div class="matrix-cell">16</div>
             </div>
         </div>
 
@@ -391,25 +365,10 @@
             <p style="color:var(--accent2);"><strong>Condição:</strong> <code><span style="color:#FF9F43;">L</span> == <span style="color:#6DCFFA;">C</span></code> (Linha igual a Coluna)</p>
 
             <div class="matrix-grid" style="grid-template-columns: repeat(4, auto);">
-                <div class="matrix-cell highlight">[0,0]</div>
-                <div class="matrix-cell">[0,1]</div>
-                <div class="matrix-cell">[0,2]</div>
-                <div class="matrix-cell">[0,3]</div>
-
-                <div class="matrix-cell">[1,0]</div>
-                <div class="matrix-cell highlight">[1,1]</div>
-                <div class="matrix-cell">[1,2]</div>
-                <div class="matrix-cell">[1,3]</div>
-
-                <div class="matrix-cell">[2,0]</div>
-                <div class="matrix-cell">[2,1]</div>
-                <div class="matrix-cell highlight">[2,2]</div>
-                <div class="matrix-cell">[2,3]</div>
-
-                <div class="matrix-cell">[3,0]</div>
-                <div class="matrix-cell">[3,1]</div>
-                <div class="matrix-cell">[3,2]</div>
-                <div class="matrix-cell highlight">[3,3]</div>
+                <div class="matrix-cell highlight">[0,0]</div><div class="matrix-cell">[0,1]</div><div class="matrix-cell">[0,2]</div><div class="matrix-cell">[0,3]</div>
+                <div class="matrix-cell">[1,0]</div><div class="matrix-cell highlight">[1,1]</div><div class="matrix-cell">[1,2]</div><div class="matrix-cell">[1,3]</div>
+                <div class="matrix-cell">[2,0]</div><div class="matrix-cell">[2,1]</div><div class="matrix-cell highlight">[2,2]</div><div class="matrix-cell">[2,3]</div>
+                <div class="matrix-cell">[3,0]</div><div class="matrix-cell">[3,1]</div><div class="matrix-cell">[3,2]</div><div class="matrix-cell highlight">[3,3]</div>
             </div>
             <p style="margin-top:10px;">Posições: (0,0), (1,1), (2,2), (3,3) → <code><span style="color:#FF9F43;">L</span> == <span style="color:#6DCFFA;">C</span></code></p>
 
@@ -418,391 +377,125 @@
             <p style="color:var(--accent2);"><strong>Condição:</strong> <code><span style="color:#FF9F43;">L</span> + <span style="color:#6DCFFA;">C</span> == <span style="color:#FADC6D;">D</span> - 1</code></p>
 
             <div class="matrix-grid" style="grid-template-columns: repeat(4, auto);">
-                <div class="matrix-cell">[0,0]</div>
-                <div class="matrix-cell">[0,1]</div>
-                <div class="matrix-cell">[0,2]</div>
-                <div class="matrix-cell highlight2">[0,3]</div>
-
-                <div class="matrix-cell">[1,0]</div>
-                <div class="matrix-cell">[1,1]</div>
-                <div class="matrix-cell highlight2">[1,2]</div>
-                <div class="matrix-cell">[1,3]</div>
-
-                <div class="matrix-cell">[2,0]</div>
-                <div class="matrix-cell highlight2">[2,1]</div>
-                <div class="matrix-cell">[2,2]</div>
-                <div class="matrix-cell">[2,3]</div>
-
-                <div class="matrix-cell highlight2">[3,0]</div>
-                <div class="matrix-cell">[3,1]</div>
-                <div class="matrix-cell">[3,2]</div>
-                <div class="matrix-cell">[3,3]</div>
+                <div class="matrix-cell">[0,0]</div><div class="matrix-cell">[0,1]</div><div class="matrix-cell">[0,2]</div><div class="matrix-cell highlight2">[0,3]</div>
+                <div class="matrix-cell">[1,0]</div><div class="matrix-cell">[1,1]</div><div class="matrix-cell highlight2">[1,2]</div><div class="matrix-cell">[1,3]</div>
+                <div class="matrix-cell">[2,0]</div><div class="matrix-cell highlight2">[2,1]</div><div class="matrix-cell">[2,2]</div><div class="matrix-cell">[2,3]</div>
+                <div class="matrix-cell highlight2">[3,0]</div><div class="matrix-cell">[3,1]</div><div class="matrix-cell">[3,2]</div><div class="matrix-cell">[3,3]</div>
             </div>
             <p style="margin-top:10px;">Posições: (0,3), (1,2), (2,1), (3,0) → <code><span style="color:#FF9F43;">L</span> + <span style="color:#6DCFFA;">C</span> == <span style="color:#FADC6D;">D</span> - 1</code> → <code>L + C == 3</code></p>
 
             <div class="highlight-box">
                 <h3>📋 Tabela Resumo das Condições (usando L, C e D):</h3>
                 <table>
-                    <tr>
-                        <th style="background:rgba(255,159,67,0.3);">Região</th>
-                        <th style="background:rgba(255,159,67,0.3);">Condição Geral</th>
-                        <th style="background:rgba(255,159,67,0.3);">Exemplo D=4</th>
-                        <th style="background:rgba(255,159,67,0.3);">Exemplo D=5</th>
-                    </tr>
-                    <tr>
-                        <td>Diagonal Principal</td>
-                        <td><code><span style="color:#FF9F43;">L</span> == <span style="color:#6DCFFA;">C</span></code></td>
-                        <td>(0,0)(1,1)(2,2)(3,3)</td>
-                        <td>(0,0)(1,1)(2,2)(3,3)(4,4)</td>
-                    </tr>
-                    <tr>
-                        <td>Diagonal Secundária</td>
-                        <td><code><span style="color:#FF9F43;">L</span> + <span style="color:#6DCFFA;">C</span> == <span style="color:#FADC6D;">D</span> - 1</code></td>
-                        <td>L+C=3: (0,3)(1,2)(2,1)(3,0)</td>
-                        <td>L+C=4: (0,4)(1,3)(2,2)(3,1)(4,0)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Acima</strong> da Principal</td>
-                        <td><code><span style="color:#6DCFFA;">C</span> > <span style="color:#FF9F43;">L</span></code></td>
-                        <td>Triângulo superior direito</td>
-                        <td>Triângulo superior direito</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Abaixo</strong> da Principal</td>
-                        <td><code><span style="color:#6DCFFA;">C</span> < <span style="color:#FF9F43;">L</span></code></td>
-                        <td>Triângulo inferior esquerdo</td>
-                        <td>Triângulo inferior esquerdo</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Acima</strong> da Secundária</td>
-                        <td><code><span style="color:#FF9F43;">L</span> + <span style="color:#6DCFFA;">C</span> < <span style="color:#FADC6D;">D</span> - 1</code></td>
-                        <td>L+C < 3</td>
-                        <td>L+C < 4</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Abaixo</strong> da Secundária</td>
-                        <td><code><span style="color:#FF9F43;">L</span> + <span style="color:#6DCFFA;">C</span> > <span style="color:#FADC6D;">D</span> - 1</code></td>
-                        <td>L+C > 3</td>
-                        <td>L+C > 4</td>
-                    </tr>
+                    <tr><th>Região</th><th>Condição Geral</th><th>Exemplo D=4</th></tr>
+                    <tr><td>Diagonal Principal</td><td><code>L == C</code></td><td>(0,0)(1,1)(2,2)(3,3)</td></tr>
+                    <tr><td>Diagonal Secundária</td><td><code>L + C == D - 1</code></td><td>L+C=3: (0,3)(1,2)(2,1)(3,0)</td></tr>
+                    <tr><td>Acima da Principal</td><td><code>C > L</code></td><td>Triângulo superior direito</td></tr>
+                    <tr><td>Abaixo da Principal</td><td><code>C < L</code></td><td>Triângulo inferior esquerdo</td></tr>
+                    <tr><td>Acima da Secundária</td><td><code>L + C < D - 1</code></td><td>L+C < 3</td></tr>
+                    <tr><td>Abaixo da Secundária</td><td><code>L + C > D - 1</code></td><td>L+C > 3</td></tr>
                 </table>
-            </div>
-
-            <div class="danger-box">
-                <p><strong>⚠️ Atenção:</strong> Para a diagonal secundária e regiões relacionadas, use <strong>APENAS</strong>:</p>
-                <ul style="list-style-position:inside;">
-                    <li><strong>Estritamente acima:</strong> <code>L + C < D - 1</code> (não inclui a diagonal)</li>
-                    <li><strong>Estritamente abaixo:</strong> <code>L + C > D - 1</code> (não inclui a diagonal)</li>
-                    <li><strong>Na diagonal:</strong> <code>L + C == D - 1</code> (apenas os elementos da diagonal)</li>
-                </ul>
-                <p style="margin-top:10px;"><strong>NÃO use <code>>=</code> ou <code><=</code></strong> a menos que o exercício peça para <strong>incluir</strong> a diagonal na região acima/abaixo.</p>
-            </div>
-
-            <h3>Visualização das Regiões para D=4:</h3>
-            <div class="matrix-grid" style="grid-template-columns: repeat(4, auto);">
-                <div class="matrix-cell" style="border-color:#FF9F43;">L=0<br>C=0<br><small>L==C ✓</small></div>
-                <div class="matrix-cell" style="background:rgba(255,159,67,0.2);border-color:#FF9F43;">L=0<br>C=1<br><small>C>L ✓</small></div>
-                <div class="matrix-cell" style="background:rgba(255,159,67,0.2);border-color:#FF9F43;">L=0<br>C=2<br><small>C>L ✓</small></div>
-                <div class="matrix-cell" style="border-color:#FADC6D;">L=0<br>C=3<br><small>L+C=3 ✓</small></div>
-
-                <div class="matrix-cell" style="background:rgba(109,207,250,0.2);border-color:#6DCFFA;">L=1<br>C=0<br><small>C<L ✓</small></div>
-                <div class="matrix-cell" style="border-color:#FF9F43;">L=1<br>C=1<br><small>L==C ✓</small></div>
-                <div class="matrix-cell" style="border-color:#FADC6D;">L=1<br>C=2<br><small>L+C=3 ✓</small></div>
-                <div class="matrix-cell" style="background:rgba(250,220,109,0.2);border-color:#FADC6D;">L=1<br>C=3<br><small>L+C>3 ✓</small></div>
-
-                <div class="matrix-cell" style="background:rgba(109,207,250,0.2);border-color:#6DCFFA;">L=2<br>C=0<br><small>C<L ✓</small></div>
-                <div class="matrix-cell" style="border-color:#FADC6D;">L=2<br>C=1<br><small>L+C=3 ✓</small></div>
-                <div class="matrix-cell" style="border-color:#FF9F43;">L=2<br>C=2<br><small>L==C ✓</small></div>
-                <div class="matrix-cell" style="background:rgba(255,159,67,0.2);border-color:#FF9F43;">L=2<br>C=3<br><small>C>L ✓</small></div>
-
-                <div class="matrix-cell" style="border-color:#FADC6D;">L=3<br>C=0<br><small>L+C=3 ✓</small></div>
-                <div class="matrix-cell" style="background:rgba(250,220,109,0.2);border-color:#FADC6D;">L=3<br>C=1<br><small>L+C>3 ✓</small></div>
-                <div class="matrix-cell" style="background:rgba(109,207,250,0.2);border-color:#6DCFFA;">L=3<br>C=2<br><small>C<L ✓</small></div>
-                <div class="matrix-cell" style="border-color:#FF9F43;">L=3<br>C=3<br><small>L==C ✓</small></div>
-            </div>
-            <div class="legend" style="margin-top:10px;">
-                <div class="legend-item"><span class="legend-color" style="background:#FF9F43;"></span> Principal (L==C)</div>
-                <div class="legend-item"><span class="legend-color" style="background:#FADC6D;"></span> Secundária (L+C==D-1)</div>
-                <div class="legend-item"><span class="legend-color" style="background:rgba(255,159,67,0.4);"></span> Acima Principal (C>L)</div>
-                <div class="legend-item"><span class="legend-color" style="background:rgba(109,207,250,0.4);"></span> Abaixo Principal (C<L)</div>
-                <div class="legend-item"><span class="legend-color" style="background:rgba(250,220,109,0.4);"></span> Abaixo Secundária (L+C>D-1)</div>
             </div>
         </div>
 
-        <!-- ========== COMO PERCORRER ========== -->
+        <!-- ========== PERCORRER MATRIZ ========== -->
         <div class="card">
             <h2>🔄 3. Como Percorrer uma Matriz com Laços</h2>
-
-            <h3>Leitura de todos os elementos:</h3>
-            <pre><span class="type">int</span> <span class="var-D">D</span> = <span class="number">4</span>;  <span class="comment">// Dimensão da matriz</span>
+            <pre><span class="type">int</span> <span class="var-D">D</span> = <span class="number">4</span>;
 <span class="type">int</span> matriz[<span class="var-D">D</span>][<span class="var-D">D</span>];
-<span class="type">int</span> <span class="var-L">L</span>, <span class="var-C">C</span>;
-
-<span class="comment">// Laço externo: percorre as LINHAS</span>
 <span class="keyword">for</span>(<span class="var-L">L</span> = <span class="number">0</span>; <span class="var-L">L</span> < <span class="var-D">D</span>; <span class="var-L">L</span>++) {
-    <span class="comment">// Laço interno: percorre as COLUNAS da linha atual</span>
     <span class="keyword">for</span>(<span class="var-C">C</span> = <span class="number">0</span>; <span class="var-C">C</span> < <span class="var-D">D</span>; <span class="var-C">C</span>++) {
         <span class="function">scanf</span>(<span class="string">"%d"</span>, &matriz[<span class="var-L">L</span>][<span class="var-C">C</span>]);
     }
 }</pre>
-
-            <div class="analogy">
-                <h4>📖 Analogia: Lendo um Livro</h4>
-                <p>Percorrer uma matriz é como ler um livro:</p>
-                <ul style="list-style-position:inside;">
-                    <li>O laço externo (<code><span style="color:#FF9F43;">L</span></code>) vira as <strong>páginas</strong> (linhas)</li>
-                    <li>O laço interno (<code><span style="color:#6DCFFA;">C</span></code>) lê cada <strong>palavra</strong> da página atual (colunas)</li>
-                </ul>
-            </div>
         </div>
 
-        <!-- ========== EXERCÍCIO 3 ========== -->
+        <!-- ========== EXEMPLO DIAGONAL PRINCIPAL ========== -->
         <div class="card">
-            <h2>🔢 4. Exemplo Prático: Somatório da Diagonal Principal (Exercício 3)</h2>
-
-            <p><strong>Enunciado:</strong> Matriz 5x5 (<span style="color:#FADC6D;">D=5</span>), somar elementos da diagonal principal.</p>
-
-            <div class="step">
-                <div class="step-number">1</div>
-                <div>
-                    <strong>Declare a matriz, D, L, C e a variável soma</strong>
-                    <pre><span class="type">int</span> <span class="var-D">D</span> = <span class="number">5</span>;
+            <h2>🔢 4. Somatório da Diagonal Principal (Exercício 3)</h2>
+            <pre><span class="type">int</span> <span class="var-D">D</span> = <span class="number">5</span>;
 <span class="type">int</span> matriz[<span class="var-D">D</span>][<span class="var-D">D</span>];
-<span class="type">int</span> <span class="var-L">L</span>, <span class="var-C">C</span>;
-<span class="type">int</span> soma = <span class="number">0</span>;</pre>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div>
-                    <strong>Leia os D² valores (laço duplo com L e C)</strong>
-                    <pre><span class="keyword">for</span>(<span class="var-L">L</span> = <span class="number">0</span>; <span class="var-L">L</span> < <span class="var-D">D</span>; <span class="var-L">L</span>++)
-    <span class="keyword">for</span>(<span class="var-C">C</span> = <span class="number">0</span>; <span class="var-C">C</span> < <span class="var-D">D</span>; <span class="var-C">C</span>++)
-        <span class="function">scanf</span>(<span class="string">"%d"</span>, &matriz[<span class="var-L">L</span>][<span class="var-C">C</span>]);</pre>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <div>
-                    <strong>Some APENAS os elementos da diagonal principal (L == C)</strong>
-                    <pre><span class="keyword">for</span>(<span class="var-L">L</span> = <span class="number">0</span>; <span class="var-L">L</span> < <span class="var-D">D</span>; <span class="var-L">L</span>++) {
-    soma += matriz[<span class="var-L">L</span>][<span class="var-L">L</span>];  <span class="comment">// L == C, então usamos L nos dois índices!</span>
-}</pre>
-                    <p style="color:var(--accent2);">💡 Perceba: não precisamos de dois laços! Apenas um <code>for</code> com <code>matriz[L][L]</code>.</p>
-                </div>
-            </div>
+<span class="type">int</span> soma = <span class="number">0</span>;
+<span class="comment">// ... leitura da matriz ...</span>
+<span class="keyword">for</span>(<span class="var-L">L</span> = <span class="number">0</span>; <span class="var-L">L</span> < <span class="var-D">D</span>; <span class="var-L">L</span>++) {
+    soma += matriz[<span class="var-L">L</span>][<span class="var-L">L</span>];
+}
+<span class="function">printf</span>(<span class="string">"Soma diagonal principal: %d\n"</span>, soma);</pre>
         </div>
 
-        <!-- ========== EXERCÍCIO 4 ========== -->
+        <!-- ========== ACIMA/ABAIXO ========== -->
         <div class="card">
-            <h2>📊 5. Exemplo Prático: Acima/Abaixo da Diagonal (Exercício 4 e 7)</h2>
+            <h2>📊 5. Acima/Abaixo da Diagonal (Exercícios 4 e 7)</h2>
+            <pre><span class="comment">// Acima da diagonal principal (C > L)</span>
+<span class="keyword">for</span>(<span class="var-L">L</span>=<span class="number">0</span>; <span class="var-L">L</span><<span class="var-D">D</span>; <span class="var-L">L</span>++)
+    <span class="keyword">for</span>(<span class="var-C">C</span>=<span class="number">0</span>; <span class="var-C">C</span><<span class="var-D">D</span>; <span class="var-C">C</span>++)
+        <span class="keyword">if</span>(<span class="var-C">C</span> > <span class="var-L">L</span>) soma_acima += matriz[<span class="var-L">L</span>][<span class="var-C">C</span>];
 
-            <h3>Acima da diagonal principal (<span style="color:#6DCFFA;">C</span> > <span style="color:#FF9F43;">L</span>):</h3>
-            <div class="matrix-grid" style="grid-template-columns: repeat(4, auto);">
-                <div class="matrix-cell">-</div>
-                <div class="matrix-cell highlight">1</div>
-                <div class="matrix-cell highlight">2</div>
-                <div class="matrix-cell highlight">3</div>
-                <div class="matrix-cell">-</div>
-                <div class="matrix-cell">-</div>
-                <div class="matrix-cell highlight">4</div>
-                <div class="matrix-cell highlight">5</div>
-                <div class="matrix-cell">-</div>
-                <div class="matrix-cell">-</div>
-                <div class="matrix-cell">-</div>
-                <div class="matrix-cell highlight">6</div>
-                <div class="matrix-cell">-</div>
-                <div class="matrix-cell">-</div>
-                <div class="matrix-cell">-</div>
-                <div class="matrix-cell">-</div>
-            </div>
-
-            <pre><span class="comment">// Acima da diagonal principal: C > L</span>
-<span class="type">float</span> soma = <span class="number">0</span>;
-<span class="type">int</span> cont = <span class="number">0</span>;
-
-<span class="keyword">for</span>(<span class="var-L">L</span> = <span class="number">0</span>; <span class="var-L">L</span> < <span class="var-D">D</span>; <span class="var-L">L</span>++) {
-    <span class="keyword">for</span>(<span class="var-C">C</span> = <span class="number">0</span>; <span class="var-C">C</span> < <span class="var-D">D</span>; <span class="var-C">C</span>++) {
-        <span class="keyword">if</span>(<span class="var-C">C</span> > <span class="var-L">L</span>) {  <span class="comment">// Coluna maior que linha = ACIMA</span>
-            soma += matriz[<span class="var-L">L</span>][<span class="var-C">C</span>];
-            cont++;
-        }
-    }
-}
-<span class="type">float</span> media = soma / cont;  <span class="comment">// Se precisar da média</span></pre>
-
-            <h3>Abaixo da diagonal secundária (<span style="color:#FF9F43;">L</span> + <span style="color:#6DCFFA;">C</span> > <span style="color:#FADC6D;">D</span> - 1):</h3>
-            <pre><span class="comment">// Para D=5: L + C > 4</span>
-<span class="keyword">if</span>(<span class="var-L">L</span> + <span class="var-C">C</span> > <span class="var-D">D</span> - <span class="number">1</span>) {
-    soma += matriz[<span class="var-L">L</span>][<span class="var-C">C</span>];
-    cont++;
-}</pre>
-
-            <div class="tip-box">
-                <p><strong>💡 Lembrete:</strong> Use <code>></code> (estritamente maior) para <strong>abaixo</strong> da diagonal secundária, e <code><</code> (estritamente menor) para <strong>acima</strong>.</p>
-                <p>Se o exercício pedir para <strong>incluir</strong> a diagonal na região, aí sim use <code>>=</code> ou <code><=</code>.</p>
-            </div>
+<span class="comment">// Abaixo da diagonal secundária (L + C > D-1)</span>
+<span class="keyword">for</span>(<span class="var-L">L</span>=<span class="number">0</span>; <span class="var-L">L</span><<span class="var-D">D</span>; <span class="var-L">L</span>++)
+    <span class="keyword">for</span>(<span class="var-C">C</span>=<span class="number">0</span>; <span class="var-C">C</span><<span class="var-D">D</span>; <span class="var-C">C</span>++)
+        <span class="keyword">if</span>(<span class="var-L">L</span> + <span class="var-C">C</span> > <span class="var-D">D</span> - <span class="number">1</span>) soma_abaixo += matriz[<span class="var-L">L</span>][<span class="var-C">C</span>];</pre>
         </div>
 
         <!-- ========== NÚMERO PERFEITO ========== -->
         <div class="card">
-            <h2>⭐ 6. Exemplo Prático: Números Perfeitos (Exercício 5)</h2>
-
-            <p><strong>Número perfeito:</strong> soma dos divisores (exceto ele mesmo) = número.</p>
-            <p>Ex: <code>6</code> → divisores: 1, 2, 3 → 1+2+3 = 6 ✅</p>
-
-            <div class="step">
-                <div class="step-number">1</div>
-                <div>
-                    <strong>Para cada número da matriz, calcule a soma dos divisores</strong>
-                    <pre><span class="type">int</span> <span class="var-D">D</span> = <span class="number">3</span>;  <span class="comment">// Matriz 3x3</span>
-<span class="type">int</span> matriz[<span class="var-D">D</span>][<span class="var-D">D</span>];
-<span class="type">int</span> <span class="var-L">L</span>, <span class="var-C">C</span>, k;
-
-<span class="keyword">for</span>(<span class="var-L">L</span> = <span class="number">0</span>; <span class="var-L">L</span> < <span class="var-D">D</span>; <span class="var-L">L</span>++) {
-    <span class="keyword">for</span>(<span class="var-C">C</span> = <span class="number">0</span>; <span class="var-C">C</span> < <span class="var-D">D</span>; <span class="var-C">C</span>++) {
+            <h2>⭐ 6. Números Perfeitos (Exercício 5)</h2>
+            <pre><span class="keyword">for</span>(<span class="var-L">L</span>=<span class="number">0</span>; <span class="var-L">L</span><<span class="var-D">D</span>; <span class="var-L">L</span>++) {
+    <span class="keyword">for</span>(<span class="var-C">C</span>=<span class="number">0</span>; <span class="var-C">C</span><<span class="var-D">D</span>; <span class="var-C">C</span>++) {
         <span class="type">int</span> num = matriz[<span class="var-L">L</span>][<span class="var-C">C</span>];
         <span class="type">int</span> soma_div = <span class="number">0</span>;
-        
-        <span class="comment">// Laço para encontrar divisores (1 até num/2)</span>
-        <span class="keyword">for</span>(k = <span class="number">1</span>; k <= num/<span class="number">2</span>; k++) {
-            <span class="keyword">if</span>(num % k == <span class="number">0</span>) {
-                soma_div += k;
-            }
-        }
-        
-        <span class="comment">// Verifica se é perfeito</span>
-        <span class="keyword">if</span>(soma_div == num) {
-            <span class="function">printf</span>(<span class="string">"%d - Numero perfeito\n"</span>, num);
-        } <span class="keyword">else</span> {
-            <span class="function">printf</span>(<span class="string">"%d - Nao e perfeito\n"</span>, num);
-        }
+        <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">1</span>; k <= num/<span class="number">2</span>; k++)
+            <span class="keyword">if</span>(num % k == <span class="number">0</span>) soma_div += k;
+        <span class="keyword">if</span>(soma_div == num)
+            <span class="function">printf</span>(<span class="string">"%d é perfeito\n"</span>, num);
     }
 }</pre>
-                </div>
-            </div>
-
-            <div class="tip-box">
-                <p><strong>💡 Otimização:</strong> Só precisamos verificar divisores até <code>num/2</code>, pois nenhum divisor (exceto o próprio número) é maior que a metade.</p>
-            </div>
         </div>
 
-        <!-- ========== EXERCÍCIO 8 ========== -->
+        <!-- ========== PRODUTO DIAGONAIS ========== -->
         <div class="card">
-            <h2>🔍 7. Exemplo Prático: Produto das Diagonais (Exercício 8)</h2>
-
-            <p><strong>Enunciado:</strong> Matriz 4x4, calcular produto das duas diagonais e indicar o menor.</p>
-
-            <pre><span class="type">int</span> <span class="var-D">D</span> = <span class="number">4</span>;
-<span class="type">float</span> matriz[<span class="var-D">D</span>][<span class="var-D">D</span>];
-<span class="type">float</span> prod_princ = <span class="number">1</span>, prod_sec = <span class="number">1</span>;
-<span class="type">int</span> <span class="var-L">L</span>, <span class="var-C">C</span>;
-
-<span class="comment">// Leitura da matriz (omitido para focar no cálculo)</span>
-
-<span class="keyword">for</span>(<span class="var-L">L</span> = <span class="number">0</span>; <span class="var-L">L</span> < <span class="var-D">D</span>; <span class="var-L">L</span>++) {
-    <span class="keyword">for</span>(<span class="var-C">C</span> = <span class="number">0</span>; <span class="var-C">C</span> < <span class="var-D">D</span>; <span class="var-C">C</span>++) {
-        <span class="comment">// Diagonal principal: L == C</span>
-        <span class="keyword">if</span>(<span class="var-L">L</span> == <span class="var-C">C</span>) {
-            prod_princ *= matriz[<span class="var-L">L</span>][<span class="var-C">C</span>];
-        }
-        <span class="comment">// Diagonal secundária: L + C == D - 1</span>
-        <span class="keyword">if</span>(<span class="var-L">L</span> + <span class="var-C">C</span> == <span class="var-D">D</span> - <span class="number">1</span>) {
-            prod_sec *= matriz[<span class="var-L">L</span>][<span class="var-C">C</span>];
-        }
-    }
-}
-
-<span class="function">printf</span>(<span class="string">"Produto diagonal principal: %.2f\n"</span>, prod_princ);
-<span class="function">printf</span>(<span class="string">"Produto diagonal secundaria: %.2f\n"</span>, prod_sec);
-
-<span class="comment">// Comparação para achar o menor</span>
-<span class="keyword">if</span>(prod_princ < prod_sec) {
-    <span class="function">printf</span>(<span class="string">"Menor produto: %.2f - Diagonal principal\n"</span>, prod_princ);
-} <span class="keyword">else if</span>(prod_sec < prod_princ) {
-    <span class="function">printf</span>(<span class="string">"Menor produto: %.2f - Diagonal secundaria\n"</span>, prod_sec);
-} <span class="keyword">else</span> {
-    <span class="function">printf</span>(<span class="string">"Menor produto: %.2f - Ambas diagonais\n"</span>, prod_princ);
+            <h2>🔍 7. Produto das Diagonais (Exercício 8)</h2>
+            <pre><span class="type">float</span> prod_princ = <span class="number">1</span>, prod_sec = <span class="number">1</span>;
+<span class="keyword">for</span>(<span class="var-L">L</span>=<span class="number">0</span>; <span class="var-L">L</span><<span class="var-D">D</span>; <span class="var-L">L</span>++) {
+    prod_princ *= matriz[<span class="var-L">L</span>][<span class="var-L">L</span>];
+    prod_sec *= matriz[<span class="var-L">L</span>][<span class="var-D">D</span>-<span class="number">1</span>-<span class="var-L">L</span>];
 }</pre>
         </div>
 
         <!-- ========== RESUMO ========== -->
         <div class="card">
             <h2>📋 8. Resumo: Checklist para Matrizes</h2>
-
             <div class="highlight-box">
                 <ol style="list-style-position:inside;line-height:2.2;">
-                    <li>✅ <strong>Defina D</strong> (dimensão da matriz quadrada)</li>
-                    <li>✅ <strong>Declare a matriz:</strong> <code>tipo nome[<span style="color:#FADC6D;">D</span>][<span style="color:#FADC6D;">D</span>]</code></li>
-                    <li>✅ <strong>Declare L e C</strong> para os índices</li>
-                    <li>✅ <strong>Leia com laço duplo:</strong> <code>for(<span style="color:#FF9F43;">L</span>) for(<span style="color:#6DCFFA;">C</span>) scanf</code></li>
-                    <li>✅ <strong>Identifique a região de interesse:</strong>
-                        <table style="margin:10px 0;">
-                            <tr><th>Região</th><th>Condição</th></tr>
-                            <tr><td>Diagonal Principal</td><td><code><span style="color:#FF9F43;">L</span> == <span style="color:#6DCFFA;">C</span></code></td></tr>
-                            <tr><td>Diagonal Secundária</td><td><code><span style="color:#FF9F43;">L</span> + <span style="color:#6DCFFA;">C</span> == <span style="color:#FADC6D;">D</span> - 1</code></td></tr>
-                            <tr><td>Acima da Principal</td><td><code><span style="color:#6DCFFA;">C</span> > <span style="color:#FF9F43;">L</span></code></td></tr>
-                            <tr><td>Abaixo da Principal</td><td><code><span style="color:#6DCFFA;">C</span> < <span style="color:#FF9F43;">L</span></code></td></tr>
-                            <tr><td>Acima da Secundária</td><td><code><span style="color:#FF9F43;">L</span> + <span style="color:#6DCFFA;">C</span> < <span style="color:#FADC6D;">D</span> - 1</code></td></tr>
-                            <tr><td>Abaixo da Secundária</td><td><code><span style="color:#FF9F43;">L</span> + <span style="color:#6DCFFA;">C</span> > <span style="color:#FADC6D;">D</span> - 1</code></td></tr>
-                        </table>
+                    <li>✅ Defina <strong>D</strong> (dimensão da matriz quadrada)</li>
+                    <li>✅ Declare a matriz: <code>tipo nome[D][D]</code></li>
+                    <li>✅ Use <strong>L e C</strong> para índices</li>
+                    <li>✅ Leia com laço duplo: <code>for(L) for(C) scanf</code></li>
+                    <li>✅ Identifique região: 
+                        <br>• Principal: <code>L == C</code>
+                        <br>• Secundária: <code>L + C == D-1</code>
+                        <br>• Acima Principal: <code>C > L</code>
+                        <br>• Abaixo Secundária: <code>L + C > D-1</code>
                     </li>
-                    <li>✅ <strong>Calcule</strong> (soma, média, produto, etc.)</li>
-                    <li>✅ <strong>Imprima</strong> o resultado</li>
+                    <li>✅ Calcule (soma, média, produto)</li>
+                    <li>✅ Exiba o resultado</li>
                 </ol>
             </div>
         </div>
 
-        <!-- ========== GABARITO RÁPIDO ========== -->
+        <!-- GABARITO RÁPIDO -->
         <div class="card">
             <h2>🎯 9. Gabarito Rápido: Qual Condição Usar?</h2>
-
             <table>
-                <tr>
-                    <th style="background:rgba(255,159,67,0.3);">Exercício</th>
-                    <th style="background:rgba(255,159,67,0.3);">D</th>
-                    <th style="background:rgba(255,159,67,0.3);">Condição(ões)</th>
-                </tr>
-                <tr>
-                    <td>1 - Diagonal Secundária</td>
-                    <td><strong>6</strong></td>
-                    <td><code>L + C == 5</code></td>
-                </tr>
-                <tr>
-                    <td>2 - Cópia Inversa</td>
-                    <td><strong>3</strong></td>
-                    <td><code>M2[2-L][2-C] = M1[L][C]</code></td>
-                </tr>
-                <tr>
-                    <td>3 - Soma Diagonal Principal</td>
-                    <td><strong>5</strong></td>
-                    <td><code>L == C</code></td>
-                </tr>
-                <tr>
-                    <td>4 - Acima/Abaixo Principal</td>
-                    <td><strong>4</strong></td>
-                    <td><code>C > L</code> e <code>C < L</code></td>
-                </tr>
-                <tr>
-                    <td>5 - Números Perfeitos</td>
-                    <td><strong>3</strong></td>
-                    <td>Divisores: <code>num % k == 0</code></td>
-                </tr>
-                <tr>
-                    <td>6 - Maior Somatório Diagonais</td>
-                    <td><strong>4</strong></td>
-                    <td><code>L == C</code> e <code>L + C == 3</code></td>
-                </tr>
-                <tr>
-                    <td>7 - Acima/Abaixo Secundária</td>
-                    <td><strong>5</strong></td>
-                    <td><code>L + C < 4</code> e <code>L + C > 4</code></td>
-                </tr>
-                <tr>
-                    <td>8 - Produto Diagonais</td>
-                    <td><strong>4</strong></td>
-                    <td><code>L == C</code> e <code>L + C == 3</code></td>
-                </tr>
+                <tr><th style="background:rgba(255,159,67,0.3);">Exercício</th><th style="background:rgba(255,159,67,0.3);">D</th><th style="background:rgba(255,159,67,0.3);">Condição(ões)</th></tr>
+                <tr><td>1 - Diagonal Secundária</td><td>6</td><td><code>L + C == 5</code></td></tr>
+                <tr><td>2 - Cópia Inversa</td><td>3</td><td><code>M2[2-L][2-C] = M1[L][C]</code></td></tr>
+                <tr><td>3 - Soma Diagonal Principal</td><td>5</td><td><code>L == C</code></td></tr>
+                <tr><td>4 - Acima/Abaixo Principal</td><td>4</td><td><code>C > L</code> e <code>C < L</code></td></tr>
+                <tr><td>5 - Números Perfeitos</td><td>3</td><td>Divisores: <code>num % k == 0</code></td></tr>
+                <tr><td>6 - Maior Somatório Diagonais</td><td>4</td><td><code>L == C</code> e <code>L + C == 3</code></td></tr>
+                <tr><td>7 - Acima/Abaixo Secundária</td><td>5</td><td><code>L + C < 4</code> e <code>L + C > 4</code></td></tr>
+                <tr><td>8 - Produto Diagonais</td><td>4</td><td><code>L == C</code> e <code>L + C == 3</code></td></tr>
             </table>
         </div>
 
@@ -810,10 +503,9 @@
             📐 <strong>Lembre-se:</strong> <span style="color:#FF9F43;">L</span> = Linha, <span style="color:#6DCFFA;">C</span> = Coluna, <span style="color:#FADC6D;">D</span> = Dimensão<br>
             Domine as diagonais e você dominará as matrizes! 🚀
         </p>
-
     </div>
 
-    <!-- ========== SCRIPTS ========== -->
+    <!-- scripts com fallback silencioso (não quebram a página) -->
     <script src="JS/sidebar.js"></script>
     <script src="JS/footer.js"></script>
 
