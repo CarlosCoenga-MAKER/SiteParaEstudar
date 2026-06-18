@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <base href="../../">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Matemática · SiteParaEstudar</title>
     <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
@@ -317,6 +318,15 @@
             overflow: hidden;
         }
 
+        .math-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
         .math-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
@@ -345,14 +355,12 @@
             font-size: 13px;
             color: var(--muted);
             line-height: 1.6;
-            flex: 1;
         }
 
         .math-card-tags {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
-            margin-top: auto;
         }
 
         .math-tag {
@@ -400,7 +408,7 @@
 
     <div class="cards-grid">
         <!-- Card: Prova Completa -->
-        <a href="pages/matematica/matematica.html" class="math-card">
+        <a href="/pages/matematica/matematica.html" class="math-card" style="--card-accent: #7c6dfa;">
             <div class="math-card-icon" style="background: linear-gradient(135deg, #7c6dfa, #5a4fd6);">📋</div>
             <h3>Prova Completa</h3>
             <p>24 questões abrangendo todos os temas: Conjuntos, Relações, Funções e Combinatória. Com dicas e gabaritos.</p>
@@ -412,8 +420,8 @@
         </a>
 
         <!-- Card: Prova Avaliativa 1 -->
-        <a href="pages/matematica/prova1Avaliativa.html" class="math-card">
-            <div class="math-card-icon" style="background: linear-gradient(135deg, #6dfabc, #3dd68c);">📝</div>
+        <a href="/pages/matematica/prova1Avaliativa.html" class="math-card" style="--card-accent: #6dfabc;">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #6dfabc, #3dd68c);">📋</div>
             <h3>Prova Avaliativa 1</h3>
             <p>7 questões de múltipla escolha: Conjuntos, Relações, Funções e Combinatória. Com verificação automática e gabaritos detalhados.</p>
             <div class="math-card-tags">
@@ -424,7 +432,7 @@
         </a>
 
         <!-- Card: Lista de Conjuntos -->
-        <a href="pages/matematica/ListaConjuntos.html" class="math-card">
+        <a href="/pages/matematica/ListaConjuntos.html" class="math-card" style="--card-accent: #7c6dfa;">
             <div class="math-card-icon" style="background: linear-gradient(135deg, #7c6dfa, #a89fff);">∩</div>
             <h3>Lista de Conjuntos</h3>
             <p>21 exercícios de múltipla escolha sobre pertinência, subconjuntos, operações e conjunto das partes.</p>
@@ -435,7 +443,7 @@
         </a>
 
         <!-- Card: Lista de Relações -->
-        <a href="pages/matematica/exercicios-relacoes.html" class="math-card">
+        <a href="/pages/matematica/exercicios-relacoes.html" class="math-card" style="--card-accent: #ff9db5;">
             <div class="math-card-icon" style="background: linear-gradient(135deg, #fa6d8a, #ff9db5);">↔</div>
             <h3>Lista de Relações</h3>
             <p>11 exercícios focados em propriedades (reflexiva, simétrica, transitiva), classificação e partições.</p>
@@ -447,7 +455,7 @@
         </a>
 
         <!-- Card: Lista de Funções -->
-        <a href="pages/matematica/exercicios-funcoes.html" class="math-card">
+        <a href="/pages/matematica/exercicios-funcoes.html" class="math-card" style="--card-accent: #6dfabc;">
             <div class="math-card-icon" style="background: linear-gradient(135deg, #6dfabc, #3dd68c);">f(x)</div>
             <h3>Lista de Funções</h3>
             <p>10 exercícios sobre classificação (injetora, sobrejetora, bijetora), composição e inversa.</p>
@@ -459,7 +467,7 @@
         </a>
 
         <!-- Card: Lista de Combinatória -->
-        <a href="pages/matematica/exercicios-combinatoria.html" class="math-card">
+        <a href="/pages/matematica/exercicios-combinatoria.html" class="math-card" style="--card-accent: #fadc6d;">
             <div class="math-card-icon" style="background: linear-gradient(135deg, #fadc6d, #e6b800);">C(n,k)</div>
             <h3>Lista de Combinatória</h3>
             <p>15 exercícios sobre princípio multiplicativo, permutações, combinações e princípio da inclusão-exclusão.</p>
@@ -471,7 +479,7 @@
         </a>
 
         <!-- Card: Regras de Inferência da Lógica Proposicional -->
-        <a href="pages/matematica/exercicios-RegrasdeInferenciadaLogicaProposicional.html" class="math-card">
+        <a href="/pages/matematica/exercicios-RegrasdeInferenciadaLogicaProposicional.html" class="math-card" style="--card-accent: #fadc6d;">
             <div class="math-card-icon" style="background: linear-gradient(135deg, #fadc6d, #e6b800);">⊢</div>
             <h3>Regras de Inferência · Lógica Proposicional</h3>
             <p>37 exercícios de demonstração lógica usando Modus Ponens, Modus Tollens, regras de conjunção, disjunção, bicondicional e DeMorgan.</p>
@@ -483,7 +491,7 @@
         </a>
 
         <!-- Card: Lógica de Predicados -->
-        <a href="pages/matematica/exercicios-logicaPredicados.html" class="math-card">
+        <a href="/pages/matematica/exercicios-logicaPredicados.html" class="math-card" style="--card-accent: #7c6dfa;">
             <div class="math-card-icon" style="background: linear-gradient(135deg, #7c6dfa, #a89fff);">∀∃</div>
             <h3>Lógica de Predicados · Formalização</h3>
             <p>31 exercícios de tradução para linguagem de primeira ordem com predicados R(x), V(x), S(x), constantes e quantificadores universal e existencial.</p>
@@ -493,8 +501,8 @@
                 <span class="math-tag" style="border-color: #fadc6d; color: #fadc6d; background: rgba(250,220,109,0.1);">Verificação</span>
             </div>
         </a>
-
-        <!-- Card: Guia de Estudos Lógica e Teoria dos Números -->
+       
+         <!-- Card: Guia de Estudos Lógica e Teoria dos Números -->
         <a href="pages/matematica/Guias/GuiadeEstudosLogicaeTeoriadosNumeros.html" class="math-card">
             <div class="math-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">📚</div>
             <h3>Guia de Estudos: Lógica & Teoria dos Números</h3>
@@ -518,10 +526,6 @@
             </div>
         </a>
     </div>
-
-    <footer style="text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; font-family: 'Space Mono', monospace;">
-        <p>© 2026 SiteParaEstudar · Todos os direitos reservados</p>
-    </footer>
 </div>
 
 <script src="JS/footer.js"></script>
