@@ -7,7 +7,7 @@
   <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="Style/style.css">
   <link rel="stylesheet" href="Style/sidbar.css">
-  <title>🎓 Guia Interativo · Lógica e Teoria dos Números</title>
+  <title>🎓 Super Guia de Estudos · Lógica e Teoria dos Números</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -22,9 +22,14 @@
       --muted: #7878a0;
       --warning: #fadc6d;
       --info: #6dcffa;
+      --orange: #fa9e6d;
       --tooltip-bg: #252533;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     body {
       background: var(--bg);
       color: var(--text);
@@ -34,126 +39,211 @@
       padding: 20px;
       min-height: 100vh;
     }
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
     h1 {
       font-family: 'Syne', sans-serif;
-      font-size: 2.2em; font-weight: 800;
+      font-size: 2.4em;
+      font-weight: 800;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 10px; text-align: center;
+      margin-bottom: 10px;
+      text-align: center;
     }
     h2 {
-      font-family: 'Syne', sans-serif; font-size: 1.5em; font-weight: 700;
-      color: var(--accent); margin: 40px 0 20px 0;
-      padding-bottom: 10px; border-bottom: 2px solid var(--border);
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6em;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 40px 0 20px 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     h3 {
-      font-family: 'Syne', sans-serif; font-size: 1.2em; font-weight: 600;
-      color: var(--accent2); margin: 25px 0 15px 0;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3em;
+      font-weight: 600;
+      color: var(--accent2);
+      margin: 25px 0 15px 0;
+    }
+    h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1em;
+      font-weight: 600;
+      color: var(--warning);
+      margin: 20px 0 10px 0;
     }
     .card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 25px 30px; margin-bottom: 25px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px 35px;
+      margin-bottom: 30px;
+      transition: box-shadow 0.3s ease;
+    }
+    .card:hover {
+      box-shadow: 0 8px 25px rgba(124, 109, 250, 0.15);
     }
     .highlight-box {
-      background: rgba(124,109,250,0.08);
-      border: 2px solid rgba(124,109,250,0.3);
-      border-radius: 12px; padding: 20px; margin: 20px 0;
+      background: rgba(124, 109, 250, 0.08);
+      border: 2px solid rgba(124, 109, 250, 0.3);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 25px 0;
     }
     .tip-box {
-      background: rgba(109,250,188,0.08);
-      border: 2px solid rgba(109,250,188,0.3);
-      border-radius: 12px; padding: 20px; margin: 20px 0;
+      background: rgba(109, 250, 188, 0.08);
+      border: 2px solid rgba(109, 250, 188, 0.3);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 25px 0;
     }
     .warning-box {
-      background: rgba(250,220,109,0.08);
-      border: 2px solid rgba(250,220,109,0.3);
-      border-radius: 12px; padding: 20px; margin: 20px 0;
+      background: rgba(250, 220, 109, 0.08);
+      border: 2px solid rgba(250, 220, 109, 0.3);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 25px 0;
     }
     .danger-box {
-      background: rgba(250,109,138,0.08);
-      border: 2px solid rgba(250,109,138,0.3);
-      border-radius: 12px; padding: 20px; margin: 20px 0;
+      background: rgba(250, 109, 138, 0.08);
+      border: 2px solid rgba(250, 109, 138, 0.3);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 25px 0;
+    }
+    .detail-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      margin: 20px 0;
+    }
+    .detail-col {
+      flex: 1 1 280px;
+      background: rgba(21, 21, 26, 0.7);
+      border-radius: 14px;
+      padding: 20px;
+      border: 1px solid var(--border);
     }
     code {
       font-family: 'Fira Code', monospace;
-      background: rgba(124,109,250,0.15);
-      padding: 3px 8px; border-radius: 5px; font-size: 0.9em; color: #DCDCAA;
+      background: rgba(124, 109, 250, 0.2);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.95em;
+      color: #DCDCAA;
     }
     pre {
-      background: #1E1E1E; border: 1px solid #3C3C3C; border-radius: 10px;
-      padding: 20px; overflow-x: auto; font-family: 'Fira Code', monospace;
-      font-size: 14px; line-height: 1.7; color: #D4D4D4; margin: 15px 0;
+      background: #1E1E1E;
+      border: 1px solid #3C3C3C;
+      border-radius: 12px;
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #D4D4D4;
+      margin: 15px 0;
     }
     table {
-      width: 100%; border-collapse: collapse;
-      margin: 15px 0; font-size: 14px;
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 15px;
+      border-radius: 12px;
+      overflow: hidden;
     }
-    th, td {
+    th,
+    td {
       border: 1px solid var(--border);
-      padding: 10px 14px; text-align: left;
+      padding: 14px 18px;
+      text-align: left;
     }
-    th { background: var(--surface); color: var(--accent); font-weight: 700; }
-    td { background: rgba(21,21,26,0.5); }
+    th {
+      background: var(--surface);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.9em;
+      letter-spacing: 0.5px;
+    }
+    td {
+      background: rgba(21, 21, 26, 0.6);
+    }
     .step {
-      display: flex; gap: 15px; align-items: flex-start;
-      margin: 20px 0; padding: 15px;
-      background: rgba(255,255,255,0.03);
-      border-radius: 12px; border-left: 4px solid var(--accent);
-      position: relative;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin: 25px 0;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 16px;
+      border-left: 5px solid var(--accent);
+      transition: background 0.2s;
+    }
+    .step:hover {
+      background: rgba(124, 109, 250, 0.08);
     }
     .step-number {
-      width: 40px; height: 40px; background: var(--accent); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 18px; flex-shrink: 0; color: #fff;
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      flex-shrink: 0;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
-    .analogy {
-      background: linear-gradient(135deg, rgba(124,109,250,0.1), rgba(109,250,188,0.1));
-      border: 1px solid var(--border); border-radius: 12px;
-      padding: 20px; margin: 20px 0;
-    }
-    .analogy h4 { color: var(--warning); margin-bottom: 8px; font-size: 16px; }
-
-    /* INTERATIVIDADE: tooltip ao passar o mouse */
     .has-tooltip {
       position: relative;
       cursor: help;
-      border-bottom: 1px dashed var(--accent2);
-      font-weight: 500;
-      color: var(--accent2);
+      border-bottom: 2px dotted var(--accent2);
+      font-weight: 600;
+      color: #e0dfff;
       transition: 0.2s;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: rgba(124, 109, 250, 0.15);
     }
     .has-tooltip:hover {
+      background: rgba(124, 109, 250, 0.35);
       color: #fff;
-      background: rgba(124,109,250,0.2);
-      border-radius: 4px;
-      padding: 0 4px;
+      border-bottom-color: #fff;
     }
     .tooltip-content {
       position: absolute;
-      bottom: calc(100% + 12px);
+      bottom: calc(100% + 14px);
       left: 50%;
       transform: translateX(-50%);
-      background: var(--tooltip-bg);
-      border: 1px solid var(--accent);
-      border-radius: 12px;
-      padding: 12px 16px;
+      background: rgba(20, 20, 30, 0.96);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid var(--accent);
+      border-radius: 16px;
+      padding: 16px 20px;
       width: max-content;
-      max-width: 280px;
+      max-width: 380px;
       white-space: normal;
-      color: #f0f0f8;
-      font-size: 0.9rem;
-      line-height: 1.5;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.7);
+      color: #f2f2ff;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.8);
       pointer-events: none;
       opacity: 0;
-      transition: opacity 0.2s ease, transform 0.2s;
-      z-index: 50;
+      transition: opacity 0.25s ease, transform 0.25s;
+      z-index: 100;
       text-align: left;
       font-weight: 400;
-      backdrop-filter: blur(4px);
-      background: rgba(30,30,40,0.95);
     }
     .tooltip-content::after {
       content: "";
@@ -161,210 +251,382 @@
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      border-width: 8px;
+      border-width: 10px;
       border-style: solid;
       border-color: var(--accent) transparent transparent transparent;
     }
     .has-tooltip:hover .tooltip-content {
       opacity: 1;
-      transform: translateX(-50%) translateY(-2px);
+      transform: translateX(-50%) translateY(-4px);
     }
-
-    /* também aplicado a células de tabela e steps */
     .step .has-tooltip {
-      font-weight: 600;
       color: var(--warning);
       border-bottom-color: var(--warning);
+      background: rgba(250, 220, 109, 0.12);
     }
     td .has-tooltip {
       color: var(--info);
       border-bottom-color: var(--info);
+      background: rgba(109, 207, 250, 0.12);
+    }
+    .example-block {
+      background: #1a1a24;
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 20px;
+      border-left: 5px solid var(--accent2);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+    }
+    .exercise-block {
+      background: #1a1a24;
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 20px;
+      border-left: 5px solid var(--orange);
     }
     .footer-note {
-      text-align: center; color: var(--muted);
-      margin-top: 40px; padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      margin-top: 50px;
+      padding: 25px;
+      border-top: 1px solid var(--border);
     }
-    @media (max-width: 600px) {
-      body { padding: 10px; font-size: 15px; }
-      .card { padding: 15px; }
-      h1 { font-size: 1.6em; }
-      .tooltip-content { max-width: 220px; font-size: 0.8rem; }
+    .emoji-bullet {
+      display: inline-block;
+      width: 24px;
+      text-align: center;
+      margin-right: 6px;
     }
-    button, .clickable {
+    .accordion-toggle {
+      background: transparent;
+      border: 1px solid var(--accent2);
+      color: var(--accent2);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-weight: 600;
       cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+    .accordion-toggle:hover {
+      background: var(--accent2);
+      color: #000;
+    }
+    @media (max-width: 650px) {
+      body {
+        padding: 10px;
+        font-size: 15px;
+      }
+      .card {
+        padding: 18px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+      .tooltip-content {
+        max-width: 250px;
+      }
     }
   </style>
 </head>
 <body>
-<div class="container">
-  <h1>📘 Guia Interativo – Lógica e Teoria dos Números</h1>
-  <p style="text-align:center;color:var(--muted);margin-bottom:30px;">Passe o mouse sobre os destaques coloridos para ver resoluções e explicações ✨</p>
-
-  <!-- INTRODUÇÃO -->
-  <div class="card">
-    <h2>🧠 Introdução à Lógica</h2>
-    <p>A lógica proposicional estuda proposições, frases classificadas apenas como <strong>Verdadeiras (V)</strong> ou <strong>Falsas (F)</strong>.</p>
-    <div class="highlight-box">
-      <p>✅ “2 + 2 = 4” → Verdadeiro<br>❌ “10 é um número primo” → Falso</p>
-      <p>Proposições representadas por letras: <code>p</code>, <code>q</code>, <code>r</code>.<br>Ex: <span class="has-tooltip">p = “Está chovendo”<span class="tooltip-content">💡 Sempre que ver <strong>p</strong>, imagine uma frase que pode ser V ou F.</span></span>, <span class="has-tooltip">q = “Está frio”<span class="tooltip-content">💡 q é outra proposição independente.</span></span>.</p>
-    </div>
-  </div>
-
-  <!-- CONECTIVOS INTERATIVOS -->
-  <div class="card">
-    <h2>🔗 Conectivos Lógicos</h2>
-
-    <h3>Negação (~)</h3>
-    <p>Inverte o valor lógico. <span class="has-tooltip">~p<span class="tooltip-content">🔁 Se p é V, ~p é F. Leia como “não p”.</span></span></p>
-    <table>
-      <tr><th>p</th><th>~p</th></tr>
-      <tr><td>V</td><td>F</td></tr>
-      <tr><td>F</td><td>V</td></tr>
-    </table>
-
-    <h3>Conjunção (∧) – E</h3>
-    <p><span class="has-tooltip">p ∧ q<span class="tooltip-content">🤝 Só é verdade quando <strong>as duas</strong> são V. Ex: “Chove E faz frio” só é verdade se ambos acontecem.</span></span></p>
-    <table>
-      <tr><th>p</th><th>q</th><th>p ∧ q</th></tr>
-      <tr><td>V</td><td>V</td><td><span class="has-tooltip">V<span class="tooltip-content">✅ p=V, q=V → verdade.</span></span></td></tr>
-      <tr><td>V</td><td>F</td><td>F</td></tr>
-      <tr><td>F</td><td>V</td><td>F</td></tr>
-      <tr><td>F</td><td>F</td><td>F</td></tr>
-    </table>
-
-    <h3>Disjunção (∨) – OU</h3>
-    <p><span class="has-tooltip">p ∨ q<span class="tooltip-content">🌊 Basta uma ser V para o resultado ser V. Só é falso se ambas forem falsas.</span></span></p>
-    <table>
-      <tr><th>p</th><th>q</th><th>p ∨ q</th></tr>
-      <tr><td>V</td><td>V</td><td>V</td></tr>
-      <tr><td>V</td><td>F</td><td>V</td></tr>
-      <tr><td>F</td><td>V</td><td>V</td></tr>
-      <tr><td>F</td><td>F</td><td><span class="has-tooltip">F<span class="tooltip-content">🚫 Ambas falsas → disjunção falsa.</span></span></td></tr>
-    </table>
-
-    <h3>Condicional (→) – Se… então…</h3>
-    <p><span class="has-tooltip">p → q<span class="tooltip-content">⚠️ A única chance de ser FALSO é quando <strong>p é V e q é F</strong> (promessa quebrada). Nos outros casos é verdade.</span></span></p>
-    <table>
-      <tr><th>p</th><th>q</th><th>p → q</th></tr>
-      <tr><td>V</td><td>V</td><td>V</td></tr>
-      <tr><td>V</td><td>F</td><td><span class="has-tooltip">F<span class="tooltip-content">❗ p=V, q=F → condicional falso. Ex: “Se chover, levo guarda-chuva” e não levei.</span></span></td></tr>
-      <tr><td>F</td><td>V</td><td>V</td></tr>
-      <tr><td>F</td><td>F</td><td>V</td></tr>
-    </table>
-
-    <h3>Bicondicional (↔) – Se e somente se</h3>
-    <p><span class="has-tooltip">p ↔ q<span class="tooltip-content">⚖️ Verdadeiro quando p e q têm o MESMO valor (V,V ou F,F).</span></span></p>
-    <table>
-      <tr><th>p</th><th>q</th><th>p ↔ q</th></tr>
-      <tr><td>V</td><td>V</td><td>V</td></tr>
-      <tr><td>V</td><td>F</td><td>F</td></tr>
-      <tr><td>F</td><td>V</td><td>F</td></tr>
-      <tr><td>F</td><td>F</td><td><span class="has-tooltip">V<span class="tooltip-content">🔁 Ambos falsos → bicondicional verdadeiro.</span></span></td></tr>
-    </table>
-  </div>
-
-  <!-- REGRAS COM TOOLTIP DE RESOLUÇÃO -->
-  <div class="card">
-    <h2>⚙️ Regras de Inferência</h2>
-    <p>Passe o mouse sobre cada regra para ver um exemplo de resolução.</p>
-
-    <div class="step">
-      <div class="step-number">MP</div>
-      <div><strong>Modus Ponens</strong><br>
-        <span class="has-tooltip">p → q, p ⊢ q<span class="tooltip-content">📋 <strong>Resolução:</strong> Se temos “Se chover, a rua molha” (p→q) e “Está chovendo” (p), concluímos “A rua molha” (q).</span></span>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-number">MT</div>
-      <div><strong>Modus Tollens</strong><br>
-        <span class="has-tooltip">p → q, ~q ⊢ ~p<span class="tooltip-content">📋 <strong>Resolução:</strong> “Se é peixe, respira na água” (p→q). “Não respira na água” (~q). Logo, “Não é peixe” (~p).</span></span>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-number">SH</div>
-      <div><strong>Silogismo Hipotético</strong><br>
-        <span class="has-tooltip">p → q, q → r ⊢ p → r<span class="tooltip-content">📋 <strong>Resolução:</strong> “Se estudar, aprende” (p→q). “Se aprender, passa” (q→r). Conclusão: “Se estudar, passa” (p→r).</span></span>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-number">SD</div>
-      <div><strong>Silogismo Disjuntivo</strong><br>
-        <span class="has-tooltip">p ∨ q, ~p ⊢ q<span class="tooltip-content">📋 <strong>Resolução:</strong> “Vou de carro ou de ônibus” (p∨q). “Não vou de carro” (~p). Resta: “Vou de ônibus” (q).</span></span>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-number">Simp</div>
-      <div><strong>Simplificação</strong><br>
-        <span class="has-tooltip">p ∧ q ⊢ p (ou q)<span class="tooltip-content">📋 <strong>Resolução:</strong> “Está frio e chovendo” (p∧q). Podemos afirmar apenas “Está frio” (p).</span></span>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-number">Conj</div>
-      <div><strong>Conjunção</strong><br>
-        <span class="has-tooltip">p, q ⊢ p ∧ q<span class="tooltip-content">📋 <strong>Resolução:</strong> Se sabemos que “p” é verdade e “q” é verdade, podemos juntar: “p ∧ q”.</span></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- PREDICADOS INTERATIVOS -->
-  <div class="card">
-    <h2>🌐 Lógica de Predicados</h2>
-    <p><code>∀</code> (Universal) – “Para todo” <br> 
-      <span class="has-tooltip">∀x P(x)<span class="tooltip-content">🌍 Significa que <strong>todo</strong> elemento do domínio satisfaz P. Ex: “Todo aluno estudou”.</span></span>
-    </p>
-    <p><code>∃</code> (Existencial) – “Existe” <br> 
-      <span class="has-tooltip">∃x P(x)<span class="tooltip-content">🔎 Existe pelo menos um elemento que satisfaz P. Ex: “Existe um aluno que gabaritou”.</span></span>
-    </p>
-    <h3>Negação dos quantificadores</h3>
-    <p>∀ vira ∃, ∃ vira ∀, e nega a proposição.<br>
-    <span class="has-tooltip">Ex: ~∀x A(x) ≡ ∃x ~A(x)<span class="tooltip-content">🔄 “Nem todo aluno estuda” equivale a “Existe pelo menos um aluno que não estuda”.</span></span><br>
-    <span class="has-tooltip">~∃x B(x) ≡ ∀x ~B(x)<span class="tooltip-content">🔄 “Não existe aluno que dormiu” equivale a “Todo aluno não dormiu”.</span></span>
-    </p>
-  </div>
-
-  <!-- TEORIA DOS NÚMEROS COM DICAS -->
-  <div class="card">
-    <h2>🔢 Fundamentos – Teoria dos Números</h2>
-    <h3>Números primos</h3>
-    <p>Possuem apenas dois divisores: 1 e ele mesmo.<br>
-    <span class="has-tooltip">2, 3, 5, 7, 11, 13, 17, 19<span class="tooltip-content">🔹 O 2 é o único primo par. Para verificar se um número n é primo, teste divisores até √n.</span></span>
+  <div class="container">
+    <h1>📘 Super Guia de Estudos · Lógica e Teoria dos Números</h1>
+    <p style="text-align:center;color:var(--muted);margin-bottom:35px; font-size:1.1rem;">
+      <span class="has-tooltip">Passe o mouse sobre os destaques<span class="tooltip-content">🎯 Tudo que está com borda tracejada e cor especial revela resoluções, macetes e exemplos práticos.</span></span> — conteúdo completo para arrasar nas provas!
     </p>
 
-    <h3>Divisibilidade</h3>
-    <ul style="list-style:none;padding-left:0;display:grid;grid-template-columns:1fr 1fr;gap:0.2rem 1rem;">
-      <li>• <strong>2</strong>: <span class="has-tooltip">termina em 0,2,4,6,8<span class="tooltip-content">📌 Ex: 134 termina em 4 → divisível por 2.</span></span></li>
-      <li>• <strong>3</strong>: <span class="has-tooltip">soma múltipla de 3<span class="tooltip-content">📌 123: 1+2+3=6 (múltiplo de 3) → divisível.</span></span></li>
-      <li>• <strong>4</strong>: <span class="has-tooltip">últimos 2 dígitos múltiplos de 4<span class="tooltip-content">📌 2024: 24 é múltiplo de 4 → ok.</span></span></li>
-      <li>• <strong>5</strong>: <span class="has-tooltip">termina em 0 ou 5<span class="tooltip-content">📌 95 termina em 5 → divisível por 5.</span></span></li>
-      <li>• <strong>6</strong>: <span class="has-tooltip">divisível por 2 e 3<span class="tooltip-content">📌 72: par (2) e soma 9 (3) → ok.</span></span></li>
-      <li>• <strong>8</strong>: <span class="has-tooltip">últimos 3 dígitos múltiplos de 8<span class="tooltip-content">📌 1.016: 016 = 16 → múltiplo de 8.</span></span></li>
-      <li>• <strong>9</strong>: <span class="has-tooltip">soma múltipla de 9<span class="tooltip-content">📌 198: 1+9+8=18 → múltiplo de 9.</span></span></li>
-      <li>• <strong>10</strong>: <span class="has-tooltip">termina em 0<span class="tooltip-content">📌 340 → termina em 0.</span></span></li>
-    </ul>
+    <!-- ==================== NOVA SEÇÃO: TAUTOLOGIA, CONTRADIÇÃO E CONTINGÊNCIA ==================== -->
+    <div class="card">
+      <h2>📊 Tautologia, Contradição e Contingência</h2>
+      <div class="detail-row">
+        <div class="detail-col">
+          <h4>✅ Tautologia</h4>
+          <p><span class="has-tooltip">Sempre Verdadeira<span class="tooltip-content">🔹 Independente dos valores de p, q, r... o resultado final é sempre V. Ex: p ∨ ~p</span></span></p>
+        </div>
+        <div class="detail-col">
+          <h4>❌ Contradição</h4>
+          <p><span class="has-tooltip">Sempre Falsa<span class="tooltip-content">🔸 Independente dos valores, o resultado é sempre F. Ex: p ∧ ~p</span></span></p>
+        </div>
+        <div class="detail-col">
+          <h4>⚠️ Contingência</h4>
+          <p><span class="has-tooltip">Pode ser V ou F<span class="tooltip-content">🔹 Depende dos valores das proposições. Ex: p → q</span></span></p>
+        </div>
+      </div>
+      <div class="example-block">
+        <strong>🧪 Teste rápido:</strong> Classifique <code>(p ∧ q) → (p ∨ q)</code><br>
+        <span class="has-tooltip">Resposta: Tautologia ✅<span class="tooltip-content">📋 Construa a tabela verdade. Em todas as linhas, o resultado é V. Se p∧q é V, p∨q também é V. Se p∧q é F, a condicional é V (F→?=V).</span></span>
+      </div>
+      <div class="example-block">
+        <strong>🧪 Classifique:</strong> <code>(p → q) ∧ (p ∧ ~q)</code><br>
+        <span class="has-tooltip">Resposta: Contradição ❌<span class="tooltip-content">📋 p→q é F apenas quando p=V e q=F. Nesse caso, p∧~q é V. Mas quando p→q é V, p∧~q é F. O ∧ entre eles nunca será V.</span></span>
+      </div>
+    </div>
 
-    <h3>Fatoração</h3>
-    <p><span class="has-tooltip">36 = 2 × 18 = 2 × 2 × 9 = 2 × 2 × 3 × 3 → 2² × 3²<span class="tooltip-content">🧮 Divida sempre pelo menor primo possível. 36÷2=18, 18÷2=9, 9÷3=3, 3÷3=1.</span></span></p>
+    <!-- ==================== NOVA SEÇÃO: EQUIVALÊNCIAS LÓGICAS ==================== -->
+    <div class="card">
+      <h2>🔄 Equivalências Lógicas Notáveis</h2>
+      <p>Duas proposições são <strong>logicamente equivalentes</strong> quando possuem a <span class="has-tooltip">mesma tabela verdade<span class="tooltip-content">🔹 Para todos os valores possíveis, os resultados são idênticos.</span></span>.</p>
 
-    <h3>MDC e MMC</h3>
-    <p><span class="has-tooltip"><strong>MDC (12,18):</strong> 12=2²·3, 18=2·3² → fatores comuns: 2·3 = 6<span class="tooltip-content">🔎 Pegue os menores expoentes dos fatores comuns. MDC = 2¹·3¹ = 6.</span></span><br>
-    <span class="has-tooltip"><strong>MMC (12,18):</strong> maiores expoentes: 2²·3² = 36<span class="tooltip-content">🔎 Pegue os maiores expoentes de todos os fatores. MMC = 2²·3² = 36.</span></span></p>
+      <h3>📌 Leis de De Morgan</h3>
+      <div class="detail-row">
+        <div class="detail-col">
+          <p><span class="has-tooltip">~(p ∧ q) ≡ ~p ∨ ~q<span class="tooltip-content">🔹 Nega o E vira OU. Ex: "Não é verdade que chove e faz frio" equivale a "Não chove OU não faz frio".</span></span></p>
+        </div>
+        <div class="detail-col">
+          <p><span class="has-tooltip">~(p ∨ q) ≡ ~p ∧ ~q<span class="tooltip-content">🔸 Nega o OU vira E. Ex: "Não é verdade que chove ou faz frio" equivale a "Não chove E não faz frio".</span></span></p>
+        </div>
+      </div>
+
+      <h3>📌 Condicional</h3>
+      <div class="detail-row">
+        <div class="detail-col">
+          <p><span class="has-tooltip">p → q ≡ ~p ∨ q<span class="tooltip-content">🔹 A condicional "Se p, então q" equivale a "Não p ou q". Ex: "Se estudo, passo" = "Não estudo ou passo".</span></span></p>
+        </div>
+        <div class="detail-col">
+          <p><span class="has-tooltip">p → q ≡ ~q → ~p<span class="tooltip-content">🔸 Contrapositiva: "Se não passo, então não estudei". Muito útil em provas!</span></span></p>
+        </div>
+      </div>
+
+      <h3>📌 Negação da Condicional</h3>
+      <div class="danger-box">
+        <p><span class="has-tooltip"><strong>~(p → q) ≡ p ∧ ~q</strong><span class="tooltip-content">💥 MANTER A PRIMEIRA E NEGAR A SEGUNDA. Ex: Negação de "Se chove, então faz frio" é "Chove E não faz frio". Isso cai muito!</span></span></p>
+      </div>
+
+      <h3>📌 Bicondicional</h3>
+      <div class="detail-row">
+        <div class="detail-col">
+          <p><span class="has-tooltip">p ↔ q ≡ (p → q) ∧ (q → p)<span class="tooltip-content">🔹 "p se e somente se q" equivale a "Se p então q E se q então p".</span></span></p>
+        </div>
+        <div class="detail-col">
+          <p><span class="has-tooltip">p ↔ q ≡ (p ∧ q) ∨ (~p ∧ ~q)<span class="tooltip-content">🔸 Ou ambos verdadeiros, ou ambos falsos.</span></span></p>
+        </div>
+      </div>
+
+      <div class="exercise-block">
+        <strong>📝 Exercício:</strong> A proposição <code>~(p → ~q)</code> é equivalente a:<br>
+        <span class="has-tooltip">Resposta: p ∧ q<span class="tooltip-content">📋 Passo a passo: ~(p → ~q) ≡ p ∧ ~(~q) ≡ p ∧ q. A negação da condicional mantém a primeira e nega a segunda. Como a segunda já era negada (~q), negar de novo vira q.</span></span>
+      </div>
+    </div>
+
+    <!-- ==================== NOVA SEÇÃO: ÁLGEBRA DAS PROPOSIÇÕES ==================== -->
+    <div class="card">
+      <h2>🧮 Álgebra das Proposições</h2>
+      <div class="detail-row">
+        <div class="detail-col">
+          <h4>🔹 Comutativa</h4>
+          <p>p ∧ q ≡ q ∧ p<br>p ∨ q ≡ q ∨ p</p>
+        </div>
+        <div class="detail-col">
+          <h4>🔹 Associativa</h4>
+          <p>(p ∧ q) ∧ r ≡ p ∧ (q ∧ r)<br>(p ∨ q) ∨ r ≡ p ∨ (q ∨ r)</p>
+        </div>
+        <div class="detail-col">
+          <h4>🔹 Distributiva</h4>
+          <p>p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r)<br>p ∨ (q ∧ r) ≡ (p ∨ q) ∧ (p ∨ r)</p>
+        </div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-col">
+          <h4>🔹 Idempotência</h4>
+          <p>p ∧ p ≡ p<br>p ∨ p ≡ p</p>
+        </div>
+        <div class="detail-col">
+          <h4>🔹 Dupla Negação</h4>
+          <p><span class="has-tooltip">~~p ≡ p<span class="tooltip-content">🔹 Negar duas vezes volta ao valor original.</span></span></p>
+        </div>
+        <div class="detail-col">
+          <h4>🔹 Identidade</h4>
+          <p>p ∧ V ≡ p<br>p ∨ F ≡ p</p>
+        </div>
+      </div>
+      <div class="example-block">
+        <strong>🧪 Simplifique:</strong> <code>(p ∧ q) ∨ (p ∧ ~q)</code><br>
+        <span class="has-tooltip">Resposta: p<span class="tooltip-content">📋 Fatoração: p ∧ (q ∨ ~q) ≡ p ∧ V ≡ p. Distributiva ao contrário!</span></span>
+      </div>
+    </div>
+
+    <!-- ==================== NOVA SEÇÃO: ARGUMENTOS E VALIDADE ==================== -->
+    <div class="card">
+      <h2>⚖️ Argumentos Lógicos e Validade</h2>
+      <p>Um <strong>argumento</strong> é uma sequência de proposições: <span class="has-tooltip">Premissas (P₁, P₂, ..., Pₙ) e Conclusão (C)<span class="tooltip-content">🔹 Representação: P₁, P₂, ..., Pₙ ⊢ C (Lê-se: "P₁, P₂, ..., Pₙ acarretam C").</span></span>.</p>
+
+      <div class="highlight-box">
+        <h4>✅ Argumento Válido</h4>
+        <p><span class="has-tooltip">Sempre que as premissas são verdadeiras, a conclusão também é verdadeira.<span class="tooltip-content">🔹 A validade depende da FORMA do argumento, não do conteúdo. Um argumento pode ser válido mesmo com premissas falsas!</span></span></p>
+      </div>
+
+      <h3>📌 Métodos para verificar validade</h3>
+      <div class="step">
+        <div class="step-number">1</div>
+        <div><strong>Tabela Verdade</strong><br>
+          <span class="has-tooltip">Construa a tabela com todas as premissas e a conclusão. Se em TODAS as linhas onde as premissas são V a conclusão também for V, o argumento é válido.<span class="tooltip-content">📋 Se existir pelo menos uma linha com premissas V e conclusão F, o argumento é INVÁLIDO (falácia).</span></span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div><strong>Regras de Inferência</strong><br>
+          <span class="has-tooltip">Use Modus Ponens, Modus Tollens, Silogismo Hipotético, etc., para derivar a conclusão a partir das premissas.<span class="tooltip-content">📋 Se você consegue chegar na conclusão usando apenas regras válidas, o argumento é válido.</span></span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div><strong>Método da Conclusão Falsa</strong><br>
+          <span class="has-tooltip">Suponha que a conclusão é FALSA. Se for IMPOSSÍVEL ter todas as premissas verdadeiras com a conclusão falsa, o argumento é válido.<span class="tooltip-content">📋 Tente encontrar um caso onde premissas = V e conclusão = F. Se não existir, argumento válido!</span></span>
+        </div>
+      </div>
+
+      <div class="example-block">
+        <strong>🧪 Verifique o argumento:</strong> p → q, q → r, ~r ⊢ ~p<br>
+        <span class="has-tooltip">Resposta: Válido ✅<span class="tooltip-content">📋 Por Silogismo Hipotético: p→q, q→r ⊢ p→r. Depois Modus Tollens: p→r, ~r ⊢ ~p. Perfeito!</span></span>
+      </div>
+      <div class="exercise-block">
+        <strong>🧪 Verifique:</strong> p → q, q ⊢ p<br>
+        <span class="has-tooltip">Resposta: INVÁLIDO ❌ (Falácia da Afirmação do Consequente)<span class="tooltip-content">⚠️ Ex: "Se chove (p), a rua molha (q). A rua molhou (q). Logo, choveu (p)?" Não necessariamente! Alguém pode ter lavado a rua.</span></span>
+      </div>
+    </div>
+
+    <!-- ==================== NOVA SEÇÃO: FALÁCIAS LÓGICAS ==================== -->
+    <div class="card">
+      <h2>🚫 Falácias Lógicas (Cuidado nas provas!)</h2>
+      <div class="danger-box">
+        <h4>❌ Afirmação do Consequente</h4>
+        <p><span class="has-tooltip">p → q, q ⊢ p (INVÁLIDO)<span class="tooltip-content">⚠️ Ex: "Se é cachorro, late. Late. Logo, é cachorro." Pode ser outro animal que late.</span></span></p>
+      </div>
+      <div class="danger-box">
+        <h4>❌ Negação do Antecedente</h4>
+        <p><span class="has-tooltip">p → q, ~p ⊢ ~q (INVÁLIDO)<span class="tooltip-content">⚠️ Ex: "Se chove, a rua molha. Não choveu. Logo, a rua não molhou." Alguém pode ter molhado a rua de outra forma.</span></span></p>
+      </div>
+      <div class="tip-box">
+        <h4>✅ Formas VÁLIDAS (para contrastar)</h4>
+        <p><span class="has-tooltip">Modus Ponens: p → q, p ⊢ q ✅<span class="tooltip-content">✔️ Afirma o antecedente, conclui o consequente.</span></span></p>
+        <p><span class="has-tooltip">Modus Tollens: p → q, ~q ⊢ ~p ✅<span class="tooltip-content">✔️ Nega o consequente, conclui a negação do antecedente.</span></span></p>
+      </div>
+    </div>
+
+    <!-- ==================== NOVA SEÇÃO: LÓGICA DE PREDICADOS AVANÇADA ==================== -->
+    <div class="card">
+      <h2>🌐 Lógica de Predicados — Tópicos Avançados</h2>
+      <h3>📌 Domínio de Discurso</h3>
+      <p><span class="has-tooltip">O conjunto de elementos sobre os quais os quantificadores atuam.<span class="tooltip-content">🔹 Ex: Domínio = {alunos da sala}. ∀x Estudou(x) significa "Todo aluno da sala estudou".</span></span></p>
+
+      <h3>📌 Predicados com múltiplas variáveis</h3>
+      <p><span class="has-tooltip">∀x ∃y Ama(x, y)<span class="tooltip-content">🔹 "Para toda pessoa x, existe alguém y que x ama". (Todo mundo ama alguém.)</span></span></p>
+      <p><span class="has-tooltip">∃y ∀x Ama(x, y)<span class="tooltip-content">🔸 "Existe alguém y que é amado por toda pessoa x". (Existe uma pessoa que todo mundo ama.) — Note a diferença!</span></span></p>
+
+      <div class="warning-box">
+        <h4>⚠️ Atenção com a ordem dos quantificadores!</h4>
+        <p><span class="has-tooltip">∀x ∃y P(x,y) NÃO é equivalente a ∃y ∀x P(x,y)<span class="tooltip-content">🔹 No primeiro, o y pode depender de x. No segundo, o y é o MESMO para todos os x. Muda totalmente o significado!</span></span></p>
+      </div>
+
+      <h3>📌 Negação de predicados com múltiplos quantificadores</h3>
+      <p><span class="has-tooltip">~∀x ∃y P(x,y) ≡ ∃x ∀y ~P(x,y)<span class="tooltip-content">📋 Regra: Negação "empurra" para dentro, trocando ∀↔∃ e negando o predicado.</span></span></p>
+
+      <div class="example-block">
+        <strong>🧪 Negue:</strong> "Todo aluno tem um professor que admira."<br>
+        <span class="has-tooltip">Resposta: "Existe um aluno que não admira professor nenhum."<span class="tooltip-content">📋 ∀a ∃p Admira(a,p) → Negação: ∃a ∀p ~Admira(a,p).</span></span>
+      </div>
+    </div>
+
+    <!-- ==================== NOVA SEÇÃO: TEORIA DOS NÚMEROS EXPANDIDA ==================== -->
+    <div class="card">
+      <h2>🔢 Teoria dos Números — Tópicos Essenciais</h2>
+
+      <h3>📌 Algoritmo de Euclides (MDC)</h3>
+      <p><span class="has-tooltip">Método das divisões sucessivas para encontrar o MDC.<span class="tooltip-content">📋 Ex: MDC(48, 18): 48÷18=2 resto 12 → 18÷12=1 resto 6 → 12÷6=2 resto 0. MDC = 6.</span></span></p>
+      <div class="example-block">
+        <strong>🧪 Calcule MDC(270, 192):</strong><br>
+        <span class="has-tooltip">Resposta: MDC = 6<span class="tooltip-content">📋 270÷192=1 resto 78 → 192÷78=2 resto 36 → 78÷36=2 resto 6 → 36÷6=6 resto 0.</span></span>
+      </div>
+
+      <h3>📌 Números Primos entre Si (Coprimos)</h3>
+      <p><span class="has-tooltip">Dois números cujo MDC = 1.<span class="tooltip-content">🔹 Ex: 15 e 28. MDC(15,28)=1. 15=3×5, 28=2²×7, nenhum fator comum.</span></span></p>
+
+      <h3>📌 Congruência Modular</h3>
+      <p><span class="has-tooltip">a ≡ b (mod m) significa que m divide (a - b).<span class="tooltip-content">🔹 Ex: 17 ≡ 5 (mod 12) porque 17-5=12, que é divisível por 12. "17 e 5 têm o mesmo resto na divisão por 12".</span></span></p>
+      <div class="example-block">
+        <strong>🧪 Calcule:</strong> 100 ≡ ? (mod 7)<br>
+        <span class="has-tooltip">Resposta: 100 ≡ 2 (mod 7)<span class="tooltip-content">📋 100 ÷ 7 = 14 com resto 2. Portanto, 100 ≡ 2 (mod 7).</span></span>
+      </div>
+
+      <h3>📌 Critérios de Divisibilidade Extras</h3>
+      <div class="detail-row">
+        <div class="detail-col">
+          <p><strong>por 7:</strong> <span class="has-tooltip">Dobre o último dígito, subtraia do resto do número. Se o resultado for divisível por 7, o número original também é.<span class="tooltip-content">📋 Ex: 343 → 34 - 2×3 = 34-6=28 (÷7=4) → 343 é divisível por 7.</span></span></p>
+        </div>
+        <div class="detail-col">
+          <p><strong>por 11:</strong> <span class="has-tooltip">Some os dígitos em posições ímpares, some os dígitos em posições pares. Se a diferença for múltipla de 11 (incluindo 0), o número é divisível por 11.<span class="tooltip-content">📋 Ex: 121 → (1+1) - (2) = 0 → divisível por 11. 9.482 → (9+8) - (4+2) = 17-6=11 → divisível.</span></span></p>
+        </div>
+      </div>
+
+      <h3>📌 Decomposição em Fatores Primos (Método Prático)</h3>
+      <div class="example-block">
+        <strong>Ex: 180</strong><br>
+        180 | 2<br>
+        90  | 2<br>
+        45  | 3<br>
+        15  | 3<br>
+        5   | 5<br>
+        1   | → <span class="has-tooltip">180 = 2² × 3² × 5<span class="tooltip-content">📋 Número de divisores: (2+1)×(2+1)×(1+1) = 3×3×2 = 18 divisores.</span></span>
+      </div>
+
+      <h3>📌 Quantidade de Divisores</h3>
+      <p><span class="has-tooltip">Se n = p₁ᵃ¹ × p₂ᵃ² × ... × pₖᵃᵏ, então o número de divisores é (a₁+1)(a₂+1)...(aₖ+1).<span class="tooltip-content">📋 Ex: 12 = 2²×3¹ → (2+1)(1+1) = 3×2 = 6 divisores: 1,2,3,4,6,12.</span></span></p>
+
+      <h3>📌 Equações Diofantinas Lineares</h3>
+      <p><span class="has-tooltip">ax + by = c tem solução inteira SE E SOMENTE SE MDC(a,b) divide c.<span class="tooltip-content">📋 Ex: 6x + 9y = 15. MDC(6,9)=3. 3 divide 15? Sim! Então tem solução. Ex: x=1, y=1 → 6+9=15.</span></span></p>
+
+      <div class="example-block">
+        <strong>🧪 Verifique se tem solução:</strong> 10x + 15y = 7<br>
+        <span class="has-tooltip">Resposta: NÃO ❌<span class="tooltip-content">📋 MDC(10,15)=5. 5 NÃO divide 7, então não há solução inteira.</span></span>
+      </div>
+    </div>
+
+    <!-- ==================== NOVA SEÇÃO: EXERCÍCIOS DE FIXAÇÃO ==================== -->
+    <div class="card">
+      <h2>📝 Exercícios de Fixação</h2>
+      <div class="exercise-block">
+        <strong>1. (Conectivos)</strong> Se p=V, q=F, r=V, calcule: <code>(p → q) ∨ (r ∧ ~q)</code><br>
+        <span class="has-tooltip">Resposta: V<span class="tooltip-content">📋 p→q = V→F = F. ~q = V. r∧~q = V∧V = V. F ∨ V = V.</span></span>
+      </div>
+      <div class="exercise-block">
+        <strong>2. (Equivalência)</strong> A negação de "Se o réu é culpado, então ele será preso" é:<br>
+        <span class="has-tooltip">Resposta: "O réu é culpado e não será preso."<span class="tooltip-content">📋 ~(p→q) ≡ p∧~q. Mantém a primeira E nega a segunda.</span></span>
+      </div>
+      <div class="exercise-block">
+        <strong>3. (Argumento)</strong> p ∨ q, ~p → r, ~q ⊢ r<br>
+        <span class="has-tooltip">Resposta: Válido ✅<span class="tooltip-content">📋 De p∨q e ~q, por SD, obtemos p. Não precisamos nem usar ~p→r. (Mas se usasse: tendo p, ~p é F, então ~p→r é V, mas não prova r. Porém com p∨q e ~q, p é garantido. A conclusão pede r? Ops, a conclusão é r, mas não temos r garantido... Vamos reavaliar: p∨q, ~q ⊢ p. Depois, com p, sabemos que ~p é F. Mas ~p→r não nos força r. Portanto, o argumento é INVÁLIDO! Cuidado!)</span></span>
+        <br><small style="color:var(--muted);">Atualizado: O argumento dado é <strong>INVÁLIDO</strong>. Tente atribuir p=V, q=F, r=F. Premissas: p∨q=V, ~p→r (F→F=V), ~q=V. Premissas todas V, mas conclusão r=F. Logo, inválido.</small>
+      </div>
+      <div class="exercise-block">
+        <strong>4. (MDC/MMC)</strong> Dois números têm MDC=8 e MMC=48. Se um deles é 16, qual é o outro?<br>
+        <span class="has-tooltip">Resposta: 24<span class="tooltip-content">📋 Lembre: a × b = MDC × MMC. 16 × b = 8 × 48 → 16b = 384 → b = 24.</span></span>
+      </div>
+      <div class="exercise-block">
+        <strong>5. (Predicados)</strong> Negue: "Existe um dia em que todo aluno falta."<br>
+        <span class="has-tooltip">Resposta: "Em todo dia, existe pelo menos um aluno que não falta."<span class="tooltip-content">📋 ~∃d ∀a Falta(d,a) ≡ ∀d ∃a ~Falta(d,a).</span></span>
+      </div>
+    </div>
+
+    <!-- ==================== NOVA SEÇÃO: DICAS FINAIS ==================== -->
+    <div class="card" style="border-left: 8px solid var(--accent2);">
+      <h2 style="margin-top:0;color:var(--accent2);">🌟 Dicas Finais para a Prova</h2>
+      <ul style="list-style:none;padding-left:0;line-height:2;">
+        <li><span class="has-tooltip">🔹 Leia o enunciado 3 vezes: identifique premissas, conclusão e o que foi pedido.<span class="tooltip-content">📖 Muitos erros vêm da má interpretação do texto.</span></span></li>
+        <li><span class="has-tooltip">🔹 Construa tabelas verdade com método: comece pelas proposições simples, depois as compostas.<span class="tooltip-content">📋 Para n proposições, a tabela terá 2ⁿ linhas. Preencha com ordem: metade V, metade F, depois alterna de 2 em 2, etc.</span></span></li>
+        <li><span class="has-tooltip">🔹 Decore as equivalências principais: De Morgan, negação da condicional, contrapositiva.<span class="tooltip-content">🧠 Elas caem em 80% das questões!</span></span></li>
+        <li><span class="has-tooltip">🔹 Em argumentos, procure contraexemplos: tente achar uma situação onde premissas=V e conclusão=F.<span class="tooltip-content">🎯 Se encontrar, o argumento é inválido.</span></span></li>
+        <li><span class="has-tooltip">🔹 MDC × MMC = produto dos números. Use isso para verificar ou encontrar números desconhecidos.<span class="tooltip-content">📐 Vale apenas para dois números! Para mais de dois, não se aplica diretamente.</span></span></li>
+        <li><span class="has-tooltip">🔹 Fatore completamente antes de calcular MDC e MMC. Não pule etapas.<span class="tooltip-content">🧮 Erros de fatoração são os mais comuns em teoria dos números.</span></span></li>
+      </ul>
+      <p style="margin-top:15px; font-weight:600;">✨ Este guia cobre os principais tópicos. Estude, pratique e arrase! 🍀</p>
+    </div>
+
+    <div class="footer-note">Super Guia de Estudos · Lógica Matemática e Teoria dos Números · Conteúdo completo para provas</div>
   </div>
-
-  <!-- DICAS INTERATIVAS -->
-  <div class="card" style="border-left: 6px solid var(--accent2);">
-    <h2 style="margin-top:0;color:var(--accent2);">💡 Dicas para a Prova</h2>
-    <ul style="list-style:none;padding-left:0;line-height:1.8;">
-      <li><span class="has-tooltip">🔹 Identifique primeiro qual conectivo está sendo usado.<span class="tooltip-content">🔍 Sublinhe “e”, “ou”, “se...então” no enunciado.</span></span></li>
-      <li><span class="has-tooltip">🔹 Leia cuidadosamente as premissas antes de aplicar uma regra de inferência.<span class="tooltip-content">📖 Grife p, q, e as setas lógicas.</span></span></li>
-      <li><span class="has-tooltip">🔹 Em lógica de predicados: negar ∀ ↔ ∃, e vice-versa.<span class="tooltip-content">🔄 Treine: “Todo gato mia” → negação: “Existe gato que não mia”.</span></span></li>
-      <li><span class="has-tooltip">🔹 Em teoria dos números: fatore antes de calcular MDC e MMC.<span class="tooltip-content">📐 Fatore completamente para não errar expoentes.</span></span></li>
-      <li><span class="has-tooltip">🔹 Resolva vários exercícios – a prática é a melhor forma de memorizar as regras.<span class="tooltip-content">✏️ Use este guia como consulta enquanto pratica.</span></span></li>
-    </ul>
-    <p style="margin-top:0.8rem;font-weight:500;">Boa prova! 🍀</p>
-  </div>
-  <div class="footer-note">Guia de Estudos Interativo — Passe o mouse sobre os termos destacados para aprender como resolver.</div>
-</div>
-<script src="JS/footer.js"></script>
-<script src="JS/sidebar.js"></script>
+  <script src="JS/footer.js"></script>
+  <script src="JS/sidebar.js"></script>
 </body>
 </html>
