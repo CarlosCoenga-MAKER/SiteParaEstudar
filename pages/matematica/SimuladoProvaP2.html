@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <base href="../../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="Style/style.css">
+    <link rel="stylesheet" href="Style/sidbar.css">
+    <title>📝 Prova · Lógica e Teoria dos Números</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- MathJax para LaTeX -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        :root {
+            --bg: #0d0d0f;
+            --surface: #15151a;
+            --card: #1c1c24;
+            --border: #2a2a38;
+            --accent: #7c6dfa;
+            --accent2: #6dfabc;
+            --accent3: #fa6d8a;
+            --text: #e8e8f0;
+            --muted: #7878a0;
+            --warning: #fadc6d;
+            --info: #6dcffa;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            font-size: 17px;
+            padding: 20px;
+            min-height: 100vh;
+            padding-right: 60px;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.2em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent3), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+        
+        .sub {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 30px;
+            font-weight: 500;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .save-status {
+            font-size: 12px;
+            color: var(--accent2);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .save-status.saving {
+            color: var(--warning);
+        }
+        
+        .save-status.saved {
+            color: var(--accent2);
+        }
+        
+        .questao {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px 28px;
+            margin: 20px 0;
+            transition: 0.1s;
+        }
+        
+        .questao:hover {
+            border-color: #4a4a60;
+        }
+        
+        .q-header {
+            display: flex;
+            gap: 12px;
+            align-items: baseline;
+            margin-bottom: 12px;
+        }
+        
+        .q-num {
+            font-weight: 700;
+            font-size: 1.2rem;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 40px;
+            padding: 0.1rem 0.9rem;
+            min-width: 2.6rem;
+            text-align: center;
+        }
+        
+        .q-text {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text);
+        }
+        
+        .alternativas {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            margin-top: 10px;
+            padding-left: 4px;
+        }
+        
+        .alt {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 4px;
+        }
+        
+        .alt input[type="radio"] {
+            width: 1.1rem;
+            height: 1.1rem;
+            accent-color: var(--accent2);
+            cursor: pointer;
+        }
+        
+        .alt label {
+            cursor: pointer;
+            color: #d0d0e0;
+        }
+        
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin: 30px 0 20px 0;
+            justify-content: center;
+        }
+        
+        .btn {
+            border: none;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+            padding: 0.8rem 2.4rem;
+            border-radius: 60px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 4px 12px rgba(124, 109, 250, 0.2);
+        }
+        
+        .btn:hover {
+            background: #6a5be0;
+            transform: scale(1.02);
+        }
+        
+        .btn-sec {
+            background: #2a2a38;
+            box-shadow: none;
+        }
+        
+        .btn-sec:hover {
+            background: #3a3a4a;
+        }
+        
+        .btn-danger {
+            background: var(--accent3);
+            box-shadow: 0 4px 12px rgba(250, 109, 138, 0.2);
+        }
+        
+        .btn-danger:hover {
+            background: #e55a77;
+        }
+        
+        .rascunho-toggle {
+            position: fixed;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            padding: 14px 12px;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(124, 109, 250, 0.4);
+            transition: 0.2s;
+            writing-mode: vertical-lr;
+            letter-spacing: 2px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .rascunho-toggle:hover {
+            background: #6a5be0;
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .rascunho-panel {
+            position: fixed;
+            right: -420px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background: var(--surface);
+            border-left: 2px solid var(--border);
+            padding: 24px 22px;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: right 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6);
+        }
+        
+        .rascunho-panel.aberto {
+            right: 0;
+        }
+        
+        .rascunho-panel h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--accent2);
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .rascunho-panel .fechar-btn {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+        
+        .rascunho-panel .fechar-btn:hover {
+            color: var(--accent3);
+        }
+        
+        .rascunho-panel textarea {
+            width: 100%;
+            background: #1a1a22;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            color: var(--text);
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 120px;
+            margin-bottom: 12px;
+        }
+        
+        .rascunho-panel textarea:focus {
+            outline: 2px solid var(--accent);
+            border-color: transparent;
+        }
+        
+        .rascunho-panel .output-box {
+            background: #12121a;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            color: #b0b0d0;
+            min-height: 60px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            margin-bottom: 12px;
+        }
+        
+        .rascunho-panel .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .rascunho-panel .btn-row button {
+            background: #2a2a3a;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 6px 16px;
+            color: var(--text);
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
+            font-size: 13px;
+        }
+        
+        .rascunho-panel .btn-row button:hover {
+            background: #3a3a4e;
+            border-color: var(--accent);
+        }
+        
+        .rascunho-panel .btn-row .eval-btn {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+        
+        .rascunho-panel .btn-row .eval-btn:hover {
+            background: #6a5be0;
+        }
+        
+        .rascunho-panel .latex-preview {
+            background: #12121a;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #2a2a38;
+            min-height: 44px;
+            color: #c8c8e0;
+            font-size: 14px;
+        }
+        
+        .rascunho-panel .latex-preview .math {
+            font-size: 1.05em;
+        }
+        
+        .rascunho-panel .helper {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+        
+        .resultado {
+            background: #1a1a26;
+            border-radius: 30px;
+            padding: 1.6rem 2rem;
+            margin-top: 30px;
+            border-left: 8px solid var(--accent2);
+        }
+        
+        .gabarito {
+            background: #12121a;
+            padding: 1rem 1.8rem;
+            border-radius: 20px;
+            margin-top: 12px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+        }
+        
+        .correto {
+            color: var(--accent2);
+            font-weight: 700;
+        }
+        
+        .incorreto {
+            color: var(--accent3);
+            font-weight: 700;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent2);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            z-index: 10000;
+            animation: slideUp 0.3s ease, fadeOut 0.3s ease 2s forwards;
+            box-shadow: 0 4px 20px rgba(109, 250, 188, 0.3);
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateX(-50%) translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+        }
+        
+        @media (max-width: 700px) {
+            body {
+                padding-right: 10px;
+            }
+            .rascunho-panel {
+                width: 100%;
+                right: -100%;
+            }
+            .rascunho-toggle {
+                right: 8px;
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Prova – Lógica & Teoria dos Números</h1>
+        <div class="sub">
+            <span>🧩 10 questões · nível avançado</span>
+            <span>⏱️ 50 min · rascunho lateral</span>
+            <div class="save-status" id="saveStatus">
+                💾 <span id="saveStatusText">Salvo</span>
+            </div>
+        </div>
+
+        <form id="provaForm">
+            <!-- QUESTÃO 1 -->
+            <div class="questao" data-gabarito="B">
+                <div class="q-header"><span class="q-num">1</span><span class="q-text">Qual é a negação de "p = Está chovendo"?</span></div>
+                <div class="alternativas">
+                    <div class="alt"><input type="radio" name="q1" value="A" id="q1a"><label for="q1a">A) Está frio</label></div>
+                    <div class="alt"><input type="radio" name="q1" value="B" id="q1b"><label for="q1b">B) Não está chovendo</label></div>
+                    <div class="alt"><input type="radio" name="q1" value="C" id="q1c"><label for="q1c">C) Está chovendo e frio</label></div>
+                    <div class="alt"><input type="radio" name="q1" value="D" id="q1d"><label for="q1d">D) Choveu ontem</label></div>
+                </div>
+            </div>
+            <!-- QUESTÃO 2 -->
+            <div class="questao" data-gabarito="C">
+                <div class="q-header"><span class="q-num">2</span><span class="q-text">A conjunção (p ∧ q) é verdadeira quando:</span></div>
+                <div class="alternativas">
+                    <div class="alt"><input type="radio" name="q2" value="A" id="q2a"><label for="q2a">A) p=V, q=F</label></div>
+                    <div class="alt"><input type="radio" name="q2" value="B" id="q2b"><label for="q2b">B) p=F, q=V</label></div>
+                    <div class="alt"><input type="radio" name="q2" value="C" id="q2c"><label for="q2c">C) ambas V</label></div>
+                    <div class="alt"><input type="radio" name="q2" value="D" id="q2d"><label for="q2d">D) ambas F</label></div>
+                </div>
+            </div>
+            <!-- QUESTÃO 3 -->
+            <div class="questao" data-gabarito="A">
+                <div class="q-header"><span class="q-num">3</span><span class="q-text">Na condicional (p → q), o único caso falso é:</span></div>
+                <div class="alternativas">
+                    <div class="alt"><input type="radio" name="q3" value="A" id="q3a"><label for="q3a">A) p=V, q=F</label></div>
+                    <div class="alt"><input type="radio" name="q3" value="B" id="q3b"><label for="q3b">B) p=F, q=V</label></div>
+                    <div class="alt"><input type="radio" name="q3" value="C" id="q3c"><label for="q3c">C) p=V, q=V</label></div>
+                    <div class="alt"><input type="radio" name="q3" value="D" id="q3d"><label for="q3d">D) p=F, q=F</label></div>
+                </div>
+            </div>
+            <!-- QUESTÃO 4 -->
+            <div class="questao" data-gabarito="B">
+                <div class="q-header"><span class="q-num">4</span><span class="q-text">Regra: p → q, p ⊢ q. Qual é?</span></div>
+                <div class="alternativas">
+                    <div class="alt"><input type="radio" name="q4" value="A" id="q4a"><label for="q4a">A) Modus Tollens</label></div>
+                    <div class="alt"><input type="radio" name="q4" value="B" id="q4b"><label for="q4b">B) Modus Ponens</label></div>
+                    <div class="alt"><input type="radio" name="q4" value="C" id="q4c"><label for="q4c">C) Silogismo Hipotético</label></div>
+                    <div class="alt"><input type="radio" name="q4" value="D" id="q4d"><label for="q4d">D) Simplificação</label></div>
+                </div>
+            </div>
+            <!-- QUESTÃO 5 -->
+            <div class="questao" data-gabarito="D">
+                <div class="q-header"><span class="q-num">5</span><span class="q-text">Negação de "∀x P(x)" é:</span></div>
+                <div class="alternativas">
+                    <div class="alt"><input type="radio" name="q5" value="A" id="q5a"><label for="q5a">A) ∀x ¬P(x)</label></div>
+                    <div class="alt"><input type="radio" name="q5" value="B" id="q5b"><label for="q5b">B) ∃x P(x)</label></div>
+                    <div class="alt"><input type="radio" name="q5" value="C" id="q5c"><label for="q5c">C) ¬∀x P(x)</label></div>
+                    <div class="alt"><input type="radio" name="q5" value="D" id="q5d"><label for="q5d">D) ∃x ¬P(x)</label></div>
+                </div>
+            </div>
+            <!-- QUESTÃO 6 -->
+            <div class="questao" data-gabarito="C">
+                <div class="q-header"><span class="q-num">6</span><span class="q-text">Qual número é primo?</span></div>
+                <div class="alternativas">
+                    <div class="alt"><input type="radio" name="q6" value="A" id="q6a"><label for="q6a">A) 21</label></div>
+                    <div class="alt"><input type="radio" name="q6" value="B" id="q6b"><label for="q6b">B) 27</label></div>
+                    <div class="alt"><input type="radio" name="q6" value="C" id="q6c"><label for="q6c">C) 17</label></div>
+                    <div class="alt"><input type="radio" name="q6" value="D" id="q6d"><label for="q6d">D) 15</label></div>
+                </div>
+            </div>
+            <!-- QUESTÃO 7 -->
+            <div class="questao" data-gabarito="B">
+                <div class="q-header"><span class="q-num">7</span><span class="q-text">Divisível por 6 se:</span></div>
+                <div class="alternativas">
+                    <div class="alt"><input type="radio" name="q7" value="A" id="q7a"><label for="q7a">A) termina em 6</label></div>
+                    <div class="alt"><input type="radio" name="q7" value="B" id="q7b"><label for="q7b">B) divisível por 2 e 3</label></div>
+                    <div class="alt"><input type="radio" name="q7" value="C" id="q7c"><label for="q7c">C) soma múltipla de 6</label></div>
+                    <div class="alt"><input type="radio" name="q7" value="D" id="q7d"><label for="q7d">D) é par</label></div>
+                </div>
+            </div>
+            <!-- QUESTÃO 8 -->
+            <div class="questao" data-gabarito="A">
+                <div class="q-header"><span class="q-num">8</span><span class="q-text">Fatoração de 72:</span></div>
+                <div class="alternativas">
+                    <div class="alt"><input type="radio" name="q8" value="A" id="q8a"><label for="q8a">A) 2³ · 3²</label></div>
+                    <div class="alt"><input type="radio" name="q8" value="B" id="q8b"><label for="q8b">B) 2² · 3³</label></div>
+                    <div class="alt"><input type="radio" name="q8" value="C" id="q8c"><label for="q8c">C) 2⁴ · 3</label></div>
+                    <div class="alt"><input type="radio" name="q8" value="D" id="q8d"><label for="q8d">D) 2 · 3⁴</label></div>
+                </div>
+            </div>
+            <!-- QUESTÃO 9 -->
+            <div class="questao" data-gabarito="C">
+                <div class="q-header"><span class="q-num">9</span><span class="q-text">MDC(24, 36) é:</span></div>
+                <div class="alternativas">
+                    <div class="alt"><input type="radio" name="q9" value="A" id="q9a"><label for="q9a">A) 4</label></div>
+                    <div class="alt"><input type="radio" name="q9" value="B" id="q9b"><label for="q9b">B) 8</label></div>
+                    <div class="alt"><input type="radio" name="q9" value="C" id="q9c"><label for="q9c">C) 12</label></div>
+                    <div class="alt"><input type="radio" name="q9" value="D" id="q9d"><label for="q9d">D) 6</label></div>
+                </div>
+            </div>
+            <!-- QUESTÃO 10 -->
+            <div class="questao" data-gabarito="B">
+                <div class="q-header"><span class="q-num">10</span><span class="q-text">MMC(8, 12) é:</span></div>
+                <div class="alternativas">
+                    <div class="alt"><input type="radio" name="q10" value="A" id="q10a"><label for="q10a">A) 12</label></div>
+                    <div class="alt"><input type="radio" name="q10" value="B" id="q10b"><label for="q10b">B) 24</label></div>
+                    <div class="alt"><input type="radio" name="q10" value="C" id="q10c"><label for="q10c">C) 48</label></div>
+                    <div class="alt"><input type="radio" name="q10" value="D" id="q10d"><label for="q10d">D) 16</label></div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn" id="corrigirBtn">✅ Corrigir prova</button>
+                <button type="button" class="btn btn-sec" id="limparBtn">🔄 Limpar respostas</button>
+                <button type="button" class="btn btn-danger" id="limparTudoBtn">🗑️ Limpar tudo (dados salvos)</button>
+            </div>
+        </form>
+
+        <div id="resultadoArea" class="resultado" style="display: none;">
+            <p id="notaTexto" style="font-size: 1.3rem; font-weight: 700;">📊 Resultado: </p>
+            <div id="gabaritoDetalhe" class="gabarito"></div>
+        </div>
+        <p style="text-align:center;color:var(--muted);margin-top:30px;">📌 Clique no botão lateral <strong>🧮 Rascunho</strong> para abrir a calculadora com LaTeX.</p>
+        <p style="text-align:center;color:var(--accent2);margin-top:10px;font-size:12px;">💾 Seus dados são salvos automaticamente. Não se preocupe se a página for atualizada!</p>
+    </div>
+
+    <!-- ===== BOTÃO E PAINEL LATERAL ===== -->
+    <button class="rascunho-toggle" id="rascunhoToggle" title="Abrir rascunho">🧮<br>Rascunho</button>
+
+    <div class="rascunho-panel" id="rascunhoPanel">
+        <h2>
+            📐 Rascunho
+            <button class="fechar-btn" id="fecharRascunho" title="Fechar rascunho">✕</button>
+        </h2>
+        <textarea id="rascunhoInput" placeholder="Digite expressões matemáticas ou LaTeX...&#10;Ex: 2+3*4, sqrt(16), 12*3&#10;LaTeX: \( \frac{2}{3} \) ou \[ x^2 \]"></textarea>
+        <div class="output-box" id="rascunhoOutput">🔹 Resultado aparecerá aqui</div>
+        <div class="btn-row">
+            <button class="eval-btn" id="calcularBtn">🧮 Calcular</button>
+            <button id="limparRascunhoBtn">🗑️ Limpar</button>
+            <button id="exemploLatexBtn">📄 Inserir LaTeX</button>
+        </div>
+        <div class="latex-preview" id="latexPreview">
+            <span style="color:var(--muted);">Pré-visualização LaTeX</span>
+        </div>
+        <div class="helper">
+            💡 Use <code>+ - * / **</code> (potência), <code>sqrt(x)</code>, <code>sin(x)</code>, <code>log(x)</code>, <code>%</code> módulo.
+            LaTeX: <code>\( ... \)</code> ou <code>\[ ... \]</code>.
+        </div>
+    </div>
+
+    <script>
+        // ========== SISTEMA DE SALVAMENTO AUTOMÁTICO ==========
+        const StorageManager = {
+            KEYS: {
+                RESPOSTAS: 'prova_respostas',
+                RASCUNHO: 'prova_rascunho',
+                RESULTADO: 'prova_resultado'
+            },
+
+            // Salvar respostas da prova
+            salvarRespostas() {
+                const respostas = {};
+                const inputs = document.querySelectorAll('input[type="radio"]:checked');
+                inputs.forEach(input => {
+                    respostas[input.name] = input.value;
+                });
+                localStorage.setItem(this.KEYS.RESPOSTAS, JSON.stringify(respostas));
+                this.atualizarStatusSalvamento();
+            },
+
+            // Carregar respostas da prova
+            carregarRespostas() {
+                const dados = localStorage.getItem(this.KEYS.RESPOSTAS);
+                if (dados) {
+                    const respostas = JSON.parse(dados);
+                    Object.entries(respostas).forEach(([nome, valor]) => {
+                        const input = document.querySelector(`input[name="${nome}"][value="${valor}"]`);
+                        if (input) {
+                            input.checked = true;
+                        }
+                    });
+                }
+            },
+
+            // Salvar conteúdo do rascunho
+            salvarRascunho() {
+                const conteudo = document.getElementById('rascunhoInput').value;
+                localStorage.setItem(this.KEYS.RASCUNHO, conteudo);
+                this.atualizarStatusSalvamento();
+            },
+
+            // Carregar conteúdo do rascunho
+            carregarRascunho() {
+                const conteudo = localStorage.getItem(this.KEYS.RASCUNHO);
+                if (conteudo) {
+                    document.getElementById('rascunhoInput').value = conteudo;
+                }
+            },
+
+            // Salvar resultado da correção
+            salvarResultado() {
+                const resultadoArea = document.getElementById('resultadoArea');
+                if (resultadoArea.style.display !== 'none') {
+                    const dados = {
+                        nota: document.getElementById('notaTexto').innerHTML,
+                        detalhes: document.getElementById('gabaritoDetalhe').innerHTML
+                    };
+                    localStorage.setItem(this.KEYS.RESULTADO, JSON.stringify(dados));
+                }
+            },
+
+            // Carregar resultado da correção
+            carregarResultado() {
+                const dados = localStorage.getItem(this.KEYS.RESULTADO);
+                if (dados) {
+                    const resultado = JSON.parse(dados);
+                    document.getElementById('notaTexto').innerHTML = resultado.nota;
+                    document.getElementById('gabaritoDetalhe').innerHTML = resultado.detalhes;
+                    document.getElementById('resultadoArea').style.display = 'block';
+                }
+            },
+
+            // Limpar todos os dados salvos
+            limparTudo() {
+                localStorage.removeItem(this.KEYS.RESPOSTAS);
+                localStorage.removeItem(this.KEYS.RASCUNHO);
+                localStorage.removeItem(this.KEYS.RESULTADO);
+                document.getElementById('rascunhoInput').value = '';
+                document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+                document.getElementById('resultadoArea').style.display = 'none';
+                this.mostrarToast('🗑️ Todos os dados foram limpos!');
+            },
+
+            // Atualizar status de salvamento na interface
+            atualizarStatusSalvamento() {
+                const statusText = document.getElementById('saveStatusText');
+                const statusDiv = document.getElementById('saveStatus');
+                
+                statusText.textContent = 'Salvando...';
+                statusDiv.className = 'save-status saving';
+                
+                setTimeout(() => {
+                    statusText.textContent = 'Salvo';
+                    statusDiv.className = 'save-status saved';
+                }, 500);
+            },
+
+            // Mostrar toast de notificação
+            mostrarToast(mensagem) {
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.textContent = mensagem;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.remove();
+                }, 2500);
+            },
+
+            // Inicializar sistema de salvamento
+            inicializar() {
+                // Carregar dados salvos
+                this.carregarRespostas();
+                this.carregarRascunho();
+                this.carregarResultado();
+
+                // Salvar respostas automaticamente quando mudar
+                document.addEventListener('change', (e) => {
+                    if (e.target.type === 'radio') {
+                        this.salvarRespostas();
+                    }
+                });
+
+                // Salvar rascunho automaticamente enquanto digita
+                const rascunhoInput = document.getElementById('rascunhoInput');
+                let saveTimeout;
+                rascunhoInput.addEventListener('input', () => {
+                    clearTimeout(saveTimeout);
+                    saveTimeout = setTimeout(() => {
+                        this.salvarRascunho();
+                    }, 500); // Aguarda 500ms após parar de digitar
+                });
+
+                // Salvar rascunho quando o painel for fechado
+                document.getElementById('fecharRascunho').addEventListener('click', () => {
+                    this.salvarRascunho();
+                });
+
+                // Salvar antes de sair da página
+                window.addEventListener('beforeunload', () => {
+                    this.salvarRespostas();
+                    this.salvarRascunho();
+                    this.salvarResultado();
+                });
+
+                // Mostrar mensagem de inicialização
+                const temDadosSalvos = localStorage.getItem(this.KEYS.RESPOSTAS) || 
+                                     localStorage.getItem(this.KEYS.RASCUNHO);
+                if (temDadosSalvos) {
+                    setTimeout(() => {
+                        this.mostrarToast('💾 Dados salvos carregados com sucesso!');
+                    }, 1000);
+                }
+            }
+        };
+
+        // ========== CORREÇÃO DA PROVA ==========
+        (function() {
+            const gabarito = {
+                q1: 'B',
+                q2: 'C',
+                q3: 'A',
+                q4: 'B',
+                q5: 'D',
+                q6: 'C',
+                q7: 'B',
+                q8: 'A',
+                q9: 'C',
+                q10: 'B'
+            };
+            const questoes = document.querySelectorAll('.questao');
+            const resultadoDiv = document.getElementById('resultadoArea');
+            const notaTexto = document.getElementById('notaTexto');
+            const gabDetalhe = document.getElementById('gabaritoDetalhe');
+
+            document.getElementById('corrigirBtn').addEventListener('click', function() {
+                let acertos = 0;
+                const total = questoes.length;
+                let detalhesHtml = '';
+
+                questoes.forEach((q, index) => {
+                    const nome = `q${index + 1}`;
+                    const selected = q.querySelector(`input[name="${nome}"]:checked`);
+                    const gab = gabarito[nome];
+                    const letraSelecionada = selected ? selected.value : null;
+                    const acertou = (letraSelecionada === gab);
+                    if (acertou) acertos++;
+                    const qText = q.querySelector('.q-text')?.innerText || `Questão ${index + 1}`;
+                    const status = acertou ? '✅ Correto' : '❌ Incorreto';
+                    const respMostrada = letraSelecionada ? `Sua: ${letraSelecionada}` : 'Não respondeu';
+                    const cls = acertou ? 'correto' : 'incorreto';
+                    detalhesHtml +=
+                        `<div style="margin-bottom:0.3rem;"><strong>${index + 1}.</strong> ${qText.substring(0, 55)}${qText.length > 55 ? '…' : ''} — <span class="${cls}">${status}</span> (${respMostrada} | Gab: ${gab})</div>`;
+                });
+
+                const nota = (acertos / total) * 10;
+                notaTexto.innerHTML = `📊 Resultado: ${acertos}/${total} — Nota: ${nota.toFixed(1)}`;
+                gabDetalhe.innerHTML = detalhesHtml;
+                resultadoDiv.style.display = 'block';
+                resultadoDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Salvar resultado
+                StorageManager.salvarResultado();
+            });
+
+            document.getElementById('limparBtn').addEventListener('click', function() {
+                if (confirm('Tem certeza que deseja limpar as respostas? O rascunho será mantido.')) {
+                    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+                    resultadoDiv.style.display = 'none';
+                    StorageManager.salvarRespostas();
+                    StorageManager.mostrarToast('🔄 Respostas limpas!');
+                }
+            });
+
+            // Botão para limpar todos os dados
+            document.getElementById('limparTudoBtn').addEventListener('click', function() {
+                if (confirm('ATENÇÃO: Isso apagará TODOS os dados salvos, incluindo rascunho e respostas. Continuar?')) {
+                    StorageManager.limparTudo();
+                }
+            });
+        })();
+
+        // ========== RASCUNHO LATERAL ==========
+        (function() {
+            const panel = document.getElementById('rascunhoPanel');
+            const toggleBtn = document.getElementById('rascunhoToggle');
+            const closeBtn = document.getElementById('fecharRascunho');
+            const inputEl = document.getElementById('rascunhoInput');
+            const outputEl = document.getElementById('rascunhoOutput');
+            const previewEl = document.getElementById('latexPreview');
+
+            // Funções para abrir/fechar o painel
+            function abrirPanel() {
+                panel.classList.add('aberto');
+                // Focar no textarea quando abrir
+                setTimeout(() => inputEl.focus(), 100);
+            }
+
+            function fecharPanel() {
+                panel.classList.remove('aberto');
+                // Salvar rascunho quando fechar
+                StorageManager.salvarRascunho();
+            }
+
+            // Event listeners para abrir e fechar
+            toggleBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (panel.classList.contains('aberto')) {
+                    fecharPanel();
+                } else {
+                    abrirPanel();
+                }
+            });
+
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                fecharPanel();
+            });
+
+            // Fechar painel ao clicar fora dele (apenas se estiver aberto)
+            document.addEventListener('click', function(e) {
+                if (panel.classList.contains('aberto')) {
+                    const isClickInsidePanel = panel.contains(e.target);
+                    const isClickOnToggle = toggleBtn.contains(e.target);
+                    
+                    if (!isClickInsidePanel && !isClickOnToggle) {
+                        fecharPanel();
+                    }
+                }
+            });
+
+            // Prevenir que cliques dentro do painel fechem ele
+            panel.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            // ====== LÓGICA DE CÁLCULO ======
+            function safeEval(expr) {
+                // Remover delimitadores LaTeX para avaliação
+                let clean = expr.replace(/\\\(/g, '').replace(/\\\)/g, '');
+                clean = clean.replace(/\\\[/g, '').replace(/\\\]/g, '');
+                
+                // Validar se a expressão contém apenas caracteres permitidos
+                const allowedPattern = /^[\d\s\+\-\*\/\(\)\.\%\,\*\^]+$/;
+                
+                // Verificar se contém funções matemáticas
+                const hasMathFunctions = /\b(sqrt|sin|cos|tan|log|abs|exp|pow)\b/i.test(clean);
+                
+                if (!allowedPattern.test(clean.replace(/\b(sqrt|sin|cos|tan|log|abs|exp|pow)\(/g, '').replace(/\)/g, '')) && !hasMathFunctions && clean.trim() !== '') {
+                    return '⚠️ Expressão contém caracteres não suportados';
+                }
+                
+                if (clean.trim() === '') {
+                    return '⚠️ Expressão vazia';
+                }
+                
+                try {
+                    // Substituir operadores e funções
+                    let sanitized = clean;
+                    
+                    // Substituir operador de potência ^ por Math.pow
+                    sanitized = sanitized.replace(/(\d+)\^(\d+)/g, 'Math.pow($1,$2)');
+                    
+                    // Substituir funções matemáticas
+                    sanitized = sanitized.replace(/sqrt\(/g, 'Math.sqrt(');
+                    sanitized = sanitized.replace(/sin\(/g, 'Math.sin(');
+                    sanitized = sanitized.replace(/cos\(/g, 'Math.cos(');
+                    sanitized = sanitized.replace(/tan\(/g, 'Math.tan(');
+                    sanitized = sanitized.replace(/log\(/g, 'Math.log(');
+                    sanitized = sanitized.replace(/abs\(/g, 'Math.abs(');
+                    sanitized = sanitized.replace(/exp\(/g, 'Math.exp(');
+                    sanitized = sanitized.replace(/pow\(/g, 'Math.pow(');
+                    
+                    // Avaliar a expressão
+                    const fn = new Function(`return (${sanitized})`);
+                    const result = fn();
+                    
+                    if (typeof result === 'number' && !Number.isNaN(result) && isFinite(result)) {
+                        return result;
+                    } else {
+                        return '⚠️ Resultado inválido';
+                    }
+                } catch (e) {
+                    console.error('Erro ao avaliar expressão:', e);
+                    return '⚠️ Erro na expressão';
+                }
+            }
+
+            function calcular() {
+                const raw = inputEl.value;
+                if (!raw.trim()) {
+                    outputEl.textContent = '🔹 Digite uma expressão ou LaTeX';
+                    previewEl.innerHTML = '<span style="color:var(--muted);">Pré-visualização LaTeX</span>';
+                    return;
+                }
+
+                // Tentar avaliar a expressão
+                const evalResult = safeEval(raw);
+                let outputText = '';
+                
+                if (typeof evalResult === 'number') {
+                    // Formatar o número para não mostrar muitas casas decimais
+                    outputText = `🧮 Resultado: ${Number.isInteger(evalResult) ? evalResult : evalResult.toFixed(6)}`;
+                } else if (typeof evalResult === 'string') {
+                    outputText = evalResult;
+                } else {
+                    outputText = '🔹 (não avaliado)';
+                }
+                
+                outputEl.textContent = outputText;
+
+                // Atualizar preview LaTeX
+                previewEl.innerHTML = raw;
+                
+                // Renderizar LaTeX se disponível
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    MathJax.typesetPromise([previewEl]).catch((err) => {
+                        console.log('Erro ao renderizar LaTeX:', err);
+                    });
+                }
+                
+                // Salvar rascunho após calcular
+                StorageManager.salvarRascunho();
+            }
+
+            // Event listeners para os botões do rascunho
+            document.getElementById('calcularBtn').addEventListener('click', calcular);
+            
+            document.getElementById('limparRascunhoBtn').addEventListener('click', function() {
+                if (confirm('Limpar o conteúdo do rascunho?')) {
+                    inputEl.value = '';
+                    outputEl.textContent = '🔹 Resultado aparecerá aqui';
+                    previewEl.innerHTML = '<span style="color:var(--muted);">Pré-visualização LaTeX</span>';
+                    StorageManager.salvarRascunho();
+                    StorageManager.mostrarToast('🗑️ Rascunho limpo!');
+                }
+            });
+            
+            document.getElementById('exemploLatexBtn').addEventListener('click', function() {
+                inputEl.value = `\\( \\frac{2}{3} + 5 \\cdot 4 = \\frac{62}{3} \\)\n\n\\[ \\sum_{i=1}^{n} i = \\frac{n(n+1)}{2} \\]`;
+                calcular();
+            });
+            
+            // Calcular com Ctrl+Enter
+            inputEl.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    calcular();
+                }
+            });
+        })();
+
+        // ========== INICIALIZAÇÃO ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            StorageManager.inicializar();
+            
+            // Atalho: tecla 'R' para abrir/fechar rascunho
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'r' && e.ctrlKey && e.shiftKey) {
+                    e.preventDefault();
+                    document.getElementById('rascunhoToggle').click();
+                }
+            });
+        });
+    </script>
+    <script src="JS/footer.js"></script>
+<script src="JS/sidebar.js"></script>
+</body>
+</html>
