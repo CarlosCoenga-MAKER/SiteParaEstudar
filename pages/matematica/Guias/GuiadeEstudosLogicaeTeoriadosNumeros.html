@@ -214,10 +214,10 @@
   <div class="card">
     <h2>🔗 Conectivos Lógicos</h2>
 
-    <h3>Negação (¬)</h3>
-    <p>Inverte o valor lógico. <span class="has-tooltip">¬p<span class="tooltip-content">🔁 Se p é V, ¬p é F. Leia como “não p”.</span></span></p>
+    <h3>Negação (~)</h3>
+    <p>Inverte o valor lógico. <span class="has-tooltip">~p<span class="tooltip-content">🔁 Se p é V, ~p é F. Leia como “não p”.</span></span></p>
     <table>
-      <tr><th>p</th><th>¬p</th></tr>
+      <tr><th>p</th><th>~p</th></tr>
       <tr><td>V</td><td>F</td></tr>
       <tr><td>F</td><td>V</td></tr>
     </table>
@@ -277,7 +277,7 @@
     <div class="step">
       <div class="step-number">MT</div>
       <div><strong>Modus Tollens</strong><br>
-        <span class="has-tooltip">p → q, ¬q ⊢ ¬p<span class="tooltip-content">📋 <strong>Resolução:</strong> “Se é peixe, respira na água” (p→q). “Não respira na água” (¬q). Logo, “Não é peixe” (¬p).</span></span>
+        <span class="has-tooltip">p → q, ~q ⊢ ~p<span class="tooltip-content">📋 <strong>Resolução:</strong> “Se é peixe, respira na água” (p→q). “Não respira na água” (~q). Logo, “Não é peixe” (~p).</span></span>
       </div>
     </div>
     <div class="step">
@@ -289,7 +289,7 @@
     <div class="step">
       <div class="step-number">SD</div>
       <div><strong>Silogismo Disjuntivo</strong><br>
-        <span class="has-tooltip">p ∨ q, ¬p ⊢ q<span class="tooltip-content">📋 <strong>Resolução:</strong> “Vou de carro ou de ônibus” (p∨q). “Não vou de carro” (¬p). Resta: “Vou de ônibus” (q).</span></span>
+        <span class="has-tooltip">p ∨ q, ~p ⊢ q<span class="tooltip-content">📋 <strong>Resolução:</strong> “Vou de carro ou de ônibus” (p∨q). “Não vou de carro” (~p). Resta: “Vou de ônibus” (q).</span></span>
       </div>
     </div>
     <div class="step">
@@ -317,8 +317,8 @@
     </p>
     <h3>Negação dos quantificadores</h3>
     <p>∀ vira ∃, ∃ vira ∀, e nega a proposição.<br>
-    <span class="has-tooltip">Ex: ¬∀x A(x) ≡ ∃x ¬A(x)<span class="tooltip-content">🔄 “Nem todo aluno estuda” equivale a “Existe pelo menos um aluno que não estuda”.</span></span><br>
-    <span class="has-tooltip">¬∃x B(x) ≡ ∀x ¬B(x)<span class="tooltip-content">🔄 “Não existe aluno que dormiu” equivale a “Todo aluno não dormiu”.</span></span>
+    <span class="has-tooltip">Ex: ~∀x A(x) ≡ ∃x ~A(x)<span class="tooltip-content">🔄 “Nem todo aluno estuda” equivale a “Existe pelo menos um aluno que não estuda”.</span></span><br>
+    <span class="has-tooltip">~∃x B(x) ≡ ∀x ~B(x)<span class="tooltip-content">🔄 “Não existe aluno que dormiu” equivale a “Todo aluno não dormiu”.</span></span>
     </p>
   </div>
 
