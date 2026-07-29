@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <base href="../../">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Semestres · SiteParaEstudar</title>
+  <link rel="icon" href="Style/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="Style/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0d0f;
+      --surface: #15151a;
+      --card: #1c1c24;
+      --border: #2a2a38;
+      --accent: #7c6dfa;
+      --accent2: #fa6d8a;
+      --accent3: #6dfabc;
+      --accent4: #fadc6d;
+      --text: #e8e8f0;
+      --muted: #7878a0;
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.3);
+      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.4);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Syne', sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,109,250,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,109,250,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 70%);
+    }
+
+    .glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatGlow 15s infinite alternate ease-in-out;
+    }
+    .glow-1 { background: var(--accent); top: -150px; left: -150px; }
+    .glow-2 { background: var(--accent2); bottom: -150px; right: -150px; animation-delay: -5s; }
+    .glow-3 { background: var(--accent3); top: 40%; left: 50%; width: 400px; height: 400px; opacity: 0.06; animation-delay: -10s; }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(20px, -20px) scale(1.08); }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HEADER */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 32px;
+      padding: 20px 28px;
+      background: rgba(21,21,26,0.6);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .page-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .page-header h1 .emoji {
+      font-size: 32px;
+    }
+
+    .page-header h1 span {
+      background: linear-gradient(135deg, var(--accent3), #00cc66);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-header .sub {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-header .sub .badge {
+      background: rgba(109,250,188,0.15);
+      padding: 4px 14px;
+      border-radius: 20px;
+      color: var(--accent3);
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid rgba(109,250,188,0.15);
+    }
+
+    /* DESCRIÇÃO */
+    .descricao {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .descricao strong {
+      color: var(--text);
+    }
+
+    .descricao .icone-grande {
+      font-size: 28px;
+    }
+
+    /* FILTRO POR SEMESTRE */
+    .filtro-semestre {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .filtro-semestre .btn-filtro {
+      padding: 10px 24px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .filtro-semestre .btn-filtro:hover {
+      border-color: rgba(109,250,188,0.3);
+      color: var(--text);
+    }
+
+    .filtro-semestre .btn-filtro.ativo {
+      background: rgba(109,250,188,0.1);
+      border-color: var(--accent3);
+      color: var(--accent3);
+    }
+
+    /* GRADE DE CARDS */
+    .semestre-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .card-semestre {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px 24px 28px;
+      transition: all var(--transition);
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-semestre::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .card-semestre:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-semestre:hover::before {
+      opacity: 1;
+    }
+
+    .card-semestre .topo {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .card-semestre .numero {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .card-semestre .numero small {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .card-semestre .status {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 12px;
+      border-radius: 20px;
+      background: rgba(109,250,188,0.1);
+      color: var(--accent3);
+      border: 1px solid rgba(109,250,188,0.15);
+    }
+
+    .card-semestre .status.ativo {
+      background: rgba(109,250,188,0.12);
+      color: var(--accent3);
+      border-color: rgba(109,250,188,0.2);
+    }
+
+    .card-semestre .status.em-breve {
+      background: rgba(255,217,61,0.1);
+      color: #ffd93d;
+      border-color: rgba(255,217,61,0.15);
+    }
+
+    .card-semestre .status.concluido {
+      background: rgba(124,109,250,0.1);
+      color: var(--accent);
+      border-color: rgba(124,109,250,0.15);
+    }
+
+    .card-semestre .titulo {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .card-semestre .desc {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      flex: 1;
+      margin-bottom: 12px;
+    }
+
+    .card-semestre .disciplinas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .card-semestre .disciplinas .tag-disciplina {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 3px 12px;
+      border-radius: 20px;
+      background: rgba(124,109,250,0.08);
+      border: 1px solid rgba(124,109,250,0.1);
+      color: var(--muted);
+    }
+
+    .card-semestre .disciplinas .tag-disciplina.destaque {
+      background: rgba(109,250,188,0.08);
+      border-color: rgba(109,250,188,0.15);
+      color: var(--accent3);
+    }
+
+    .card-semestre .meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .card-semestre .meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-semestre .meta .destaque {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .card-semestre .seta {
+      align-self: flex-end;
+      color: var(--muted);
+      font-size: 18px;
+      transition: all var(--transition);
+      margin-top: 6px;
+    }
+
+    .card-semestre:hover .seta {
+      transform: translateX(4px);
+    }
+
+    /* CORES PERSONALIZADAS POR SEMESTRE */
+    .card-semestre.cor-s1::before { background: linear-gradient(90deg, #6dfabc, #00cc66); }
+    .card-semestre.cor-s1:hover { border-color: rgba(109,250,188,0.3); }
+    .card-semestre.cor-s1 .seta:hover { color: var(--accent3); }
+
+    .card-semestre.cor-s2::before { background: linear-gradient(90deg, var(--accent), #5a4fd6); }
+    .card-semestre.cor-s2:hover { border-color: rgba(124,109,250,0.3); }
+    .card-semestre.cor-s2 .seta:hover { color: var(--accent); }
+
+    .card-semestre.cor-s3::before { background: linear-gradient(90deg, var(--accent2), #e05070); }
+    .card-semestre.cor-s3:hover { border-color: rgba(250,109,138,0.3); }
+    .card-semestre.cor-s3 .seta:hover { color: var(--accent2); }
+
+    .card-semestre.cor-s4::before { background: linear-gradient(90deg, var(--accent4), #e6b800); }
+    .card-semestre.cor-s4:hover { border-color: rgba(250,220,109,0.3); }
+    .card-semestre.cor-s4 .seta:hover { color: var(--accent4); }
+
+    .card-semestre.cor-s5::before { background: linear-gradient(90deg, #ff6b6b, #ff9f43); }
+    .card-semestre.cor-s5:hover { border-color: rgba(255,107,107,0.3); }
+    .card-semestre.cor-s5 .seta:hover { color: #ff6b6b; }
+
+    .card-semestre.cor-s6::before { background: linear-gradient(90deg, #a29bfe, #6c5ce7); }
+    .card-semestre.cor-s6:hover { border-color: rgba(162,155,254,0.3); }
+    .card-semestre.cor-s6 .seta:hover { color: #a29bfe; }
+
+    .card-semestre.cor-s7::before { background: linear-gradient(90deg, #fd79a8, #e84393); }
+    .card-semestre.cor-s7:hover { border-color: rgba(253,121,168,0.3); }
+    .card-semestre.cor-s7 .seta:hover { color: #fd79a8; }
+
+    .card-semestre.cor-s8::before { background: linear-gradient(90deg, #00b894, #00cec9); }
+    .card-semestre.cor-s8:hover { border-color: rgba(0,184,148,0.3); }
+    .card-semestre.cor-s8 .seta:hover { color: #00b894; }
+
+    /* RODAPÉ */
+    .footer-note {
+      text-align: center;
+      padding: 16px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .footer-note a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .footer-note a:hover {
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 700px) {
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px 20px;
+      }
+      .page-header h1 { font-size: 22px; }
+      .page-header h1 .emoji { font-size: 26px; }
+      .semestre-grid {
+        grid-template-columns: 1fr;
+      }
+      .descricao {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 14px 18px;
+      }
+      .descricao .icone-grande {
+        font-size: 22px;
+      }
+      .filtro-semestre {
+        gap: 8px;
+      }
+      .filtro-semestre .btn-filtro {
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 450px) {
+      body { padding: 12px; }
+      .card-semestre {
+        padding: 18px 16px 22px;
+      }
+      .card-semestre .numero {
+        font-size: 26px;
+      }
+      .card-semestre .titulo {
+        font-size: 16px;
+      }
+      .card-semestre .disciplinas .tag-disciplina {
+        font-size: 9px;
+        padding: 2px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <h1>
+      <span class="emoji">📚</span>
+      <span>Semestres</span>
+    </h1>
+    <div class="sub">
+      <span class="badge">🎓 Graduação</span>
+      <span class="badge">📖 8 Semestres</span>
+      <span class="badge">📊 Organizado</span>
+    </div>
+  </header>
+
+  <!-- DESCRIÇÃO -->
+  <div class="descricao">
+    <span class="icone-grande">🎯</span>
+    <span>
+      <strong>Acompanhe seu curso semestre a semestre!</strong>
+      Cada semestre reúne as disciplinas, conteúdos e materiais organizados
+      para facilitar seus estudos e sua jornada acadêmica.
+    </span>
+  </div>
+
+  <!-- FILTRO -->
+  <div class="filtro-semestre">
+    <button class="btn-filtro ativo" data-filtro="todos">📋 Todos</button>
+    <button class="btn-filtro" data-filtro="ativo">✅ Ativos</button>
+    <button class="btn-filtro" data-filtro="concluido">🎓 Concluídos</button>
+    <button class="btn-filtro" data-filtro="em-breve">🔜 Em breve</button>
+  </div>
+
+  <!-- GRADE DE SEMESTRES -->
+  <div class="semestre-grid" id="semestreGrid">
+
+    <!-- SEMESTRE 1 -->
+    <div class="card-semestre cor-s1" data-status="concluido">
+      <div class="topo">
+        <span class="numero">1<small>º</small></span>
+        <span class="status concluido">Concluído</span>
+      </div>
+      <div class="titulo">Fundamentos da Administração</div>
+      <div class="desc">
+        Introdução à administração, teorias clássicas, funções administrativas
+        e fundamentos da gestão organizacional.
+      </div>
+      <div class="disciplinas">
+        <span class="tag-disciplina">Introdução à Adm</span>
+        <span class="tag-disciplina destaque">Teorias Clássicas</span>
+        <span class="tag-disciplina">Gestão</span>
+        <span class="tag-disciplina">Organizações</span>
+      </div>
+      <div class="meta">
+        <span>📚 <span class="destaque">4 disciplinas</span></span>
+        <span>📄 <span class="destaque">12 materiais</span></span>
+        <span>⏱️ <span class="destaque">2024/1</span></span>
+      </div>
+      <span class="seta">→</span>
+    </div>
+
+    <!-- SEMESTRE 2 -->
+    <div class="card-semestre cor-s2" data-status="concluido">
+      <div class="topo">
+        <span class="numero">2<small>º</small></span>
+        <span class="status concluido">Concluído</span>
+      </div>
+      <div class="titulo">Gestão de Pessoas e Marketing</div>
+      <div class="desc">
+        Fundamentos de gestão de recursos humanos, comportamento organizacional
+        e introdução ao marketing e ao comportamento do consumidor.
+      </div>
+      <div class="disciplinas">
+        <span class="tag-disciplina destaque">Gestão de Pessoas</span>
+        <span class="tag-disciplina">Marketing</span>
+        <span class="tag-disciplina">Comportamento</span>
+        <span class="tag-disciplina">RH</span>
+      </div>
+      <div class="meta">
+        <span>📚 <span class="destaque">4 disciplinas</span></span>
+        <span>📄 <span class="destaque">10 materiais</span></span>
+        <span>⏱️ <span class="destaque">2024/2</span></span>
+      </div>
+      <span class="seta">→</span>
+    </div>
+
+    <!-- SEMESTRE 3 -->
+    <div class="card-semestre cor-s3" data-status="ativo">
+      <div class="topo">
+        <span class="numero">3<small>º</small></span>
+        <span class="status ativo">Ativo</span>
+      </div>
+      <div class="titulo">Finanças e Contabilidade</div>
+      <div class="desc">
+        Princípios de contabilidade, análise financeira, orçamento empresarial
+        e gestão de custos para tomada de decisão.
+      </div>
+      <div class="disciplinas">
+        <span class="tag-disciplina destaque">Contabilidade</span>
+        <span class="tag-disciplina">Finanças</span>
+        <span class="tag-disciplina">Custos</span>
+        <span class="tag-disciplina">Orçamento</span>
+      </div>
+      <div class="meta">
+        <span>📚 <span class="destaque">4 disciplinas</span></span>
+        <span>📄 <span class="destaque">8 materiais</span></span>
+        <span>⏱️ <span class="destaque">2025/1</span></span>
+      </div>
+      <span class="seta">→</span>
+    </div>
+
+    <!-- SEMESTRE 4 -->
+    <div class="card-semestre cor-s4" data-status="ativo">
+      <div class="topo">
+        <span class="numero">4<small>º</small></span>
+        <span class="status ativo">Ativo</span>
+      </div>
+      <div class="titulo">Operações e Logística</div>
+      <div class="desc">
+        Gestão da produção, cadeia de suprimentos, logística empresarial
+        e controle de qualidade em operações.
+      </div>
+      <div class="disciplinas">
+        <span class="tag-disciplina destaque">Operações</span>
+        <span class="tag-disciplina">Logística</span>
+        <span class="tag-disciplina">Qualidade</span>
+        <span class="tag-disciplina">Suprimentos</span>
+      </div>
+      <div class="meta">
+        <span>📚 <span class="destaque">4 disciplinas</span></span>
+        <span>📄 <span class="destaque">9 materiais</span></span>
+        <span>⏱️ <span class="destaque">2025/2</span></span>
+      </div>
+      <span class="seta">→</span>
+    </div>
+
+    <!-- SEMESTRE 5 -->
+    <div class="card-semestre cor-s5" data-status="em-breve">
+      <div class="topo">
+        <span class="numero">5<small>º</small></span>
+        <span class="status em-breve">Em breve</span>
+      </div>
+      <div class="titulo">Estratégia e Inovação</div>
+      <div class="desc">
+        Planejamento estratégico, gestão da inovação, empreendedorismo
+        e análise de cenários para tomada de decisão.
+      </div>
+      <div class="disciplinas">
+        <span class="tag-disciplina destaque">Estratégia</span>
+        <span class="tag-disciplina">Inovação</span>
+        <span class="tag-disciplina">Empreendedorismo</span>
+        <span class="tag-disciplina">Planejamento</span>
+      </div>
+      <div class="meta">
+        <span>📚 <span class="destaque">4 disciplinas</span></span>
+        <span>📄 <span class="destaque">Em preparação</span></span>
+        <span>⏱️ <span class="destaque">2026/1</span></span>
+      </div>
+      <span class="seta">→</span>
+    </div>
+
+    <!-- SEMESTRE 6 -->
+    <div class="card-semestre cor-s6" data-status="em-breve">
+      <div class="topo">
+        <span class="numero">6<small>º</small></span>
+        <span class="status em-breve">Em breve</span>
+      </div>
+      <div class="titulo">Gestão Internacional e Negócios</div>
+      <div class="desc">
+        Comércio internacional, gestão intercultural, negociações globais
+        e estratégias de internacionalização de empresas.
+      </div>
+      <div class="disciplinas">
+        <span class="tag-disciplina destaque">Internacional</span>
+        <span class="tag-disciplina">Negócios</span>
+        <span class="tag-disciplina">Cultura</span>
+        <span class="tag-disciplina">Negociação</span>
+      </div>
+      <div class="meta">
+        <span>📚 <span class="destaque">4 disciplinas</span></span>
+        <span>📄 <span class="destaque">Em preparação</span></span>
+        <span>⏱️ <span class="destaque">2026/2</span></span>
+      </div>
+      <span class="seta">→</span>
+    </div>
+
+    <!-- SEMESTRE 7 -->
+    <div class="card-semestre cor-s7" data-status="em-breve">
+      <div class="topo">
+        <span class="numero">7<small>º</small></span>
+        <span class="status em-breve">Em breve</span>
+      </div>
+      <div class="titulo">Gestão de Projetos e Sustentabilidade</div>
+      <div class="desc">
+        Metodologias de gestão de projetos, responsabilidade social,
+        sustentabilidade empresarial e governança corporativa.
+      </div>
+      <div class="disciplinas">
+        <span class="tag-disciplina destaque">Projetos</span>
+        <span class="tag-disciplina">Sustentabilidade</span>
+        <span class="tag-disciplina">Governança</span>
+        <span class="tag-disciplina">Responsabilidade</span>
+      </div>
+      <div class="meta">
+        <span>📚 <span class="destaque">4 disciplinas</span></span>
+        <span>📄 <span class="destaque">Em preparação</span></span>
+        <span>⏱️ <span class="destaque">2027/1</span></span>
+      </div>
+      <span class="seta">→</span>
+    </div>
+
+    <!-- SEMESTRE 8 -->
+    <div class="card-semestre cor-s8" data-status="em-breve">
+      <div class="topo">
+        <span class="numero">8<small>º</small></span>
+        <span class="status em-breve">Em breve</span>
+      </div>
+      <div class="titulo">TCC e Gestão Avançada</div>
+      <div class="desc">
+        Trabalho de Conclusão de Curso, gestão de carreira, liderança
+        e temas avançados em administração.
+      </div>
+      <div class="disciplinas">
+        <span class="tag-disciplina destaque">TCC</span>
+        <span class="tag-disciplina">Liderança</span>
+        <span class="tag-disciplina">Carreira</span>
+        <span class="tag-disciplina">Gestão Avançada</span>
+      </div>
+      <div class="meta">
+        <span>📚 <span class="destaque">4 disciplinas</span></span>
+        <span>📄 <span class="destaque">Em preparação</span></span>
+        <span>⏱️ <span class="destaque">2027/2</span></span>
+      </div>
+      <span class="seta">→</span>
+    </div>
+
+  </div>
+
+  <!-- BOTÃO DE VOLTAR PARA HOME -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <a href="index.html" style="
+      display: inline-block;
+      padding: 12px 32px;
+      background: rgba(124,109,250,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(124,109,250,0.2);
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all var(--transition);
+    " onmouseover="this.style.background='rgba(124,109,250,0.2)'; this.style.transform='translateY(-2px)'"
+       onmouseout="this.style.background='rgba(124,109,250,0.1)'; this.style.transform='none'">
+      ← Voltar para o início
+    </a>
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer-note">
+    📚 <a href="index.html">SiteParaEstudar</a> · Semestres ·
+    Atualizado em 2026
+  </div>
+
+</div><!-- fim container -->
+
+<script>
+  // FILTRO POR STATUS
+  const botoesFiltro = document.querySelectorAll('.btn-filtro');
+  const cards = document.querySelectorAll('.card-semestre');
+
+  botoesFiltro.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove classe ativo de todos os botões
+      botoesFiltro.forEach(b => b.classList.remove('ativo'));
+      btn.classList.add('ativo');
+
+      const filtro = btn.dataset.filtro;
+
+      cards.forEach(card => {
+        const status = card.dataset.status;
+        if (filtro === 'todos') {
+          card.style.display = 'flex';
+        } else if (filtro === status) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<script src="JS/sidebar.js"></script>
+<script src="JS/footer.js"></script>
+</body>
+</html>

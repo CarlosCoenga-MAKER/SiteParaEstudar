@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <base href="../../">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Administração · SiteParaEstudar</title>
+  <link rel="icon" href="Style/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="Style/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0d0f;
+      --surface: #15151a;
+      --card: #1c1c24;
+      --border: #2a2a38;
+      --accent: #7c6dfa;
+      --accent2: #fa6d8a;
+      --accent3: #6dfabc;
+      --accent4: #fadc6d;
+      --text: #e8e8f0;
+      --muted: #7878a0;
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.3);
+      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.4);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Syne', sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,109,250,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,109,250,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 70%);
+    }
+
+    .glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatGlow 15s infinite alternate ease-in-out;
+    }
+    .glow-1 { background: var(--accent); top: -150px; left: -150px; }
+    .glow-2 { background: var(--accent2); bottom: -150px; right: -150px; animation-delay: -5s; }
+    .glow-3 { background: var(--accent3); top: 40%; left: 50%; width: 400px; height: 400px; opacity: 0.06; animation-delay: -10s; }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(20px, -20px) scale(1.08); }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HEADER */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 32px;
+      padding: 20px 28px;
+      background: rgba(21,21,26,0.6);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .page-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .page-header h1 .emoji {
+      font-size: 32px;
+    }
+
+    .page-header h1 span {
+      background: linear-gradient(135deg, var(--accent2), #e05070);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-header .sub {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-header .sub .badge {
+      background: rgba(250,109,138,0.15);
+      padding: 4px 14px;
+      border-radius: 20px;
+      color: var(--accent2);
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid rgba(250,109,138,0.15);
+    }
+
+    /* DESCRIÇÃO */
+    .descricao {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .descricao strong {
+      color: var(--text);
+    }
+
+    .descricao .icone-grande {
+      font-size: 28px;
+    }
+
+    /* GRADE DE CARDS */
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .card-admin {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px 30px;
+      transition: all var(--transition);
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-admin::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .card-admin:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-admin:hover::before {
+      opacity: 1;
+    }
+
+    .card-admin .topo {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .card-admin .icone {
+      font-size: 40px;
+      line-height: 1;
+    }
+
+    .card-admin .status {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 12px;
+      border-radius: 20px;
+      background: rgba(109,250,188,0.1);
+      color: var(--accent3);
+      border: 1px solid rgba(109,250,188,0.15);
+    }
+
+    .card-admin .status.ativo {
+      background: rgba(109,250,188,0.12);
+      color: var(--accent3);
+      border-color: rgba(109,250,188,0.2);
+    }
+
+    .card-admin .titulo {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .card-admin .desc {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      flex: 1;
+      margin-bottom: 14px;
+    }
+
+    .card-admin .meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .card-admin .meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-admin .meta .destaque {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .card-admin .seta {
+      align-self: flex-end;
+      color: var(--muted);
+      font-size: 18px;
+      transition: all var(--transition);
+      margin-top: 8px;
+    }
+
+    .card-admin:hover .seta {
+      transform: translateX(4px);
+    }
+
+    /* CORES PERSONALIZADAS */
+    .card-admin.cor-mapa::before {
+      background: linear-gradient(90deg, var(--accent2), #e05070);
+    }
+    .card-admin.cor-mapa:hover {
+      border-color: rgba(250,109,138,0.3);
+    }
+    .card-admin.cor-mapa .seta:hover {
+      color: var(--accent2);
+    }
+
+    .card-admin.cor-casos::before {
+      background: linear-gradient(90deg, var(--accent4), #e6b800);
+    }
+    .card-admin.cor-casos:hover {
+      border-color: rgba(250,220,109,0.3);
+    }
+    .card-admin.cor-casos .seta:hover {
+      color: var(--accent4);
+    }
+
+    .card-admin.cor-teorias::before {
+      background: linear-gradient(90deg, var(--accent3), #00cc66);
+    }
+    .card-admin.cor-teorias:hover {
+      border-color: rgba(109,250,188,0.3);
+    }
+    .card-admin.cor-teorias .seta:hover {
+      color: var(--accent3);
+    }
+
+    .card-admin.cor-exercicios::before {
+      background: linear-gradient(90deg, #7c6dfa, #5a4fd6);
+    }
+    .card-admin.cor-exercicios:hover {
+      border-color: rgba(124,109,250,0.3);
+    }
+    .card-admin.cor-exercicios .seta:hover {
+      color: var(--accent);
+    }
+
+    .card-admin.cor-videos::before {
+      background: linear-gradient(90deg, #ff6b6b, #ff9f43);
+    }
+    .card-admin.cor-videos:hover {
+      border-color: rgba(255,107,107,0.3);
+    }
+    .card-admin.cor-videos .seta:hover {
+      color: #ff6b6b;
+    }
+
+    .card-admin.cor-resumos::before {
+      background: linear-gradient(90deg, #a29bfe, #6c5ce7);
+    }
+    .card-admin.cor-resumos:hover {
+      border-color: rgba(162,155,254,0.3);
+    }
+    .card-admin.cor-resumos .seta:hover {
+      color: #a29bfe;
+    }
+
+    /* RODAPÉ */
+    .footer-note {
+      text-align: center;
+      padding: 16px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .footer-note a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .footer-note a:hover {
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 700px) {
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px 20px;
+      }
+      .page-header h1 { font-size: 22px; }
+      .page-header h1 .emoji { font-size: 26px; }
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+      .descricao {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 14px 18px;
+      }
+      .descricao .icone-grande {
+        font-size: 22px;
+      }
+    }
+
+    @media (max-width: 450px) {
+      body { padding: 12px; }
+      .card-admin {
+        padding: 20px 18px 24px;
+      }
+      .card-admin .titulo {
+        font-size: 17px;
+      }
+      .card-admin .icone {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <h1>
+      <span class="emoji">📊</span>
+      <span>Administração</span>
+    </h1>
+    <div class="sub">
+      <span class="badge">📋 Mapas Mentais</span>
+      <span class="badge">⚖️ Casos</span>
+      <span class="badge">📚 Teorias</span>
+    </div>
+  </header>
+
+  <!-- DESCRIÇÃO -->
+  <div class="descricao">
+    <span class="icone-grande">🎯</span>
+    <span>
+      <strong>Domine a Administração!</strong>
+      Explore mapas mentais, casos práticos, teorias, exercícios e muito mais
+      para turbinar seus estudos e arrasar nas provas.
+    </span>
+  </div>
+
+  <!-- GRADE DE CARDS -->
+  <div class="admin-grid">
+
+    <!-- Mapa Mental -->
+    <a href="pages/adm/mapa_mental_Adm.html" class="card-admin cor-mapa">
+      <div class="topo">
+        <span class="icone">📋</span>
+        <span class="status ativo">Ativo</span>
+      </div>
+      <div class="titulo">Mapa Mental de Administração</div>
+      <div class="desc">
+        Visualize os principais conceitos da administração de forma clara e organizada.
+        Perfeito para revisões rápidas e fixação de conteúdo.
+      </div>
+      <div class="meta">
+        <span>📌 <span class="destaque">8 temas</span></span>
+        <span>🧠 <span class="destaque">Visual</span></span>
+        <span>⏱️ <span class="destaque">Revisão rápida</span></span>
+      </div>
+      <span class="seta">→</span>
+    </a>
+
+    <!-- Casos de Administração -->
+    <a href="pages/adm/casos.html" class="card-admin cor-casos">
+      <div class="topo">
+        <span class="icone">⚖️</span>
+        <span class="status ativo">Ativo</span>
+      </div>
+      <div class="titulo">Casos de Administração</div>
+      <div class="desc">
+        Estude situações reais e casos práticos da administração. Desenvolva
+        pensamento crítico e capacidade de resolver problemas.
+      </div>
+      <div class="meta">
+        <span>📌 <span class="destaque">10+ casos</span></span>
+        <span>💡 <span class="destaque">Práticos</span></span>
+        <span>🎯 <span class="destaque">Análise</span></span>
+      </div>
+      <span class="seta">→</span>
+    </a>
+
+  </div>
+
+  <!-- BOTÃO DE VOLTAR PARA HOME -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <a href="index.html" style="
+      display: inline-block;
+      padding: 12px 32px;
+      background: rgba(124,109,250,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(124,109,250,0.2);
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all var(--transition);
+    " onmouseover="this.style.background='rgba(124,109,250,0.2)'; this.style.transform='translateY(-2px)'"
+       onmouseout="this.style.background='rgba(124,109,250,0.1)'; this.style.transform='none'">
+      ← Voltar para o início
+    </a>
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer-note">
+    📚 <a href="index.html">SiteParaEstudar</a> · Administração ·
+    Atualizado em 2026
+  </div>
+
+</div><!-- fim container -->
+
+<script src="JS/sidebar.js"></script>
+<script src="JS/footer.js"></script>
+</body>
+</html>

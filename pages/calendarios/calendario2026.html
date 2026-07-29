@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <base href="../../">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Calendário UFMS 2026 · SiteParaEstudar</title>
+  <link rel="icon" href="Style/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="Style/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0d0f;
+      --surface: #15151a;
+      --card: #1c1c24;
+      --border: #2a2a38;
+      --accent: #7c6dfa;
+      --accent2: #fa6d8a;
+      --accent3: #6dfabc;
+      --accent4: #fadc6d;
+      --text: #e8e8f0;
+      --muted: #7878a0;
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.3);
+      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.4);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Syne', sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,109,250,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,109,250,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 70%);
+    }
+
+    .glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatGlow 15s infinite alternate ease-in-out;
+    }
+    .glow-1 { background: var(--accent); top: -150px; left: -150px; }
+    .glow-2 { background: var(--accent2); bottom: -150px; right: -150px; animation-delay: -5s; }
+    .glow-3 { background: var(--accent3); top: 40%; left: 50%; width: 400px; height: 400px; opacity: 0.06; animation-delay: -10s; }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(20px, -20px) scale(1.08); }
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding: 16px 24px;
+      background: rgba(21,21,26,0.6);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .page-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .page-header h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-header .sub {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-header .sub .badge {
+      background: rgba(124,109,250,0.15);
+      padding: 4px 14px;
+      border-radius: 20px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid rgba(124,109,250,0.15);
+    }
+
+    .legenda {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 28px;
+      padding: 10px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 18px;
+    }
+
+    .legenda-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .legenda-item .cor {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .cor-accent { background: var(--accent); }
+    .cor-accent2 { background: var(--accent2); }
+    .cor-accent3 { background: var(--accent3); }
+    .cor-accent4 { background: var(--accent4); }
+    .cor-feriado { background: #ff6b6b; }
+    .cor-evento { background: #ffd93d; }
+
+    .main-layout {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .calendario-wrapper {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .calendario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .mes-cal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all var(--transition);
+    }
+
+    .mes-cal:hover {
+      border-color: rgba(124,109,250,0.25);
+      box-shadow: var(--shadow-md);
+    }
+
+    .mes-header {
+      padding: 12px 16px 8px;
+      background: rgba(124,109,250,0.06);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mes-header .nome {
+      font-family: 'Syne', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .mes-header .ano {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .dias-semana {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      padding: 6px 10px 2px;
+      gap: 2px;
+    }
+
+    .dias-semana span {
+      text-align: center;
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .dias-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      padding: 0 10px 10px;
+      gap: 2px;
+    }
+
+    .dia-cell {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 3px 1px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      position: relative;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      min-height: 38px;
+      border: 1px solid transparent;
+      background: transparent;
+      font-family: inherit;
+    }
+
+    .dia-cell .num {
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    .dia-cell.vazio {
+      opacity: 0.15;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .dia-cell .dot-evento {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .dia-cell .dot-evento.grad { background: var(--accent); }
+    .dia-cell .dot-evento.pos { background: var(--accent3); }
+    .dia-cell .dot-evento.feriado { background: #ff6b6b; }
+    .dia-cell .dot-evento.evento { background: #ffd93d; }
+
+    .dia-cell.hoje {
+      border-color: var(--accent);
+      background: rgba(124,109,250,0.08);
+    }
+
+    .dia-cell:hover {
+      background: rgba(124,109,250,0.06);
+      border-color: rgba(124,109,250,0.15);
+    }
+
+    .dia-cell.selecionado {
+      background: rgba(124,109,250,0.18);
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(124,109,250,0.1);
+    }
+
+    .painel-detalhes {
+      width: 320px;
+      min-width: 280px;
+      max-width: 380px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      position: sticky;
+      top: 20px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      transition: all var(--transition);
+    }
+
+    .painel-detalhes::-webkit-scrollbar {
+      width: 4px;
+    }
+    .painel-detalhes::-webkit-scrollbar-track {
+      background: var(--surface);
+    }
+    .painel-detalhes::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .painel-detalhes .painel-titulo {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .painel-detalhes .painel-data {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .painel-detalhes .sem-eventos {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+      padding: 30px 0;
+    }
+
+    .painel-detalhes .evento-detalhe {
+      background: rgba(124,109,250,0.04);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+
+    .painel-detalhes .evento-detalhe.feriado {
+      border-left-color: #ff6b6b;
+      background: rgba(255,107,107,0.06);
+    }
+
+    .painel-detalhes .evento-detalhe.pos {
+      border-left-color: var(--accent3);
+      background: rgba(109,250,188,0.06);
+    }
+
+    .painel-detalhes .evento-detalhe.evento {
+      border-left-color: #ffd93d;
+      background: rgba(255,217,61,0.06);
+    }
+
+    .painel-detalhes .evento-detalhe .ev-desc {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .painel-detalhes .evento-detalhe .ev-tag {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 10px;
+      border-radius: 12px;
+      display: inline-block;
+      margin-top: 4px;
+      letter-spacing: 0.3px;
+    }
+
+    .ev-tag-grad {
+      background: rgba(124,109,250,0.15);
+      color: var(--accent);
+      border: 1px solid rgba(124,109,250,0.15);
+    }
+
+    .ev-tag-pos {
+      background: rgba(109,250,188,0.12);
+      color: var(--accent3);
+      border: 1px solid rgba(109,250,188,0.15);
+    }
+
+    .ev-tag-feriado {
+      background: rgba(255,107,107,0.12);
+      color: #ff6b6b;
+      border: 1px solid rgba(255,107,107,0.15);
+    }
+
+    .ev-tag-evento {
+      background: rgba(255,217,61,0.12);
+      color: #ffd93d;
+      border: 1px solid rgba(255,217,61,0.15);
+    }
+
+    .suspenso-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .suspenso-card .title {
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+    }
+
+    .suspenso-card .title .icon {
+      color: var(--accent2);
+      font-size: 17px;
+    }
+
+    .suspenso-card .events {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .suspenso-card .events span {
+      background: rgba(124,109,250,0.08);
+      border: 1px solid rgba(124,109,250,0.12);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .suspenso-card .events span .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .suspenso-card .events span .dot.green { background: var(--accent3); }
+    .suspenso-card .events span .dot.pink { background: var(--accent2); }
+
+    .prazos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .prazo-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+    }
+
+    .prazo-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+    }
+
+    .prazo-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(42,42,56,0.3);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .prazo-item:last-child {
+      border-bottom: none;
+    }
+
+    .prazo-item .data {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .footer-note {
+      text-align: center;
+      padding: 14px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .footer-note a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .footer-note a:hover {
+      text-decoration: underline;
+    }
+
+    .btn-voltar {
+      display: inline-block;
+      padding: 10px 28px;
+      background: rgba(124,109,250,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(124,109,250,0.2);
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all var(--transition);
+      margin-bottom: 18px;
+    }
+
+    .btn-voltar:hover {
+      background: rgba(124,109,250,0.2);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 900px) {
+      .main-layout {
+        flex-direction: column;
+      }
+      .painel-detalhes {
+        width: 100%;
+        max-width: 100%;
+        position: static;
+        max-height: none;
+        margin-bottom: 18px;
+        order: -1;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 14px 18px;
+      }
+      .page-header h1 { font-size: 20px; }
+      .suspenso-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .prazos-grid {
+        grid-template-columns: 1fr;
+      }
+      .calendario-grid {
+        grid-template-columns: 1fr;
+      }
+      .legenda {
+        gap: 10px 16px;
+        padding: 8px 14px;
+      }
+      .legenda-item {
+        font-size: 10px;
+      }
+      .painel-detalhes {
+        padding: 14px 16px;
+      }
+    }
+
+    @media (max-width: 450px) {
+      body { padding: 10px; }
+      .dias-grid, .dias-semana {
+        padding-left: 4px;
+        padding-right: 4px;
+      }
+      .dia-cell {
+        font-size: 10px;
+        min-height: 32px;
+      }
+      .dia-cell .num {
+        font-size: 10px;
+      }
+      .painel-detalhes .painel-titulo {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
+
+<div class="container">
+  <header class="page-header">
+    <h1>📅 <span>Calendário UFMS 2026</span></h1>
+    <div class="sub">
+      <span class="badge">🎓 Graduação</span>
+      <span class="badge">🧪 Pós-Graduação</span>
+      <span style="font-size:11px; color:var(--muted);">· Res. 437/2025</span>
+    </div>
+  </header>
+
+  <div class="legenda">
+    <span class="legenda-item"><span class="cor cor-accent"></span> Graduação</span>
+    <span class="legenda-item"><span class="cor cor-accent3"></span> Pós-Graduação</span>
+    <span class="legenda-item"><span class="cor cor-feriado"></span> Feriado / Não letivo</span>
+    <span class="legenda-item"><span class="cor cor-evento"></span> Evento acadêmico</span>
+    <span class="legenda-item"><span class="cor cor-accent4"></span> Período letivo</span>
+  </div>
+
+  <div class="suspenso-card">
+    <div class="title"><span class="icon">⛔</span> Avaliações presenciais suspensas</div>
+    <div class="events">
+      <span><span class="dot green"></span> Semana de Desenvolvimento Profissional · 4–8 mai</span>
+      <span><span class="dot pink"></span> INTEGRA UFMS 2026 · 19–23 out</span>
+    </div>
+  </div>
+
+  <div class="main-layout">
+
+    <div class="calendario-wrapper">
+      <div id="calendarioGrid" class="calendario-grid"></div>
+
+      <div class="prazos-grid">
+        <div class="prazo-card">
+          <h3>🎓 Graduação – prazos</h3>
+          <div class="prazo-item"><span>Solicitação Abreviação – 2026/1</span><span class="data">30/04</span></div>
+          <div class="prazo-item"><span>Matrícula Estudante Especial – 2026/2</span><span class="data">01–10/06</span></div>
+          <div class="prazo-item"><span>Renovação de Matrícula – 2026/2</span><span class="data">13–21/07</span></div>
+          <div class="prazo-item"><span>Validação de Matrícula – 2026/2</span><span class="data">27–31/07</span></div>
+          <div class="prazo-item"><span>Cadastro Lista Ofertas – Verão/2027/1</span><span class="data">20/12</span></div>
+        </div>
+        <div class="prazo-card">
+          <h3>🧪 Pós-Graduação – prazos</h3>
+          <div class="prazo-item"><span>Matrícula ingressantes – Residências</span><span class="data">10/02</span></div>
+          <div class="prazo-item"><span>Matrícula regulares – stricto sensu</span><span class="data">23–24/02</span></div>
+          <div class="prazo-item"><span>Solicitação Estudante Especial</span><span class="data">26–27/02</span></div>
+          <div class="prazo-item"><span>Matrícula 2026/2 – regulares</span><span class="data">20–21/07</span></div>
+          <div class="prazo-item"><span>Liberação notas – 2026/1</span><span class="data">13/07</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="painelDetalhes" class="painel-detalhes">
+      <div class="painel-titulo">📌 Detalhes do dia</div>
+      <div class="painel-data" id="painelData">Selecione um dia no calendário</div>
+      <div id="painelConteudo">
+        <div class="sem-eventos">👆 Clique em um dia para ver os eventos</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-note">
+    📄 Calendário aprovado pela Resolução nº 437-COUN/UFMS, de 28 de agosto de 2025.<br />
+    SEI nº 23104.000033/2025-53 · <a href="index.html">SiteParaEstudar</a>
+  </div>
+
+</div>
+
+<script>
+  // ============================================================
+  // DADOS DO CALENDÁRIO 2026
+  // ============================================================
+  const eventosPorDia = {
+    '2026-02-02': [{ desc: 'Início do Período de Verão', tipo: 'grad' }],
+    '2026-02-09': [{ desc: 'Semana Pedagógica (professores)', tipo: 'evento' }],
+    '2026-02-10': [{ desc: 'Início matrícula ingressantes – Residências', tipo: 'pos' }],
+    '2026-02-13': [{ desc: 'Fim da Semana Pedagógica', tipo: 'evento' }],
+    '2026-02-16': [{ desc: 'Carnaval (não letivo)', tipo: 'feriado' }],
+    '2026-02-17': [{ desc: 'Carnaval (não letivo)', tipo: 'feriado' }],
+    '2026-02-18': [{ desc: 'Cinzas (não letivo)', tipo: 'feriado' }],
+    '2026-02-23': [{ desc: 'Formação para Coordenadores de Curso', tipo: 'evento' }],
+    '2026-02-24': [{ desc: 'Matrícula regulares – stricto sensu', tipo: 'pos' }],
+    '2026-02-26': [{ desc: 'Solicitação Estudante Especial – stricto sensu', tipo: 'pos' }],
+    '2026-02-27': [{ desc: 'Solicitação Estudante Especial – stricto sensu', tipo: 'pos' }],
+    '2026-02-28': [{ desc: 'Término do Período de Verão', tipo: 'grad' }],
+    '2026-03-02': [{ desc: 'Início 2026/1 · Início solicitação Abreviação de Curso', tipo: 'grad' }],
+    '2026-03-02-2': [{ desc: '2ª etapa Renovação de Matrícula', tipo: 'grad' }],
+    '2026-03-06': [{ desc: 'Fim da Semana de Recepção dos Ingressantes', tipo: 'evento' }],
+    '2026-03-13': [{ desc: 'Fim da integração em disciplinas EaD', tipo: 'evento' }],
+    '2026-03-19': [{ desc: 'São José · Feriado em Coxim e Ponta Porã', tipo: 'feriado' }],
+    '2026-04-03': [{ desc: 'Paixão de Cristo (não letivo)', tipo: 'feriado' }],
+    '2026-04-04': [{ desc: 'Não letivo', tipo: 'feriado' }],
+    '2026-04-11': [{ desc: 'Aniversário de Coxim (não letivo)', tipo: 'feriado' }],
+    '2026-04-13': [{ desc: 'Início Solicitação de Mobilidade Acadêmica Nacional', tipo: 'grad' }],
+    '2026-04-17': [{ desc: 'Abertura da Lista de Ofertas – Inverno/2026/2', tipo: 'grad' }],
+    '2026-04-20': [{ desc: 'Não letivo', tipo: 'feriado' }],
+    '2026-04-21': [{ desc: 'Tiradentes (não letivo)', tipo: 'feriado' }],
+    '2026-04-30': [{ desc: 'Aniversário de Nova Andradina · Prazo Abreviação de Curso', tipo: 'grad' }],
+    '2026-05-01': [{ desc: 'Dia do Trabalho (não letivo)', tipo: 'feriado' }],
+    '2026-05-02': [{ desc: 'Não letivo', tipo: 'feriado' }],
+    '2026-05-04': [{ desc: 'Semana de Desenvolvimento Profissional', tipo: 'evento' }],
+    '2026-05-05': [{ desc: 'Semana de Desenvolvimento Profissional', tipo: 'evento' }],
+    '2026-05-06': [{ desc: 'Semana de Desenvolvimento Profissional', tipo: 'evento' }],
+    '2026-05-07': [{ desc: 'Semana de Desenvolvimento Profissional', tipo: 'evento' }],
+    '2026-05-08': [{ desc: 'Semana de Desenvolvimento Profissional', tipo: 'evento' }],
+    '2026-05-13': [{ desc: 'Padroeira de Naviraí (não letivo)', tipo: 'feriado' }],
+    '2026-05-19': [{ desc: 'III Seminário de Extensão UFMS Digital', tipo: 'evento' }],
+    '2026-05-20': [{ desc: 'III Seminário de Extensão UFMS Digital', tipo: 'evento' }],
+    '2026-05-21': [{ desc: 'III Seminário de Extensão UFMS Digital', tipo: 'evento' }],
+    '2026-05-22': [{ desc: 'III Seminário de Extensão UFMS Digital', tipo: 'evento' }],
+    '2026-05-31': [{ desc: 'Padroeira de Nova Andradina (não letivo)', tipo: 'feriado' }],
+    '2026-06-01': [{ desc: 'Matrícula Estudante Especial – 2026/2', tipo: 'grad' }],
+    '2026-06-04': [{ desc: 'Corpus Christi (não letivo)', tipo: 'feriado' }],
+    '2026-06-05': [{ desc: 'Não letivo', tipo: 'feriado' }],
+    '2026-06-06': [{ desc: 'Não letivo', tipo: 'feriado' }],
+    '2026-06-08': [{ desc: 'Previsão Edital transferência externa – 2026/2', tipo: 'grad' }],
+    '2026-06-10': [{ desc: 'Fim Matrícula Estudante Especial – 2026/2', tipo: 'grad' }],
+    '2026-06-13': [{ desc: 'Campo Grande (Padroeiro) · Corumbá (Retomada)', tipo: 'feriado' }],
+    '2026-06-15': [{ desc: 'Aniversário de Três Lagoas (não letivo)', tipo: 'feriado' }],
+    '2026-06-19': [{ desc: 'Prazo Planos de Ensino – Inverno', tipo: 'grad' }],
+    '2026-06-22': [{ desc: 'Matrícula dos estudantes – Inverno', tipo: 'grad' }],
+    '2026-06-23': [{ desc: 'Matrícula dos estudantes – Inverno', tipo: 'grad' }],
+    '2026-06-24': [{ desc: 'São João · Corumbá (não letivo)', tipo: 'feriado' }],
+    '2026-06-27': [{ desc: 'Término do Período Letivo 2026/1', tipo: 'grad' }],
+    '2026-06-29': [{ desc: 'Início do Período de Inverno · Chapadão do Sul (Padroeiro)', tipo: 'grad' }],
+    '2026-06-30': [{ desc: 'Matrícula dos estudantes – Inverno', tipo: 'grad' }],
+    '2026-07-04': [{ desc: 'Aniversário de Paranaíba (não letivo)', tipo: 'feriado' }],
+    '2026-07-05': [{ desc: '47 anos da UFMS', tipo: 'evento' }],
+    '2026-07-13': [{ desc: '1ª etapa Renovação de Matrícula – 2026/2', tipo: 'grad' }],
+    '2026-07-14': [{ desc: '1ª etapa Renovação de Matrícula – 2026/2', tipo: 'grad' }],
+    '2026-07-18': [{ desc: 'Aniversário de Ponta Porã (não letivo)', tipo: 'feriado' }],
+    '2026-07-20': [{ desc: 'Matrícula regulares – stricto sensu 2026/2', tipo: 'pos' }],
+    '2026-07-21': [{ desc: 'Matrícula regulares – stricto sensu 2026/2', tipo: 'pos' }],
+    '2026-07-22': [{ desc: 'Solicitação Estudante Especial – stricto sensu 2026/2', tipo: 'pos' }],
+    '2026-07-23': [{ desc: 'Solicitação Estudante Especial – stricto sensu 2026/2', tipo: 'pos' }],
+    '2026-07-25': [{ desc: 'Término do Período de Inverno', tipo: 'grad' }],
+    '2026-07-26': [{ desc: 'Padroeira de Paranaíba (não letivo)', tipo: 'feriado' }],
+    '2026-07-27': [{ desc: 'Início 2026/2 · Início Colação de Grau 2026/1', tipo: 'grad' }],
+    '2026-07-31': [{ desc: 'Validação de Matrícula – 2026/2', tipo: 'grad' }],
+    '2026-08-03': [{ desc: 'Prazo cadastro lista ofertas – 2026/2', tipo: 'grad' }],
+    '2026-08-07': [{ desc: 'Independência do Brasil (não letivo)', tipo: 'feriado' }],
+    '2026-08-10': [{ desc: 'Prazo Planos de Ensino – 2026/2', tipo: 'grad' }],
+    '2026-08-16': [{ desc: '1º ajuste de matrícula – 2026/2', tipo: 'grad' }],
+    '2026-08-18': [{ desc: 'Fim 1º ajuste de matrícula', tipo: 'grad' }],
+    '2026-08-21': [{ desc: 'Aniversário de Corumbá (não letivo)', tipo: 'feriado' }],
+    '2026-08-23': [{ desc: '2º ajuste de matrícula – 2026/2', tipo: 'grad' }],
+    '2026-08-25': [{ desc: 'Fim 2º ajuste · Liberação notas/frequências Inverno', tipo: 'grad' }],
+    '2026-09-01': [{ desc: 'Abertura Lista de Ofertas – Verão/2027/1', tipo: 'grad' }],
+    '2026-09-07': [{ desc: 'Independência do Brasil (não letivo)', tipo: 'feriado' }],
+    '2026-09-11': [{ desc: 'Aniversário de Mato Grosso do Sul (não letivo)', tipo: 'feriado' }],
+    '2026-09-12': [{ desc: 'Nossa Sra. Aparecida (não letivo)', tipo: 'feriado' }],
+    '2026-09-13': [{ desc: 'Antecipação do Dia do Servidor Público (não letivo)', tipo: 'feriado' }],
+    '2026-09-14': [{ desc: 'Não letivo', tipo: 'feriado' }],
+    '2026-09-17': [{ desc: 'Não letivo', tipo: 'feriado' }],
+    '2026-09-19': [{ desc: 'INTEGRA UFMS 2026', tipo: 'evento' }],
+    '2026-09-20': [{ desc: 'INTEGRA UFMS 2026', tipo: 'evento' }],
+    '2026-09-21': [{ desc: 'INTEGRA UFMS 2026', tipo: 'evento' }],
+    '2026-09-22': [{ desc: 'INTEGRA UFMS 2026', tipo: 'evento' }],
+    '2026-09-23': [{ desc: 'INTEGRA UFMS 2026 · Chapadão do Sul (Aniversário)', tipo: 'feriado' }],
+    '2026-09-24': [{ desc: 'Publicação alterações PPC – 2027/1', tipo: 'grad' }],
+    '2026-10-02': [{ desc: 'Finados (não letivo)', tipo: 'feriado' }],
+    '2026-10-11': [{ desc: 'Aniversário de Naviraí (não letivo)', tipo: 'feriado' }],
+    '2026-10-19': [{ desc: 'INTEGRA UFMS 2026 (avaliações suspensas)', tipo: 'evento' }],
+    '2026-10-20': [{ desc: 'INTEGRA UFMS 2026 (avaliações suspensas)', tipo: 'evento' }],
+    '2026-10-21': [{ desc: 'INTEGRA UFMS 2026 (avaliações suspensas)', tipo: 'evento' }],
+    '2026-10-22': [{ desc: 'INTEGRA UFMS 2026 (avaliações suspensas)', tipo: 'evento' }],
+    '2026-10-23': [{ desc: 'INTEGRA UFMS 2026 (avaliações suspensas)', tipo: 'evento' }],
+    '2026-11-15': [{ desc: 'Proclamação da República (não letivo)', tipo: 'feriado' }],
+    '2026-11-20': [{ desc: 'Consciência Negra (não letivo)', tipo: 'feriado' }],
+    '2026-11-21': [{ desc: 'Não letivo', tipo: 'feriado' }],
+    '2026-11-28': [{ desc: 'Término do Período Letivo 2026/2', tipo: 'grad' }],
+    '2026-11-30': [{ desc: 'Início Colação de Grau 2026/2', tipo: 'grad' }],
+    '2026-12-02': [{ desc: 'Liberação notas e frequências – 2026/2', tipo: 'grad' }],
+    '2026-12-04': [{ desc: 'Liberação notas – 2026/2 (Pós)', tipo: 'pos' }],
+    '2026-12-08': [{ desc: 'Padroeira de Aquidauana (não letivo)', tipo: 'feriado' }],
+    '2026-12-19': [{ desc: 'Previsão Edital transferência externa – 2027/1', tipo: 'grad' }],
+    '2026-12-20': [{ desc: 'Prazo cadastro Lista de Ofertas – Verão/2027/1', tipo: 'grad' }],
+    '2026-12-21': [{ desc: 'Prazo cadastro Lista de Ofertas – Verão/2027/1 (Pós)', tipo: 'pos' }],
+    '2026-12-25': [{ desc: 'Natal (não letivo)', tipo: 'feriado' }],
+  };
+
+  function getEventos(dataStr) {
+    const chaves = Object.keys(eventosPorDia).filter(k => k.startsWith(dataStr));
+    if (chaves.length === 0) return null;
+    let eventos = [];
+    chaves.forEach(k => {
+      eventos = eventos.concat(eventosPorDia[k]);
+    });
+    return eventos;
+  }
+
+  const meses = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
+
+  const container = document.getElementById('calendarioGrid');
+  const painelData = document.getElementById('painelData');
+  const painelConteudo = document.getElementById('painelConteudo');
+
+  const hoje = new Date();
+  const hojeStr = hoje.getFullYear() + '-' +
+    String(hoje.getMonth() + 1).padStart(2, '0') + '-' +
+    String(hoje.getDate()).padStart(2, '0');
+
+  function renderizarCalendario() {
+    container.innerHTML = '';
+
+    for (let m = 0; m < 12; m++) {
+      const ano = 2026;
+      const primeiroDia = new Date(ano, m, 1).getDay();
+      const diasNoMes = new Date(ano, m + 1, 0).getDate();
+
+      const mesDiv = document.createElement('div');
+      mesDiv.className = 'mes-cal';
+
+      const header = document.createElement('div');
+      header.className = 'mes-header';
+      header.innerHTML = `
+        <span class="nome">${meses[m]}</span>
+        <span class="ano">${ano}</span>
+      `;
+      mesDiv.appendChild(header);
+
+      const semanaDiv = document.createElement('div');
+      semanaDiv.className = 'dias-semana';
+      ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].forEach(d => {
+        const span = document.createElement('span');
+        span.textContent = d;
+        semanaDiv.appendChild(span);
+      });
+      mesDiv.appendChild(semanaDiv);
+
+      const grid = document.createElement('div');
+      grid.className = 'dias-grid';
+
+      for (let i = 0; i < primeiroDia; i++) {
+        const vazio = document.createElement('span');
+        vazio.className = 'dia-cell vazio';
+        grid.appendChild(vazio);
+      }
+
+      for (let d = 1; d <= diasNoMes; d++) {
+        const dataStr = `2026-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const eventos = getEventos(dataStr);
+        const temEvento = eventos && eventos.length > 0;
+
+        const cell = document.createElement('button');
+        cell.className = 'dia-cell';
+        if (temEvento) cell.classList.add('tem-evento');
+        if (dataStr === hojeStr) cell.classList.add('hoje');
+
+        const numSpan = document.createElement('span');
+        numSpan.className = 'num';
+        numSpan.textContent = d;
+        cell.appendChild(numSpan);
+
+        if (temEvento) {
+          const tipos = eventos.map(e => e.tipo);
+          const tipoUnico = tipos.includes('feriado') ? 'feriado' :
+                            tipos.includes('pos') ? 'pos' :
+                            tipos.includes('evento') ? 'evento' : 'grad';
+          const dot = document.createElement('div');
+          dot.className = `dot-evento ${tipoUnico}`;
+          cell.appendChild(dot);
+
+          if (eventos.length > 1) {
+            const dot2 = document.createElement('div');
+            const tipo2 = tipos.includes('grad') ? 'grad' : 'evento';
+            dot2.className = `dot-evento ${tipo2}`;
+            dot2.style.marginTop = '1px';
+            cell.appendChild(dot2);
+          }
+        }
+
+        cell.addEventListener('click', () => {
+          document.querySelectorAll('.dia-cell.selecionado').forEach(el => {
+            el.classList.remove('selecionado');
+          });
+          cell.classList.add('selecionado');
+
+          const eventosDoDia = getEventos(dataStr);
+          const dataFormatada = `${d} de ${meses[m]} de 2026`;
+          painelData.textContent = dataFormatada;
+
+          if (eventosDoDia && eventosDoDia.length > 0) {
+            let html = '';
+            eventosDoDia.forEach(ev => {
+              let classeExtra = '';
+              let tagClasse = 'ev-tag-grad';
+              let tagTexto = 'Grad';
+              if (ev.tipo === 'feriado') {
+                classeExtra = 'feriado';
+                tagClasse = 'ev-tag-feriado';
+                tagTexto = 'Feriado';
+              } else if (ev.tipo === 'pos') {
+                classeExtra = 'pos';
+                tagClasse = 'ev-tag-pos';
+                tagTexto = 'Pós';
+              } else if (ev.tipo === 'evento') {
+                classeExtra = 'evento';
+                tagClasse = 'ev-tag-evento';
+                tagTexto = 'Evento';
+              }
+              html += `
+                <div class="evento-detalhe ${classeExtra}">
+                  <div class="ev-desc">${ev.desc}</div>
+                  <span class="ev-tag ${tagClasse}">${tagTexto}</span>
+                </div>
+              `;
+            });
+            painelConteudo.innerHTML = html;
+          } else {
+            painelConteudo.innerHTML = `<div class="sem-eventos">📭 Nenhum evento neste dia</div>`;
+          }
+        });
+
+        grid.appendChild(cell);
+      }
+
+      mesDiv.appendChild(grid);
+      container.appendChild(mesDiv);
+    }
+  }
+
+  renderizarCalendario();
+
+  setTimeout(() => {
+    const hojeCell = document.querySelector('.dia-cell.hoje.tem-evento');
+    if (hojeCell) {
+      hojeCell.click();
+    } else {
+      painelData.textContent = 'Selecione um dia no calendário';
+      painelConteudo.innerHTML = `<div class="sem-eventos">👆 Clique em um dia para ver os eventos</div>`;
+    }
+  }, 100);
+</script>
+
+<script src="JS/sidebar.js"></script>
+<script src="JS/footer.js"></script>
+</body>
+</html>
