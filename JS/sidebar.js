@@ -58,8 +58,7 @@ class SidebarApp {
     generateLinks() {
         const links = [
             { href: '/index.html', icon: '🏠', color: '#7c6dfa', title: 'Início', sub: 'Página principal' },
-            { href: '/pages/home/HomeMatematica.html', icon: '📚', color: '#7c6dfa', title: 'Matemática', sub: 'Exercícios e conteúdo' },
-            { href: '/pages/home/HomeProgramacao.html', icon: '💻', color: '#04f50c', title: 'Programação em C', sub: 'Códigos e tutoriais' },
+            { href: '/pages/home/HomeSemestres.html', icon: '📚', color: '#7c6dfa', title: 'Semestres', sub: 'Home Semestres' },
             { href: '/pages/videosaulas/videos.html', icon: '▶️', color: '#fa6d8a', title: 'Videoaulas', sub: 'Aulas em vídeo' },
             { href: '/pages/biblioteca/livros.html', icon: '📚', color: '#e62e00', title: 'Biblioteca', sub: 'Livros e materiais' },
             { href: '/pages/filmes/filmes.html', icon: '🎬', color: '#9200e6', title: 'Filmes', sub: 'Conteúdo em vídeo' }

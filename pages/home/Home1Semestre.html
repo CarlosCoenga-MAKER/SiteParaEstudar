@@ -2,15 +2,15 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-    <base href="../../">
+      <base href="../../">
   <meta name="google-site-verification" content="J4ug0qYo2VRzHB0me1pfqMCYYU3hQHq0VelLbyCfPZk" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>SiteParaEstudar · Semestres</title>
+  <title>SiteParaEstudar · 1º Semestre</title>
   <link rel="icon" href="../Style/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../Style/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Mesmo CSS do index.html, apenas com pequenos ajustes de layout */
+    /* === MESMO CSS BASE DO INDEX === */
     :root {
       --bg: #0d0d0f;
       --surface: #15151a;
@@ -117,51 +117,69 @@
     .sidebar-link .icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
     .sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); text-align: center; font-family: 'Space Mono', monospace; }
 
-    /* === PÁGINA SEMESTRES === */
-    .semestres-page {
+    /* === PÁGINA 1º SEMESTRE === */
+    .semestre-page {
       min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; text-align: center;
-      padding: 60px 20px; position: relative; z-index: 1;
+      align-items: center; text-align: center; padding: 60px 20px;
+      position: relative; z-index: 1;
     }
 
-    .semestres-title {
+    .semestre-title {
       font-family: 'Syne', sans-serif; font-size: clamp(32px, 5vw, 48px);
       font-weight: 800; letter-spacing: -1px;
-      background: linear-gradient(135deg, #ffffff 20%, var(--accent) 50%, var(--accent3) 100%);
+      background: linear-gradient(135deg, #ffffff 20%, var(--accent2) 50%, var(--accent4) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text; margin-bottom: 12px;
+      background-clip: text; margin-bottom: 8px;
     }
 
-    .semestres-subtitle {
+    .semestre-subtitle {
       color: var(--muted); font-size: 16px; margin-bottom: 40px;
     }
 
-    .semestres-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px; width: 100%; max-width: 700px;
+    .materias-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px; width: 100%; max-width: 900px;
     }
 
-    .btn-semestre {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 20px 16px; border-radius: 16px; font-family: 'Syne', sans-serif;
-      font-size: 18px; font-weight: 700; cursor: pointer; border: none;
-      transition: all 0.3s ease; text-decoration: none; color: #fff;
-      background: linear-gradient(135deg, var(--card), var(--surface));
-      border: 1px solid var(--border);
+    .card-materia {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 24px 20px;
+      text-align: left; transition: all var(--transition);
+      text-decoration: none; color: var(--text);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .card-materia:hover {
+      border-color: var(--accent); transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
     }
 
-    .btn-semestre:hover {
-      transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-      border-color: var(--accent);
+    .card-materia .topo {
+      display: flex; align-items: center; gap: 12px;
     }
 
-    .btn-semestre .num { font-size: 24px; }
-    .btn-semestre .label { font-size: 14px; font-weight: 400; color: var(--muted); }
+    .card-materia .icone {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+
+    .card-materia .nome {
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 17px;
+    }
+
+    .card-materia .desc {
+      font-size: 13px; color: var(--muted); margin-top: 4px;
+    }
+
+    .card-materia .badge {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      padding: 4px 12px; border-radius: 50px; background: rgba(124,109,250,0.15);
+      color: var(--accent); margin-top: 4px; align-self: flex-start;
+    }
 
     @media (max-width: 600px) {
       .hamburger-btn { top: 12px; left: 12px; width: 38px; height: 38px; }
-      .semestres-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .btn-semestre { padding: 16px 12px; font-size: 16px; }
+      .materias-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -172,37 +190,49 @@
 <div class="glow glow-3"></div>
 
 
-
 <!-- CONTEÚDO PRINCIPAL -->
-<main class="semestres-page">
-  <h1 class="semestres-title">Escolha seu Semestre</h1>
-  <p class="semestres-subtitle">Navegue pelos conteúdos organizados por período</p>
+<main class="semestre-page">
+  <h1 class="semestre-title">1º Semestre</h1>
+  <p class="semestre-subtitle">Matérias e conteúdos do primeiro período</p>
 
-  <div class="semestres-grid">
-    <a href="/pages/home/Home1Semestre.html" class="btn-semestre">
-      <span class="num">1</span><span class="label">º Semestre</span>
+  <div class="materias-grid">
+
+    <a href="/pages/home/HomeMatematica.html" class="card-materia">
+      <div class="topo">
+        <div class="icone" style="background:rgba(124,109,250,0.15);">🧮</div>
+        <span class="nome">Matemática</span>
+      </div>
+      <div class="desc">Home Matemática</div>
+      <span class="badge">10 listas</span>
     </a>
-    <a href="/pages/home/Home2Semestre.html" class="btn-semestre">
-      <span class="num">2</span><span class="label">º Semestre</span>
+
+    <a href="/pages/home/HomeProgramacao.html" class="card-materia">
+      <div class="topo">
+        <div class="icone" style="background:rgba(250,109,138,0.15);">🔬</div>
+        <span class="nome">Programação em C</span>
+      </div>
+      <div class="desc">Do básico até Vetores é Matrizes</div>
+      <span class="badge">12 Listas</span>
     </a>
-    <a href="/pages/home/Home3Semestre.html" class="btn-semestre">
-      <span class="num">3</span><span class="label">º Semestre</span>
+
+    <a href="/pages/home/HomeAdministracao.html" class="card-materia">
+      <div class="topo">
+        <div class="icone" style="background:rgba(109,250,188,0.15);">📖</div>
+        <span class="nome">Administração</span>
+      </div>
+      <div class="desc">Mapa Mental é Casos de Administração</div>
+      <span class="badge">Casos até Capitulo 3</span>
     </a>
-    <a href="/pages/home/Home4Semestre.html" class="btn-semestre">
-      <span class="num">4</span><span class="label">º Semestre</span>
+
+    <a href="/pages/home/HomeHistoriaComputacao.html" class="card-materia">
+      <div class="topo">
+        <div class="icone" style="background:rgba(250,220,109,0.15);">🌍</div>
+        <span class="nome">História Da Computação</span>
+      </div>
+      <div class="desc">Ordem gronologica da Evolução dos Computadores</div>
+      <span class="badge">Linha do Tempo</span>
     </a>
-    <a href="/pages/home/Home5Semestre.html" class="btn-semestre">
-      <span class="num">5</span><span class="label">º Semestre</span>
-    </a>
-    <a href="/pages/home/Home6Semestre.html" class="btn-semestre">
-      <span class="num">6</span><span class="label">º Semestre</span>
-    </a>
-     <a href="/pages/home/Home7Semestre.html" class="btn-semestre">
-      <span class="num">7</span><span class="label">º Semestre</span>
-    </a>
-     <a href="/pages/home/Home8Semestre.html" class="btn-semestre">
-      <span class="num">8</span><span class="label">º Semestre</span>
-    </a>
+
   </div>
 </main>
 
@@ -228,7 +258,9 @@
     });
   });
 </script>
+
 <script src="JS/sidebar.js"></script>
 <script src="JS/footer.js"></script>
+
 </body>
 </html>

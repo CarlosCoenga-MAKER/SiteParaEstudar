@@ -2,43 +2,25 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-    <base href="../../">
-  <meta name="google-site-verification" content="J4ug0qYo2VRzHB0me1pfqMCYYU3hQHq0VelLbyCfPZk" />
+  <base href="../../">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>SiteParaEstudar · Semestres</title>
+  <title>SiteParaEstudar · História da Computação</title>
   <link rel="icon" href="../Style/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../Style/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Mesmo CSS do index.html, apenas com pequenos ajustes de layout */
     :root {
-      --bg: #0d0d0f;
-      --surface: #15151a;
-      --card: #1c1c24;
-      --border: #2a2a38;
-      --accent: #7c6dfa;
-      --accent2: #fa6d8a;
-      --accent3: #6dfabc;
-      --accent4: #fadc6d;
-      --text: #e8e8f0;
-      --muted: #7878a0;
-      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.3);
-      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.4);
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --bg: #0d0d0f; --surface: #15151a; --card: #1c1c24; --border: #2a2a38;
+      --accent: #7c6dfa; --accent2: #fa6d8a; --accent3: #6dfabc; --accent4: #fadc6d;
+      --text: #e8e8f0; --muted: #7878a0; --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--bg); color: var(--text);
       font-family: 'Inter', 'Syne', sans-serif; min-height: 100vh;
       overflow-x: hidden; line-height: 1.5; position: relative;
     }
-
     body::before {
       content: ''; position: fixed; inset: 0;
       background-image:
@@ -47,7 +29,6 @@
       background-size: 40px 40px; pointer-events: none; z-index: 0;
       mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 70%);
     }
-
     .glow {
       position: fixed; width: 600px; height: 600px; border-radius: 50%;
       filter: blur(140px); opacity: 0.15; pointer-events: none; z-index: 0;
@@ -62,7 +43,6 @@
       100% { transform: translate(20px, -20px) scale(1.08); }
     }
 
-    /* === HAMBURGER === */
     .hamburger-btn {
       position: fixed; top: 20px; left: 20px; z-index: 200;
       width: 44px; height: 44px; background: rgba(21,21,26,0.85);
@@ -80,7 +60,6 @@
     .hamburger-btn.open .hamburger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .hamburger-btn.open .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    /* === SIDEBAR === */
     .sidebar-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.6);
       backdrop-filter: blur(4px); z-index: 250; opacity: 0;
@@ -104,7 +83,6 @@
       font-weight: 800; font-size: 18px; color: #fff;
     }
     .sidebar-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: var(--text); }
-
     .sidebar-nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
     .sidebar-link {
       display: flex; align-items: center; gap: 12px; padding: 12px 16px;
@@ -117,51 +95,41 @@
     .sidebar-link .icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
     .sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); text-align: center; font-family: 'Space Mono', monospace; }
 
-    /* === PÁGINA SEMESTRES === */
-    .semestres-page {
+    .historia-page {
       min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; justify-content: center; text-align: center;
       padding: 60px 20px; position: relative; z-index: 1;
     }
-
-    .semestres-title {
+    .historia-title {
       font-family: 'Syne', sans-serif; font-size: clamp(32px, 5vw, 48px);
       font-weight: 800; letter-spacing: -1px;
-      background: linear-gradient(135deg, #ffffff 20%, var(--accent) 50%, var(--accent3) 100%);
+      background: linear-gradient(135deg, #ffffff 20%, var(--accent) 50%, var(--accent2) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; margin-bottom: 12px;
     }
-
-    .semestres-subtitle {
-      color: var(--muted); font-size: 16px; margin-bottom: 40px;
+    .historia-subtitle { color: var(--muted); font-size: 16px; margin-bottom: 40px; max-width: 600px; }
+    .periodos-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px; width: 100%; max-width: 900px;
     }
-
-    .semestres-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px; width: 100%; max-width: 700px;
+    .btn-periodo {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 24px 16px; border-radius: 16px; background: var(--card);
+      border: 1px solid var(--border); text-decoration: none; color: var(--text);
+      transition: all var(--transition); gap: 8px;
     }
-
-    .btn-semestre {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 20px 16px; border-radius: 16px; font-family: 'Syne', sans-serif;
-      font-size: 18px; font-weight: 700; cursor: pointer; border: none;
-      transition: all 0.3s ease; text-decoration: none; color: #fff;
-      background: linear-gradient(135deg, var(--card), var(--surface));
-      border: 1px solid var(--border);
+    .btn-periodo:hover {
+      transform: translateY(-4px); border-color: var(--accent);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
     }
-
-    .btn-semestre:hover {
-      transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-      border-color: var(--accent);
-    }
-
-    .btn-semestre .num { font-size: 24px; }
-    .btn-semestre .label { font-size: 14px; font-weight: 400; color: var(--muted); }
+    .btn-periodo .periodo-icon { font-size: 32px; line-height: 1; }
+    .btn-periodo .periodo-titulo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; }
+    .btn-periodo .periodo-ano { font-size: 13px; color: var(--muted); }
 
     @media (max-width: 600px) {
       .hamburger-btn { top: 12px; left: 12px; width: 38px; height: 38px; }
-      .semestres-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .btn-semestre { padding: 16px 12px; font-size: 16px; }
+      .periodos-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .btn-periodo { padding: 18px 12px; }
     }
   </style>
 </head>
@@ -171,43 +139,45 @@
 <div class="glow glow-2"></div>
 <div class="glow glow-3"></div>
 
+<main class="historia-page">
+  <h1 class="historia-title">História da Computação</h1>
+  <p class="historia-subtitle">Explore os marcos e períodos que moldaram a tecnologia que usamos hoje</p>
 
-
-<!-- CONTEÚDO PRINCIPAL -->
-<main class="semestres-page">
-  <h1 class="semestres-title">Escolha seu Semestre</h1>
-  <p class="semestres-subtitle">Navegue pelos conteúdos organizados por período</p>
-
-  <div class="semestres-grid">
-    <a href="/pages/home/Home1Semestre.html" class="btn-semestre">
-      <span class="num">1</span><span class="label">º Semestre</span>
+  <div class="periodos-grid">
+    <a href="/pages/Computação/Pre-Computacao.html" class="btn-periodo">
+      <span class="periodo-icon">🧮</span>
+      <span class="periodo-titulo">Pré-computação</span>
+      <span class="periodo-ano">Até 1940</span>
     </a>
-    <a href="/pages/home/Home2Semestre.html" class="btn-semestre">
-      <span class="num">2</span><span class="label">º Semestre</span>
+    <a href="/pages/Computação/PrimeirosComputadores.html" class="btn-periodo">
+      <span class="periodo-icon">💡</span>
+      <span class="periodo-titulo">Primeiros Computadores</span>
+      <span class="periodo-ano">1940 - 1950</span>
     </a>
-    <a href="/pages/home/Home3Semestre.html" class="btn-semestre">
-      <span class="num">3</span><span class="label">º Semestre</span>
+    <a href="/pages/Computação/Mainframes.html" class="btn-periodo">
+      <span class="periodo-icon">🖥️</span>
+      <span class="periodo-titulo">Mainframes</span>
+      <span class="periodo-ano">1950 - 1970</span>
     </a>
-    <a href="/pages/home/Home4Semestre.html" class="btn-semestre">
-      <span class="num">4</span><span class="label">º Semestre</span>
+    <a href="/pages/Computação/ComputadoresPessoais.html" class="btn-periodo">
+      <span class="periodo-icon">💻</span>
+      <span class="periodo-titulo">Computadores Pessoais</span>
+      <span class="periodo-ano">1970 - 1990</span>
     </a>
-    <a href="/pages/home/Home5Semestre.html" class="btn-semestre">
-      <span class="num">5</span><span class="label">º Semestre</span>
+    <a href="/pages/Computação/Internet.html" class="btn-periodo">
+      <span class="periodo-icon">🌐</span>
+      <span class="periodo-titulo">Internet</span>
+      <span class="periodo-ano">1990 - 2000</span>
     </a>
-    <a href="/pages/home/Home6Semestre.html" class="btn-semestre">
-      <span class="num">6</span><span class="label">º Semestre</span>
-    </a>
-     <a href="/pages/home/Home7Semestre.html" class="btn-semestre">
-      <span class="num">7</span><span class="label">º Semestre</span>
-    </a>
-     <a href="/pages/home/Home8Semestre.html" class="btn-semestre">
-      <span class="num">8</span><span class="label">º Semestre</span>
+    <a href="/pages/Computação/EraDigital.html" class="btn-periodo">
+      <span class="periodo-icon">📱</span>
+      <span class="periodo-titulo">Era Digital</span>
+      <span class="periodo-ano">2000 - Atual</span>
     </a>
   </div>
 </main>
 
 <script>
-  // Sidebar toggle
   const hamburgerBtn = document.getElementById('hamburgerBtn');
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('sidebarOverlay');
@@ -221,7 +191,6 @@
   hamburgerBtn.addEventListener('click', toggleSidebar);
   overlay.addEventListener('click', toggleSidebar);
 
-  // Fecha sidebar ao clicar em um link (mobile)
   document.querySelectorAll('.sidebar-link').forEach(link => {
     link.addEventListener('click', () => {
       if (window.innerWidth <= 768) toggleSidebar();

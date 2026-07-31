@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <base href="../../">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mainframes · História da Computação</title>
+  <link rel="icon" href="../../Style/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../Style/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Mesmo CSS base das páginas de história */
+    :root {
+      --bg: #0d0d0f; --surface: #15151a; --card: #1c1c24; --border: #2a2a38;
+      --accent: #7c6dfa; --accent2: #fa6d8a; --accent3: #6dfabc; --accent4: #fadc6d;
+      --text: #e8e8f0; --muted: #7878a0; --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', 'Syne', sans-serif; min-height: 100vh;
+      line-height: 1.6; position: relative;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(124,109,250,0.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(124,109,250,0.04) 1px, transparent 1px);
+      background-size: 40px 40px; pointer-events: none; z-index: 0;
+      mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 70%);
+    }
+    .glow {
+      position: fixed; width: 600px; height: 600px; border-radius: 50%;
+      filter: blur(140px); opacity: 0.15; pointer-events: none; z-index: 0;
+      animation: floatGlow 15s infinite alternate ease-in-out;
+    }
+    .glow-1 { background: var(--accent); top: -150px; left: -150px; }
+    .glow-2 { background: var(--accent2); bottom: -150px; right: -150px; animation-delay: -5s; }
+    @keyframes floatGlow {
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(20px, -20px) scale(1.08); }
+    }
+
+    .hamburger-btn {
+      position: fixed; top: 20px; left: 20px; z-index: 200;
+      width: 44px; height: 44px; background: rgba(21,21,26,0.85);
+      backdrop-filter: blur(16px); border: 1px solid var(--border);
+      border-radius: 12px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 5px;
+      cursor: pointer; transition: all var(--transition);
+    }
+    .hamburger-btn:hover { border-color: var(--accent); }
+    .hamburger-line {
+      width: 20px; height: 2px; background: var(--text); border-radius: 2px;
+      transition: all 0.3s ease; transform-origin: center;
+    }
+    .hamburger-btn.open .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger-btn.open .hamburger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger-btn.open .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .sidebar-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px); z-index: 250; opacity: 0;
+      pointer-events: none; transition: opacity 0.3s ease;
+    }
+    .sidebar-overlay.show { opacity: 1; pointer-events: all; }
+
+    .sidebar {
+      position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
+      background: rgba(21,21,26,0.95); backdrop-filter: blur(20px);
+      border-right: 1px solid var(--border); z-index: 260;
+      transform: translateX(-100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column; padding: 0;
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-header { padding: 24px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+    .sidebar-logo {
+      width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), var(--accent3));
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 18px; color: #fff;
+    }
+    .sidebar-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: var(--text); }
+    .sidebar-nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+      border-radius: 10px; color: var(--muted); text-decoration: none;
+      font-size: 14px; font-weight: 500; transition: all var(--transition);
+    }
+    .sidebar-link:hover, .sidebar-link.active { background: rgba(124,109,250,0.1); color: var(--text); }
+    .sidebar-link.active { background: rgba(124,109,250,0.15); border: 1px solid rgba(124,109,250,0.3); color: #fff; }
+    .sidebar-link .icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); text-align: center; font-family: 'Space Mono', monospace; }
+
+    .content {
+      max-width: 900px; margin: 0 auto; padding: 80px 20px 40px;
+      position: relative; z-index: 1;
+    }
+    .content h1 {
+      font-family: 'Syne', sans-serif; font-size: clamp(32px, 4vw, 48px);
+      font-weight: 800; letter-spacing: -1px;
+      background: linear-gradient(135deg, #ffffff 20%, var(--accent) 50%, var(--accent2) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 8px;
+    }
+    .content .periodo-info {
+      color: var(--muted); font-size: 14px; margin-bottom: 30px;
+      font-family: 'Space Mono', monospace;
+    }
+    .content img {
+      width: 100%; max-width: 700px; height: auto;
+      border-radius: 16px; border: 1px solid var(--border);
+      margin: 20px 0; display: block;
+    }
+    .content .texto {
+      font-size: 16px; color: var(--text); line-height: 1.8;
+    }
+    .content .texto p { margin-bottom: 16px; }
+    .content .texto strong { color: var(--accent); }
+    .voltar {
+      display: inline-block; margin-top: 30px; padding: 12px 24px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; color: var(--text); text-decoration: none;
+      font-weight: 600; transition: all var(--transition);
+    }
+    .voltar:hover { border-color: var(--accent); transform: translateX(-4px); }
+    @media (max-width: 600px) { .hamburger-btn { top: 12px; left: 12px; width: 38px; height: 38px; } }
+  </style>
+</head>
+<body>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+
+<main class="content">
+  <h1>🖥️ Mainframes</h1>
+  <div class="periodo-info">1950 - 1970 · Computadores para grandes empresas</div>
+
+  <div class="texto">
+    <p>Os mainframes foram os computadores que dominaram o cenário empresarial e governamental por décadas. Eram máquinas enormes, caras e poderosas, capazes de processar grandes volumes de dados para milhares de usuários simultaneamente.</p>
+
+    <p><strong>IBM System/360 (1964)</strong> - Foi uma das famílias de mainframes mais bem-sucedidas da história. Introduziu o conceito de compatibilidade entre diferentes modelos, permitindo que empresas atualizassem seus sistemas sem precisar reescrever todo o software. O investimento da IBM neste projeto foi de cerca de 5 bilhões de dólares (equivalentes a 40 bilhões atuais).</p>
+
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5ZMGjstA3l_ttXSeIwjJ3-4L1B1zDXLPer0TdNVcO7g&s=10" alt="IBM System/360" loading="lazy">
+
+    <p><strong>A Revolução dos Transistores</strong> - A principal inovação dos mainframes foi a substituição das válvulas pelos transistores, que eram menores, mais rápidos, mais confiáveis e consumiam menos energia. Isso permitiu que os computadores se tornassem mais poderosos e acessíveis.</p>
+
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLbJd9Mdl2tYaGfeWbWtssU245q38KRZCXzRotoZHreA&s=10" alt="IBM 704" loading="lazy">
+
+    <p><strong>Linguagens de Programação</strong> - Foi nessa época que surgiram linguagens como FORTRAN (1957) e COBOL (1959), que tornaram a programação muito mais acessível para cientistas e empresários, não apenas para engenheiros.</p>
+
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-m8CgI6qA9NdM4e8LXyfRppH3pBKvA4lsYYwg69CaYw&s=10" alt="FORTRAN" loading="lazy">
+
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD6GfRPlr0l4CbJlYXukA1MlQTfSowqdRPnOqcAdfnqA&s=10" alt="COBOL" loading="lazy">
+    <p><strong>Uso Corporativo</strong> - Empresas como bancos, seguradoras e agências governamentais adotaram mainframes para processamento de folhas de pagamento, controle de estoques, reservas aéreas e processamento de transações bancárias. O sistema SABRE da American Airlines, por exemplo, revolucionou o sistema de reservas de passagens aéreas.</p>
+  </div>
+
+  <a href="/pages/home/HomeHistoriaComputacao.html" class="voltar">← Voltar para a linha do tempo</a>
+</main>
+
+<script>
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  function toggleSidebar() { sidebar.classList.toggle('open'); overlay.classList.toggle('show'); hamburgerBtn.classList.toggle('open'); }
+  hamburgerBtn.addEventListener('click', toggleSidebar);
+  overlay.addEventListener('click', toggleSidebar);
+  document.querySelectorAll('.sidebar-link').forEach(link => link.addEventListener('click', () => { if (window.innerWidth <= 768) toggleSidebar(); }));
+</script>
+
+<script src="JS/sidebar.js"></script>
+<script src="JS/footer.js"></script>
+</body>
+</html>

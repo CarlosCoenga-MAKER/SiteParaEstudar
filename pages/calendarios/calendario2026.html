@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <base href="../../">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calendário UFMS 2026 · SiteParaEstudar</title>
   <link rel="icon" href="Style/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="Style/style.css" />
@@ -118,6 +118,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     .page-header .sub .badge {
@@ -133,8 +134,8 @@
     .legenda {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px 28px;
-      padding: 10px 20px;
+      gap: 12px 24px;
+      padding: 12px 20px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
@@ -172,11 +173,12 @@
     .calendario-wrapper {
       flex: 1;
       min-width: 0;
+      width: 100%;
     }
 
     .calendario-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 18px;
       margin-bottom: 18px;
     }
@@ -219,13 +221,13 @@
     .dias-semana {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      padding: 6px 10px 2px;
+      padding: 6px 8px 2px;
       gap: 2px;
     }
 
     .dias-semana span {
       text-align: center;
-      font-size: 9px;
+      font-size: 10px;
       font-weight: 600;
       color: var(--muted);
       text-transform: uppercase;
@@ -235,7 +237,7 @@
     .dias-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      padding: 0 10px 10px;
+      padding: 0 8px 10px;
       gap: 2px;
     }
 
@@ -245,7 +247,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding: 3px 1px;
+      padding: 4px 1px;
       border-radius: 6px;
       font-size: 11px;
       font-weight: 500;
@@ -257,6 +259,7 @@
       border: 1px solid transparent;
       background: transparent;
       font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .dia-cell .num {
@@ -275,7 +278,7 @@
       width: 5px;
       height: 5px;
       border-radius: 50%;
-      margin-top: 1px;
+      margin-top: 2px;
       flex-shrink: 0;
     }
 
@@ -295,9 +298,9 @@
     }
 
     .dia-cell.selecionado {
-      background: rgba(124,109,250,0.18);
+      background: rgba(124,109,250,0.22);
       border-color: var(--accent);
-      box-shadow: 0 0 20px rgba(124,109,250,0.1);
+      box-shadow: 0 0 15px rgba(124,109,250,0.2);
     }
 
     .painel-detalhes {
@@ -313,6 +316,7 @@
       max-height: calc(100vh - 40px);
       overflow-y: auto;
       transition: all var(--transition);
+      scroll-margin-top: 20px;
     }
 
     .painel-detalhes::-webkit-scrollbar {
@@ -349,7 +353,7 @@
       color: var(--muted);
       font-size: 14px;
       text-align: center;
-      padding: 30px 0;
+      padding: 20px 0;
     }
 
     .painel-detalhes .evento-detalhe {
@@ -378,6 +382,7 @@
     .painel-detalhes .evento-detalhe .ev-desc {
       font-size: 13px;
       color: var(--text);
+      line-height: 1.4;
     }
 
     .painel-detalhes .evento-detalhe .ev-tag {
@@ -387,7 +392,7 @@
       padding: 2px 10px;
       border-radius: 12px;
       display: inline-block;
-      margin-top: 4px;
+      margin-top: 6px;
       letter-spacing: 0.3px;
     }
 
@@ -498,10 +503,11 @@
     .prazo-item {
       display: flex;
       justify-content: space-between;
-      padding: 4px 0;
+      padding: 6px 0;
       border-bottom: 1px solid rgba(42,42,56,0.3);
       font-size: 12px;
       color: var(--muted);
+      gap: 10px;
     }
 
     .prazo-item:last-child {
@@ -511,6 +517,7 @@
     .prazo-item .data {
       color: var(--text);
       font-weight: 600;
+      white-space: nowrap;
     }
 
     .footer-note {
@@ -520,6 +527,7 @@
       color: var(--muted);
       font-size: 11px;
       font-family: 'Space Mono', monospace;
+      line-height: 1.5;
     }
 
     .footer-note a {
@@ -530,36 +538,26 @@
       text-decoration: underline;
     }
 
-    .btn-voltar {
-      display: inline-block;
-      padding: 10px 28px;
-      background: rgba(124,109,250,0.1);
-      color: var(--accent);
-      border: 1px solid rgba(124,109,250,0.2);
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 13px;
-      transition: all var(--transition);
-      margin-bottom: 18px;
-    }
-
-    .btn-voltar:hover {
-      background: rgba(124,109,250,0.2);
-      transform: translateY(-2px);
-    }
-
+    /* RESPONSIVIDADE PARA CELULARES E TABLETS */
     @media (max-width: 900px) {
+      body {
+        padding: 12px;
+      }
       .main-layout {
         flex-direction: column;
       }
       .painel-detalhes {
         width: 100%;
         max-width: 100%;
-        position: static;
+        position: relative;
+        top: 0;
         max-height: none;
+        margin-top: 10px;
         margin-bottom: 18px;
-        order: -1;
+        order: 2; /* Posiciona o painel abaixo do calendário no celular */
+      }
+      .calendario-wrapper {
+        order: 1;
       }
     }
 
@@ -582,31 +580,31 @@
       }
       .legenda {
         gap: 10px 16px;
-        padding: 8px 14px;
+        padding: 10px 14px;
       }
       .legenda-item {
-        font-size: 10px;
+        font-size: 11px;
       }
-      .painel-detalhes {
-        padding: 14px 16px;
+      .dia-cell {
+        min-height: 40px;
       }
     }
 
     @media (max-width: 450px) {
-      body { padding: 10px; }
+      body { padding: 8px; }
       .dias-grid, .dias-semana {
-        padding-left: 4px;
-        padding-right: 4px;
+        padding-left: 2px;
+        padding-right: 2px;
       }
       .dia-cell {
         font-size: 10px;
-        min-height: 32px;
+        min-height: 36px;
       }
       .dia-cell .num {
-        font-size: 10px;
+        font-size: 11px;
       }
       .painel-detalhes .painel-titulo {
-        font-size: 14px;
+        font-size: 15px;
       }
     }
   </style>
@@ -621,6 +619,7 @@
   <header class="page-header">
     <h1>📅 <span>Calendário UFMS 2026</span></h1>
     <div class="sub">
+      <span class="badge">📍 Ponta Porã e Câmpus</span>
       <span class="badge">🎓 Graduação</span>
       <span class="badge">🧪 Pós-Graduação</span>
       <span style="font-size:11px; color:var(--muted);">· Res. 437/2025</span>
@@ -630,7 +629,7 @@
   <div class="legenda">
     <span class="legenda-item"><span class="cor cor-accent"></span> Graduação</span>
     <span class="legenda-item"><span class="cor cor-accent3"></span> Pós-Graduação</span>
-    <span class="legenda-item"><span class="cor cor-feriado"></span> Feriado / Não letivo</span>
+    <span class="legenda-item"><span class="cor cor-feriado"></span> Feriado / Recesso / Férias</span>
     <span class="legenda-item"><span class="cor cor-evento"></span> Evento acadêmico</span>
     <span class="legenda-item"><span class="cor cor-accent4"></span> Período letivo</span>
   </div>
@@ -680,6 +679,7 @@
 
   <div class="footer-note">
     📄 Calendário aprovado pela Resolução nº 437-COUN/UFMS, de 28 de agosto de 2025.<br />
+    Inclui feriados municipais de Ponta Porã/MS e recessos acadêmicos oficiais.<br />
     SEI nº 23104.000033/2025-53 · <a href="index.html">SiteParaEstudar</a>
   </div>
 
@@ -687,50 +687,66 @@
 
 <script>
   // ============================================================
-  // DADOS DO CALENDÁRIO 2026
+  // DADOS DO CALENDÁRIO 2026 (Com Feriados de Ponta Porã e Férias)
   // ============================================================
   const eventosPorDia = {
+    // Recesso e Férias de Janeiro
+    '2026-01-01': [{ desc: 'Confraternização Universal (Feriado Nacional) · Recesso Acadêmico', tipo: 'feriado' }],
+    '2026-01-02': [{ desc: 'Recesso Acadêmico / Férias Discentes', tipo: 'feriado' }],
+    '2026-01-05': [{ desc: 'Recesso Acadêmico / Férias Discentes', tipo: 'feriado' }],
+
+    // Fevereiro
     '2026-02-02': [{ desc: 'Início do Período de Verão', tipo: 'grad' }],
     '2026-02-09': [{ desc: 'Semana Pedagógica (professores)', tipo: 'evento' }],
     '2026-02-10': [{ desc: 'Início matrícula ingressantes – Residências', tipo: 'pos' }],
     '2026-02-13': [{ desc: 'Fim da Semana Pedagógica', tipo: 'evento' }],
     '2026-02-16': [{ desc: 'Carnaval (não letivo)', tipo: 'feriado' }],
     '2026-02-17': [{ desc: 'Carnaval (não letivo)', tipo: 'feriado' }],
-    '2026-02-18': [{ desc: 'Cinzas (não letivo)', tipo: 'feriado' }],
+    '2026-02-18': [{ desc: 'Quarta-feira de Cinzas (não letivo)', tipo: 'feriado' }],
     '2026-02-23': [{ desc: 'Formação para Coordenadores de Curso', tipo: 'evento' }],
     '2026-02-24': [{ desc: 'Matrícula regulares – stricto sensu', tipo: 'pos' }],
     '2026-02-26': [{ desc: 'Solicitação Estudante Especial – stricto sensu', tipo: 'pos' }],
     '2026-02-27': [{ desc: 'Solicitação Estudante Especial – stricto sensu', tipo: 'pos' }],
     '2026-02-28': [{ desc: 'Término do Período de Verão', tipo: 'grad' }],
-    '2026-03-02': [{ desc: 'Início 2026/1 · Início solicitação Abreviação de Curso', tipo: 'grad' }],
-    '2026-03-02-2': [{ desc: '2ª etapa Renovação de Matrícula', tipo: 'grad' }],
+
+    // Março
+    '2026-03-02': [
+      { desc: 'Início do Semestre Letivo 2026/1', tipo: 'grad' },
+      { desc: '2ª etapa Renovação de Matrícula', tipo: 'grad' }
+    ],
     '2026-03-06': [{ desc: 'Fim da Semana de Recepção dos Ingressantes', tipo: 'evento' }],
     '2026-03-13': [{ desc: 'Fim da integração em disciplinas EaD', tipo: 'evento' }],
-    '2026-03-19': [{ desc: 'São José · Feriado em Coxim e Ponta Porã', tipo: 'feriado' }],
-    '2026-04-03': [{ desc: 'Paixão de Cristo (não letivo)', tipo: 'feriado' }],
-    '2026-04-04': [{ desc: 'Não letivo', tipo: 'feriado' }],
+    '2026-03-19': [{ desc: 'Dia de São José · Feriado Municipal em Ponta Porã e Coxim (Não letivo)', tipo: 'feriado' }],
+
+    // Abril
+    '2026-04-03': [{ desc: 'Paixão de Cristo (Feriado Nacional / Não letivo)', tipo: 'feriado' }],
+    '2026-04-04': [{ desc: 'Sábado de Aleluia (Não letivo)', tipo: 'feriado' }],
     '2026-04-11': [{ desc: 'Aniversário de Coxim (não letivo)', tipo: 'feriado' }],
     '2026-04-13': [{ desc: 'Início Solicitação de Mobilidade Acadêmica Nacional', tipo: 'grad' }],
     '2026-04-17': [{ desc: 'Abertura da Lista de Ofertas – Inverno/2026/2', tipo: 'grad' }],
-    '2026-04-20': [{ desc: 'Não letivo', tipo: 'feriado' }],
-    '2026-04-21': [{ desc: 'Tiradentes (não letivo)', tipo: 'feriado' }],
+    '2026-04-20': [{ desc: 'Recesso (Não letivo)', tipo: 'feriado' }],
+    '2026-04-21': [{ desc: 'Tiradentes (Feriado Nacional / Não letivo)', tipo: 'feriado' }],
     '2026-04-30': [{ desc: 'Aniversário de Nova Andradina · Prazo Abreviação de Curso', tipo: 'grad' }],
-    '2026-05-01': [{ desc: 'Dia do Trabalho (não letivo)', tipo: 'feriado' }],
+
+    // Maio
+    '2026-05-01': [{ desc: 'Dia do Trabalho (Feriado Nacional / Não letivo)', tipo: 'feriado' }],
     '2026-05-02': [{ desc: 'Não letivo', tipo: 'feriado' }],
-    '2026-05-04': [{ desc: 'Semana de Desenvolvimento Profissional', tipo: 'evento' }],
-    '2026-05-05': [{ desc: 'Semana de Desenvolvimento Profissional', tipo: 'evento' }],
-    '2026-05-06': [{ desc: 'Semana de Desenvolvimento Profissional', tipo: 'evento' }],
-    '2026-05-07': [{ desc: 'Semana de Desenvolvimento Profissional', tipo: 'evento' }],
-    '2026-05-08': [{ desc: 'Semana de Desenvolvimento Profissional', tipo: 'evento' }],
+    '2026-05-04': [{ desc: 'Semana de Desenvolvimento Profissional (Avaliações suspensas)', tipo: 'evento' }],
+    '2026-05-05': [{ desc: 'Semana de Desenvolvimento Profissional (Avaliações suspensas)', tipo: 'evento' }],
+    '2026-05-06': [{ desc: 'Semana de Desenvolvimento Profissional (Avaliações suspensas)', tipo: 'evento' }],
+    '2026-05-07': [{ desc: 'Semana de Desenvolvimento Profissional (Avaliações suspensas)', tipo: 'evento' }],
+    '2026-05-08': [{ desc: 'Semana de Desenvolvimento Profissional (Avaliações suspensas)', tipo: 'evento' }],
     '2026-05-13': [{ desc: 'Padroeira de Naviraí (não letivo)', tipo: 'feriado' }],
     '2026-05-19': [{ desc: 'III Seminário de Extensão UFMS Digital', tipo: 'evento' }],
     '2026-05-20': [{ desc: 'III Seminário de Extensão UFMS Digital', tipo: 'evento' }],
     '2026-05-21': [{ desc: 'III Seminário de Extensão UFMS Digital', tipo: 'evento' }],
     '2026-05-22': [{ desc: 'III Seminário de Extensão UFMS Digital', tipo: 'evento' }],
     '2026-05-31': [{ desc: 'Padroeira de Nova Andradina (não letivo)', tipo: 'feriado' }],
+
+    // Junho
     '2026-06-01': [{ desc: 'Matrícula Estudante Especial – 2026/2', tipo: 'grad' }],
-    '2026-06-04': [{ desc: 'Corpus Christi (não letivo)', tipo: 'feriado' }],
-    '2026-06-05': [{ desc: 'Não letivo', tipo: 'feriado' }],
+    '2026-06-04': [{ desc: 'Corpus Christi (Não letivo)', tipo: 'feriado' }],
+    '2026-06-05': [{ desc: 'Recesso (Não letivo)', tipo: 'feriado' }],
     '2026-06-06': [{ desc: 'Não letivo', tipo: 'feriado' }],
     '2026-06-08': [{ desc: 'Previsão Edital transferência externa – 2026/2', tipo: 'grad' }],
     '2026-06-10': [{ desc: 'Fim Matrícula Estudante Especial – 2026/2', tipo: 'grad' }],
@@ -743,63 +759,68 @@
     '2026-06-27': [{ desc: 'Término do Período Letivo 2026/1', tipo: 'grad' }],
     '2026-06-29': [{ desc: 'Início do Período de Inverno · Chapadão do Sul (Padroeiro)', tipo: 'grad' }],
     '2026-06-30': [{ desc: 'Matrícula dos estudantes – Inverno', tipo: 'grad' }],
+
+    // Julho (Recesso / Férias de Inverno)
     '2026-07-04': [{ desc: 'Aniversário de Paranaíba (não letivo)', tipo: 'feriado' }],
     '2026-07-05': [{ desc: '47 anos da UFMS', tipo: 'evento' }],
-    '2026-07-13': [{ desc: '1ª etapa Renovação de Matrícula – 2026/2', tipo: 'grad' }],
+    '2026-07-13': [{ desc: '1ª etapa Renovação de Matrícula 2026/2 · Início Férias/Recesso Intersemestral', tipo: 'grad' }],
     '2026-07-14': [{ desc: '1ª etapa Renovação de Matrícula – 2026/2', tipo: 'grad' }],
-    '2026-07-18': [{ desc: 'Aniversário de Ponta Porã (não letivo)', tipo: 'feriado' }],
+    '2026-07-18': [{ desc: 'Aniversário de Ponta Porã (Feriado Municipal · Não letivo)', tipo: 'feriado' }],
     '2026-07-20': [{ desc: 'Matrícula regulares – stricto sensu 2026/2', tipo: 'pos' }],
     '2026-07-21': [{ desc: 'Matrícula regulares – stricto sensu 2026/2', tipo: 'pos' }],
     '2026-07-22': [{ desc: 'Solicitação Estudante Especial – stricto sensu 2026/2', tipo: 'pos' }],
     '2026-07-23': [{ desc: 'Solicitação Estudante Especial – stricto sensu 2026/2', tipo: 'pos' }],
-    '2026-07-25': [{ desc: 'Término do Período de Inverno', tipo: 'grad' }],
+    '2026-07-25': [{ desc: 'Término do Período de Inverno / Recesso Acadêmico', tipo: 'grad' }],
     '2026-07-26': [{ desc: 'Padroeira de Paranaíba (não letivo)', tipo: 'feriado' }],
-    '2026-07-27': [{ desc: 'Início 2026/2 · Início Colação de Grau 2026/1', tipo: 'grad' }],
+    '2026-07-27': [{ desc: 'Início do Semestre Letivo 2026/2 · Início Colação de Grau 2026/1', tipo: 'grad' }],
     '2026-07-31': [{ desc: 'Validação de Matrícula – 2026/2', tipo: 'grad' }],
+
+    // Agosto
     '2026-08-03': [{ desc: 'Prazo cadastro lista ofertas – 2026/2', tipo: 'grad' }],
-    '2026-08-07': [{ desc: 'Independência do Brasil (não letivo)', tipo: 'feriado' }],
     '2026-08-10': [{ desc: 'Prazo Planos de Ensino – 2026/2', tipo: 'grad' }],
     '2026-08-16': [{ desc: '1º ajuste de matrícula – 2026/2', tipo: 'grad' }],
     '2026-08-18': [{ desc: 'Fim 1º ajuste de matrícula', tipo: 'grad' }],
     '2026-08-21': [{ desc: 'Aniversário de Corumbá (não letivo)', tipo: 'feriado' }],
     '2026-08-23': [{ desc: '2º ajuste de matrícula – 2026/2', tipo: 'grad' }],
     '2026-08-25': [{ desc: 'Fim 2º ajuste · Liberação notas/frequências Inverno', tipo: 'grad' }],
+
+    // Setembro
     '2026-09-01': [{ desc: 'Abertura Lista de Ofertas – Verão/2027/1', tipo: 'grad' }],
-    '2026-09-07': [{ desc: 'Independência do Brasil (não letivo)', tipo: 'feriado' }],
-    '2026-09-11': [{ desc: 'Aniversário de Mato Grosso do Sul (não letivo)', tipo: 'feriado' }],
-    '2026-09-12': [{ desc: 'Nossa Sra. Aparecida (não letivo)', tipo: 'feriado' }],
-    '2026-09-13': [{ desc: 'Antecipação do Dia do Servidor Público (não letivo)', tipo: 'feriado' }],
-    '2026-09-14': [{ desc: 'Não letivo', tipo: 'feriado' }],
-    '2026-09-17': [{ desc: 'Não letivo', tipo: 'feriado' }],
-    '2026-09-19': [{ desc: 'INTEGRA UFMS 2026', tipo: 'evento' }],
-    '2026-09-20': [{ desc: 'INTEGRA UFMS 2026', tipo: 'evento' }],
-    '2026-09-21': [{ desc: 'INTEGRA UFMS 2026', tipo: 'evento' }],
-    '2026-09-22': [{ desc: 'INTEGRA UFMS 2026', tipo: 'evento' }],
+    '2026-09-07': [{ desc: 'Independência do Brasil (Feriado Nacional / Não letivo)', tipo: 'feriado' }],
     '2026-09-23': [{ desc: 'INTEGRA UFMS 2026 · Chapadão do Sul (Aniversário)', tipo: 'feriado' }],
     '2026-09-24': [{ desc: 'Publicação alterações PPC – 2027/1', tipo: 'grad' }],
-    '2026-10-02': [{ desc: 'Finados (não letivo)', tipo: 'feriado' }],
-    '2026-10-11': [{ desc: 'Aniversário de Naviraí (não letivo)', tipo: 'feriado' }],
-    '2026-10-19': [{ desc: 'INTEGRA UFMS 2026 (avaliações suspensas)', tipo: 'evento' }],
-    '2026-10-20': [{ desc: 'INTEGRA UFMS 2026 (avaliações suspensas)', tipo: 'evento' }],
-    '2026-10-21': [{ desc: 'INTEGRA UFMS 2026 (avaliações suspensas)', tipo: 'evento' }],
-    '2026-10-22': [{ desc: 'INTEGRA UFMS 2026 (avaliações suspensas)', tipo: 'evento' }],
-    '2026-10-23': [{ desc: 'INTEGRA UFMS 2026 (avaliações suspensas)', tipo: 'evento' }],
-    '2026-11-15': [{ desc: 'Proclamação da República (não letivo)', tipo: 'feriado' }],
-    '2026-11-20': [{ desc: 'Consciência Negra (não letivo)', tipo: 'feriado' }],
+
+    // Outubro
+    '2026-10-11': [{ desc: 'Criação do Estado de Mato Grosso do Sul (Feriado Estadual / Não letivo)', tipo: 'feriado' }],
+    '2026-10-12': [{ desc: 'Nossa Senhora Aparecida (Feriado Nacional / Não letivo)', tipo: 'feriado' }],
+    '2026-10-19': [{ desc: 'INTEGRA UFMS 2026 (Avaliações presenciais suspensas)', tipo: 'evento' }],
+    '2026-10-20': [{ desc: 'INTEGRA UFMS 2026 (Avaliações presenciais suspensas)', tipo: 'evento' }],
+    '2026-10-21': [{ desc: 'INTEGRA UFMS 2026 (Avaliações presenciais suspensas)', tipo: 'evento' }],
+    '2026-10-22': [{ desc: 'INTEGRA UFMS 2026 (Avaliações presenciais suspensas)', tipo: 'evento' }],
+    '2026-10-23': [{ desc: 'INTEGRA UFMS 2026 (Avaliações presenciais suspensas)', tipo: 'evento' }],
+    '2026-10-28': [{ desc: 'Dia do Servidor Público (Não letivo)', tipo: 'feriado' }],
+
+    // Novembro
+    '2026-11-02': [{ desc: 'Finados (Feriado Nacional / Não letivo)', tipo: 'feriado' }],
+    '2026-11-15': [{ desc: 'Proclamação da República (Feriado Nacional / Não letivo)', tipo: 'feriado' }],
+    '2026-11-20': [{ desc: 'Dia da Consciência Negra (Feriado Nacional / Não letivo)', tipo: 'feriado' }],
     '2026-11-21': [{ desc: 'Não letivo', tipo: 'feriado' }],
-    '2026-11-28': [{ desc: 'Término do Período Letivo 2026/2', tipo: 'grad' }],
+    '2026-11-28': [{ desc: 'Término do Semestre Letivo 2026/2', tipo: 'grad' }],
     '2026-11-30': [{ desc: 'Início Colação de Grau 2026/2', tipo: 'grad' }],
+
+    // Dezembro (Férias de Fim de Ano)
     '2026-12-02': [{ desc: 'Liberação notas e frequências – 2026/2', tipo: 'grad' }],
     '2026-12-04': [{ desc: 'Liberação notas – 2026/2 (Pós)', tipo: 'pos' }],
-    '2026-12-08': [{ desc: 'Padroeira de Aquidauana (não letivo)', tipo: 'feriado' }],
+    '2026-12-08': [{ desc: 'Dia da Imaculada Conceição / Padroeira de Ponta Porã e Aquidauana (Feriado Municipal)', tipo: 'feriado' }],
     '2026-12-19': [{ desc: 'Previsão Edital transferência externa – 2027/1', tipo: 'grad' }],
     '2026-12-20': [{ desc: 'Prazo cadastro Lista de Ofertas – Verão/2027/1', tipo: 'grad' }],
-    '2026-12-21': [{ desc: 'Prazo cadastro Lista de Ofertas – Verão/2027/1 (Pós)', tipo: 'pos' }],
-    '2026-12-25': [{ desc: 'Natal (não letivo)', tipo: 'feriado' }],
+    '2026-12-21': [{ desc: 'Início do Recesso Acadêmico de Fim de Ano / Férias Docentes e Discentes', tipo: 'feriado' }],
+    '2026-12-25': [{ desc: 'Natal (Feriado Nacional / Não letivo)', tipo: 'feriado' }],
+    '2026-12-31': [{ desc: 'Véspera de Ano Novo · Recesso Acadêmico', tipo: 'feriado' }]
   };
 
   function getEventos(dataStr) {
-    const chaves = Object.keys(eventosPorDia).filter(k => k.startsWith(dataStr));
+    const chaves = Object.keys(eventosPorDia).filter(k => k === dataStr || k.startsWith(dataStr + '-'));
     if (chaves.length === 0) return null;
     let eventos = [];
     chaves.forEach(k => {
@@ -816,6 +837,7 @@
   const container = document.getElementById('calendarioGrid');
   const painelData = document.getElementById('painelData');
   const painelConteudo = document.getElementById('painelConteudo');
+  const painelDetalhes = document.getElementById('painelDetalhes');
 
   const hoje = new Date();
   const hojeStr = hoje.getFullYear() + '-' +
@@ -887,7 +909,6 @@
             const dot2 = document.createElement('div');
             const tipo2 = tipos.includes('grad') ? 'grad' : 'evento';
             dot2.className = `dot-evento ${tipo2}`;
-            dot2.style.marginTop = '1px';
             cell.appendChild(dot2);
           }
         }
@@ -911,7 +932,7 @@
               if (ev.tipo === 'feriado') {
                 classeExtra = 'feriado';
                 tagClasse = 'ev-tag-feriado';
-                tagTexto = 'Feriado';
+                tagTexto = 'Feriado / Recesso';
               } else if (ev.tipo === 'pos') {
                 classeExtra = 'pos';
                 tagClasse = 'ev-tag-pos';
@@ -930,7 +951,12 @@
             });
             painelConteudo.innerHTML = html;
           } else {
-            painelConteudo.innerHTML = `<div class="sem-eventos">📭 Nenhum evento neste dia</div>`;
+            painelConteudo.innerHTML = `<div class="sem-eventos">📭 Nenhum evento acadêmico nesta data.</div>`;
+          }
+
+          // Rola a tela suavemente para o painel em celulares
+          if (window.innerWidth <= 900) {
+            painelDetalhes.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         });
 
