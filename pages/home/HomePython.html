@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <base href="../../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Programação em Python · SiteParaEstudar</title>
+    <link rel="icon" href="Style/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="Style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d0f;
+            --surface: #15151a;
+            --card: #1c1c24;
+            --border: #2a2a38;
+            --accent: #3776ab;
+            --accent2: #ffd43b;
+            --accent3: #4caf50;
+            --accent4: #ff6b6b;
+            --text: #e8e8f0;
+            --muted: #7878a0;
+            --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.3);
+            --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.4);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', 'Syne', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(55,118,171,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(55,118,171,0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+            mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 70%);
+        }
+
+        .glow {
+            position: fixed;
+            width: 600px; height: 600px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 15s infinite alternate ease-in-out;
+        }
+        .glow-1 { background: var(--accent); top: -150px; left: -150px; animation-delay: 0s; }
+        .glow-2 { background: var(--accent3); bottom: -150px; right: -150px; animation-delay: -5s; }
+        .glow-3 { background: var(--accent2); top: 40%; left: 50%; width: 400px; height: 400px; opacity: 0.08; animation-delay: -10s; }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0,0) scale(1); }
+            100% { transform: translate(20px, -20px) scale(1.08); }
+        }
+
+        /* ========== HAMBURGER MENU ========== */
+        .hamburger-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 200;
+            width: 44px;
+            height: 44px;
+            background: rgba(21, 21, 26, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: all var(--transition);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .hamburger-btn:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(55,118,171,0.2);
+        }
+        .hamburger-line {
+            width: 20px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+        .hamburger-btn.open .hamburger-line:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .hamburger-btn.open .hamburger-line:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .hamburger-btn.open .hamburger-line:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 250;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .sidebar-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(21, 21, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            z-index: 260;
+            transform: translateX(-100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            box-shadow: 5px 0 30px rgba(0,0,0,0.5);
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sidebar-logo {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+            color: #fff;
+        }
+        .sidebar-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow-y: auto;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all var(--transition);
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        .sidebar-link:hover {
+            background: rgba(55,118,171,0.1);
+            color: var(--text);
+        }
+        .sidebar-link.active {
+            background: rgba(55,118,171,0.15);
+            border: 1px solid rgba(55,118,171,0.3);
+            color: #fff;
+        }
+        .sidebar-link .icon {
+            width: 28px; height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--muted);
+            text-align: center;
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* ========== HOME PAGE ========== */
+        .home-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .home-logo {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--accent), var(--accent3));
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 30px;
+            box-shadow: 0 0 40px rgba(55,118,171,0.3);
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 40px rgba(55,118,171,0.3); }
+            50% { box-shadow: 0 0 70px rgba(55,118,171,0.5); }
+        }
+
+        .home-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(38px, 7vw, 64px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #ffffff 20%, var(--accent) 50%, var(--accent3) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 4px 20px rgba(55,118,171,0.2));
+        }
+
+        .home-subtitle {
+            color: var(--muted);
+            font-size: 17px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            margin-bottom: 50px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 24px;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 50px;
+            padding: 0 16px;
+        }
+
+        .math-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            text-align: left;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(4px);
+        }
+
+        .math-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .math-card:hover::before {
+            transform: scaleX(1.02);
+        }
+
+        .math-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: var(--accent);
+        }
+
+        .math-card-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .math-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .math-card p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .math-card-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .math-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            border: 1px solid;
+            font-weight: 600;
+        }
+
+        .back-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: color var(--transition);
+            background: rgba(21,21,26,0.6);
+            padding: 6px 14px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+        }
+        .back-home-btn:hover { color: var(--accent); background: rgba(55,118,171,0.1); }
+
+        @media (max-width: 680px) {
+            .hamburger-btn { top: 12px; left: 12px; width: 38px; height: 38px; z-index: 200; }
+            .home-title { font-size: 32px; }
+            .cards-grid { grid-template-columns: 1fr; gap: 18px; padding: 0 12px; }
+            .math-card { padding: 22px 18px; }
+            .home-page { padding: 80px 16px 40px; }
+        }
+        @media (min-width: 1200px) {
+            .cards-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
+
+
+<!-- ========== HOME PAGE ========== -->
+<div class="home-page">
+    <a href="/pages/home/Home2Semestre.html" class="back-home-btn">← Voltar ao Início</a>
+    <div class="home-logo">🐍</div>
+    <h1 class="home-title">Programação em Python</h1>
+    <p class="home-subtitle">Ferramentas e exercícios para aprender e praticar Python do básico ao avançado</p>
+
+    <div class="cards-grid">
+        <!-- Card: Compilador Python -->
+        <a href="/pages/listaPython/compilador-python.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #3776ab, #2a5f8a);">⚙️</div>
+            <h3>Compilador Online</h3>
+            <p>Compilador online para testar e executar código Python diretamente do navegador.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #3776ab; color: #3776ab; background: rgba(55,118,171,0.1);">Compilador</span>
+                <span class="math-tag" style="border-color: #4caf50; color: #4caf50; background: rgba(76,175,80,0.1);">Online</span>
+                <span class="math-tag" style="border-color: #ffd43b; color: #ffd43b; background: rgba(255,212,59,0.1);">Gratuito</span>
+            </div>
+        </a>
+
+        <!-- Card: Guia Didático interpretar -->
+        <a href="/pages/listaPython/Guias/GuiaDidáticoPythonInterpretar.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #ff6b6b, #e74c3c);">📋</div>
+            <h3>Guia Didático: Interpretação</h3>
+            <p>Aprenda a interpretar enunciados corretamente para solucionar problemas de programação em Python.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #ff6b6b; color: #ff6b6b; background: rgba(255,107,107,0.1);">Estratégia</span>
+                <span class="math-tag" style="border-color: #4caf50; color: #4caf50; background: rgba(76,175,80,0.1);">Lógica</span>
+                <span class="math-tag" style="border-color: #ffd43b; color: #ffd43b; background: rgba(255,212,59,0.1);">Prática</span>
+            </div>
+        </a>
+
+        <!-- Card: Questões em Python -->
+        <a href="/pages/listaPython/questoes-python.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #ff6b6b, #e74c3c);">📚</div>
+            <h3>Questões em Python</h3>
+            <p>Exercícios práticos com enunciados e desafios de programação em Python.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #ff6b6b; color: #ff6b6b; background: rgba(255,107,107,0.1);">Exercícios</span>
+                <span class="math-tag" style="border-color: #4caf50; color: #4caf50; background: rgba(76,175,80,0.1);">Prática</span>
+                <span class="math-tag" style="border-color: #ffd43b; color: #ffd43b; background: rgba(255,212,59,0.1);">Desafios</span>
+            </div>
+        </a>
+
+        <!-- Lista 1 -->
+        <a href="/pages/listaPython/lista1py.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #3776ab, #2a5f8a);">📘</div>
+            <h3>Lista de Exercícios 1</h3>
+            <p>Fundamentos: variáveis, operadores, entrada/saída e estrutura sequencial.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #3776ab; color: #3776ab;">Iniciante</span>
+                <span class="math-tag" style="border-color: #4caf50; color: #4caf50;">Sintaxe</span>
+            </div>
+        </a>
+
+        <!-- Lista 2 -->
+        <a href="/pages/listaPython/lista2py.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #ffd43b, #f5b042);">📗</div>
+            <h3>Lista de Exercícios 2</h3>
+            <p>Estruturas condicionais (if/elif/else) e tomada de decisão.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #ffd43b; color: #ffd43b;">Condicionais</span>
+                <span class="math-tag" style="border-color: #ff6b6b; color: #ff6b6b;">Lógica</span>
+            </div>
+        </a>
+
+        <!-- Lista 3 -->
+        <a href="/pages/listaPython/lista3py.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #4caf50, #3acf96);">📙</div>
+            <h3>Lista de Exercícios 3</h3>
+            <p>Laços de repetição: for, while e estruturas de iteração.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #4caf50; color: #4caf50;">Loops</span>
+                <span class="math-tag" style="border-color: #3776ab; color: #3776ab;">Iteração</span>
+            </div>
+        </a>
+
+        <!-- Lista 4 -->
+        <a href="/pages/listaPython/lista4py.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #ff6b6b, #d9534f);">📕</div>
+            <h3>Lista de Exercícios 4</h3>
+            <p>Listas (arrays) e manipulação de coleções em Python.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #ff6b6b; color: #ff6b6b;">Listas</span>
+                <span class="math-tag" style="border-color: #4caf50; color: #4caf50;">Coleções</span>
+            </div>
+        </a>
+
+        <!-- Lista 5 -->
+        <a href="/pages/listaPython/lista5py.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #3776ab, #6c8cbf);">📔</div>
+            <h3>Lista de Exercícios 5</h3>
+            <p>Tuplas, dicionários e funções básicas em Python.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #3776ab; color: #3776ab;">Dicionários</span>
+                <span class="math-tag" style="border-color: #ffd43b; color: #ffd43b;">Tuplas</span>
+            </div>
+        </a>
+
+        <!-- Lista 6 -->
+        <a href="/pages/listaPython/lista6py.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #ffd43b, #f09b42);">📖</div>
+            <h3>Lista de Exercícios 6</h3>
+            <p>Manipulação avançada de listas, compreensão e funções lambda.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #ffd43b; color: #ffd43b;">Listas</span>
+                <span class="math-tag" style="border-color: #4caf50; color: #4caf50;">Lambda</span>
+            </div>
+        </a>
+
+        <!-- Guia Lista 6 -->
+        <a href="/pages/listaPython/Guias/GuiaDidáticoLista6Python.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #4caf50, #2ecc71);">📘</div>
+            <h3>Guia: Listas em Python</h3>
+            <p>Teoria completa, exemplos e explicações sobre listas e compreensão.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #4caf50; color: #4caf50;">Referência</span>
+                <span class="math-tag" style="border-color: #3776ab; color: #3776ab;">Fundamental</span>
+            </div>
+        </a>
+
+        <!-- Lista 7 -->
+        <a href="/pages/listaPython/lista7py.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #ff6b6b, #e74c3c);">📗</div>
+            <h3>Lista de Exercícios 7</h3>
+            <p>Dicionários, conjuntos e estruturas de dados avançadas.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #ff6b6b; color: #ff6b6b;">Dicionários</span>
+                <span class="math-tag" style="border-color: #ffd43b; color: #ffd43b;">Conjuntos</span>
+            </div>
+        </a>
+
+        <!-- Guia Lista 7 -->
+        <a href="/pages/listaPython/Guias/GuiaDidáticoLista7Python.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #3776ab, #5a8fc4);">📚</div>
+            <h3>Guia Didático: Dicionários</h3>
+            <p>Entenda dicionários, conjuntos e estruturas de dados em Python.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #3776ab; color: #3776ab;">Intermediário</span>
+                <span class="math-tag" style="border-color: #4caf50; color: #4caf50;">Conceitos</span>
+            </div>
+        </a>
+
+        <!-- Lista 8 -->
+        <a href="/pages/listaPython/lista8py.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #e67e22, #f39c12);">📒</div>
+            <h3>Lista de Exercícios 8</h3>
+            <p>Programação orientada a objetos, arquivos e projeto prático.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #ffd43b; color: #ffd43b;">POO</span>
+                <span class="math-tag" style="border-color: #ff6b6b; color: #ff6b6b;">Arquivos</span>
+            </div>
+        </a>
+
+        <!-- Projeto Final -->
+        <a href="/pages/listaPython/projeto-final-python.html" class="math-card">
+            <div class="math-card-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">🚀</div>
+            <h3>Projeto Final</h3>
+            <p>Projeto prático integrando todos os conceitos de Python aprendidos.</p>
+            <div class="math-card-tags">
+                <span class="math-tag" style="border-color: #9b59b6; color: #9b59b6;">Projeto</span>
+                <span class="math-tag" style="border-color: #4caf50; color: #4caf50;">Integrador</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- JavaScript for Sidebar & Interactions -->
+<script>
+    (function() {
+        const hamburger = document.getElementById('hamburgerBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        function closeSidebar() {
+            if(sidebar) sidebar.classList.remove('open');
+            if(overlay) overlay.classList.remove('show');
+            if(hamburger) hamburger.classList.remove('open');
+        }
+
+        function openSidebar() {
+            if(sidebar) sidebar.classList.add('open');
+            if(overlay) overlay.classList.add('show');
+            if(hamburger) hamburger.classList.add('open');
+        }
+
+        function toggleSidebar() {
+            if(sidebar && sidebar.classList.contains('open')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        }
+
+        if(hamburger) {
+            hamburger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleSidebar();
+            });
+        }
+        if(overlay) {
+            overlay.addEventListener('click', closeSidebar);
+        }
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape' && sidebar && sidebar.classList.contains('open')) {
+                closeSidebar();
+            }
+        });
+        if(sidebar) {
+            sidebar.addEventListener('click', (e) => e.stopPropagation());
+        }
+
+        // Set active sidebar link based on current URL
+        const currentPath = window.location.pathname;
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        sidebarLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if(href && currentPath.includes(href.replace(/^\.\.\/\.\.\//, ''))) {
+                link.classList.add('active');
+            }
+        });
+    })();
+</script>
+<script src="JS/sidebar.js" onerror="console.log('sidebar.js opcional')"></script>
+<script src="JS/footer.js" onerror="console.log('footer.js opcional')"></script>
+</body>
+</html>

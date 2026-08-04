@@ -328,3 +328,67 @@ document.getElementById('code-overlay').addEventListener('click', function(e) {
         toggleExpand();
     }
 });
+
+// ========== TORNE AS FUNÇÕES ACESSÍVEIS GLOBALMENTE ==========
+window.compileAndRun = compileAndRun;
+window.loadExample = loadExample;
+window.clearCode = clearCode;
+window.pythonCompileAndRun = pythonCompileAndRun;
+window.loadPythonExample = loadPythonExample;
+window.toggleExpand = toggleExpand;
+window.saveCode = saveCode;
+window.downloadCode = downloadCode;
+
+// ========== DETECTAR LINGUAGEM ATUAL ==========
+let currentLanguage = 'c';
+
+function switchLanguage(lang) {
+    currentLanguage = lang;
+    
+    // Atualizar botões
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+    
+    // Atualizar status
+    const statusText = document.getElementById('status-text');
+    if (lang === 'c') {
+        statusText.textContent = '🔵 Modo C';
+        statusText.style.color = '#3498db';
+        // Mudar placeholder do output
+        document.getElementById('output-area').textContent = '// Código C - Ctrl+Enter para compilar';
+        // Mudar dicas de exemplo
+        updateExampleButtons('c');
+    } else {
+        statusText.textContent = '🟡 Modo Python';
+        statusText.style.color = '#f1c40f';
+        document.getElementById('output-area').textContent = '# Código Python - Ctrl+Enter para executar';
+        updateExampleButtons('python');
+    }
+}
+
+function updateExampleButtons(lang) {
+    // Implementar se quiser mostrar diferentes exemplos nos botões
+    console.log('Linguagem alterada para:', lang);
+}
+
+// ========== OVERRIDE DO COMPILEANDRUN ==========
+// Substitui a função original para decidir qual usar
+const originalCompileAndRun = compileAndRun;
+compileAndRun = function() {
+    if (currentLanguage === 'c') {
+        originalCompileAndRun();
+    } else {
+        pythonCompileAndRun();
+    }
+};
+
+// ========== OVERRIDE DO LOADEXAMPLE ==========
+const originalLoadExample = loadExample;
+loadExample = function(name) {
+    if (currentLanguage === 'c') {
+        originalLoadExample(name);
+    } else {
+        loadPythonExample(name);
+    }
+};
